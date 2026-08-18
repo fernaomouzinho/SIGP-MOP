@@ -1,0 +1,122 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item">{% if group != 'uvip' %}<a href="{% url 'dna-inv-det' inv.hashed %}">Detallu Resibu</a>{% else %}Detallu Resibu{% endif %}</li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Pagamentu</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu Kontratu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru Kontratu</th>
+              <th>Montante Kontratu</th>
+              <th>Naran Projetu</th>
+            </tr>
+            <tr>
+              <td>{{ inv.cont.number }}</td>
+              <td>${{ inv.cont.total|intcomma }}</td>
+              <td>{{ inv.cont.project.name }}</td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Sertifikadu Pagamentu Final</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru Sertifikadu</th><th>Data</th><th>Progresu Fiziku</th><th>Montante Pagamentu</th><th>Selu ona?</th>
+            </tr>
+            <tr>
+              <td>{{ cert.number }}</td>
+              <td>{{ cert.date|date:"d/m/Y" }}</td>
+              <td>{{ cert.phys_prog }}%</td>
+              <td>${{ cert.total|intcomma }}</td>
+              <td>{% if inv.is_paid == True %}Los <i class="fa fa-check i_green"></i>
+                {% else %}Lae <i class="fa fa-ban i_red"></i>{% endif %}</td>
+              </tr>
+            </table>
+          </div>
+        </div><!--end card-->
+      </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">Lista Pagamentu</div>
+          <div class="card-body">
+            {% if cert %}
+            {% if not pays %}
+            {% if group != 'uvip' %}
+            <a class="btn btn-sm btn-info mb-1" href="{% url 'dna-pay-add' inv.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+            <table class="table table-sm table-striped">
+              <tr>
+                <th>Nu.</th>
+                <th>Numeru Resibu</th>
+                <th>Deskrisaun</th>
+                <th>Data</th>
+                <th>Progresu Fiziku</th>
+                <th>Pagamentu (USD)</th>
+                <th>Komulativu (USD)</th>
+                <th>Komulativu (%)</th>
+                <th>Balansu (USD)</th>
+                <th>Balansu (%)</th>
+                <th>Aneksu</th>
+              </tr>
+              {% for pay in pays %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ pay.invoice.number }}</td>
+                <td>{{ pay.desc }}</td>
+                <td>{{ pay.date|date:"d/m/Y" }}</td>
+                <td>{{ pay.phys_prog }}%</td>
+                <td>${{ pay.total|intcomma }}</td>
+                <td>${{ pay.com_amount|intcomma }}</td>
+                <td>${{ pay.com_percent }}%</td>
+                <td>${{ pay.bal_amount|intcomma }}</td>
+                <td>${{ pay.bal_percent }}%</td>
+                <td>
+                  {% if pay.is_ready == False %}
+                  {% if pay.is_lock == False %}
+                  <a class="btn btn-sm btn-info" href="{% url 'dna-pay-edit' inv.hashed pay.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                  <a class="btn btn-sm btn-danger" href="{% url 'dna-pay-rem' inv.hashed pay.id %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+                  <a class="btn btn-sm btn-warning" href="{% url 'dna-pay-lock' inv.hashed pay.id %}" title="Xavi"><i class="fa fa-lock"></i></a>
+                  {% else %}
+                  <a class="btn btn-sm btn-warning" href="{% url 'dna-pay-unlock' inv.hashed pay.id %}" title="Loke"><i class="fa fa-unlock"></i></a>
+                  <a class="btn btn-sm btn-primary" href="{% url 'dna-pay-ready' inv.hashed pay.id %}" title="Pronto"><i class="fa fa-check"></i></a>
+                  {% endif %}
+                  {% else %}
+                  <a class="btn btn-sm btn-default" href="#"><i class="fa fa-edit"></i></a>
+                  <a class="btn btn-sm btn-default" href="#"><i class="fa fa-trash"></i></a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div><!--end card-->
+      </div><!--end col-->
+    </div><!--end row-->
+    <hr/>
+  </div><!--end cont-->
+  {% endblock %}
+  {% block scripts %}
+  {% endblock %}

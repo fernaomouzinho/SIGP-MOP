@@ -1,0 +1,77 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dgaf-po-proj-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Purchase Order (PO)</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">                    
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kategoria Projetu</th><th>Tinan Projetu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ proj.code }}</td>
+                            <td>{{ proj.name }}</td>
+                            <td>{{ proj.pcategory }}</td>
+                            <td>{{ proj.yaer }}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">                    
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Projetu</th>
+                            <th>Montante Projetu</th>
+                            <th>Tipu Tender</th>
+                            <th>Data Hahu & Remata</th>
+                            <th>Kompa&ntilde;ia </th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td><a href="{% url 'dgaf-po-list' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                            <td>${{ obj.0.total|intcomma }}</td>
+                            <td>{{ obj.0.type.code }}</td>
+                            <td>{{ obj.0.start_date|date:"d/m/Y" }} - {{ obj.0.end_date|date:"d/m/Y" }}</td>
+                            <td>
+                                {% for obj1 in obj.1 %}
+                                {{ obj1.company }}{% if obj1.is_main == True%} <i class="fa fa-star-o"></i>{% endif%},
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

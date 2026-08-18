@@ -1,0 +1,87 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item active">{{ legend|upper }}</li>
+		</ul>
+	</div>
+</div>
+<section class="dashboard-counts p-3" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<center>
+					<h1>{{ legend|upper }}</h1>
+					<a class="btn btn-sm btn-secondary" href="{% url 'r-recap-dash' %}">Rekapitulasuan <i class="fa fa-th"></i></a>
+					{% comment %} <a class="btn btn-sm btn-secondary" href="{% url 'chart-dash' %}">Grafiku <i class="fa fa-bar-chart"></i></a> {% endcomment %}
+				</center>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!--end section-->
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Jeral</a></li>
+    {% for year in years %}
+    <li class="breadcrumb-item"><a href="{% url 'r-proj-year-dash' year.year__year %}">{{ year.year__year }}</a></li>
+    {% endfor %}
+</ul>
+<!-- Counts Section -->
+{% include 'report_t/dash_count.html' %}
+<!-- end Counts Section -->
+<!-- Counts Section -->
+{% include 'report_t/dash_group.html' %}
+<!-- end Counts Section -->
+<!-- Counts Section -->
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-4 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name"><strong class="text-uppercase">Tipu</strong>
+						<p class="text-gray-500 small">Projetu</p>
+						<div class="count-number"><a href="{% url 'r-proj-type-sum' %}">{{ tot_type }}</a></div>
+					</div>
+				</div>
+			</div><!--end col-->
+			<div class="col-xl-4 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name"><strong class="text-uppercase">Kompa&ntilde;ia</strong>
+						<p class="text-gray-500 small">Ezekutor</p>
+						<div class="count-number"><a href="{% url 'r-comp-proj-sum' %}">{{ tot_comp }}</a></div>
+					</div>
+				</div>
+			</div><!--end col-->
+			<div class="col-xl-4 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name"><strong class="text-uppercase">Munisipiu</strong>
+						<p class="text-gray-500 small">Lokalizasaun</p>
+						<div class="count-number"><a href="{% url 'r-proj-mun-sum' %}">{{ tot_loc }}</a></div>
+					</div>
+				</div>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section>
+
+
+<!-- end Counts Section -->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<a class="btn btn-warning" href="{% url 'r-cont-limit-list' %}">Projetu Liu Tinan 2 <i class="fa fa-list"></i></a>
+				<a class="btn btn-secondary" href="{% url 'r-raw-data' %}">Raw Data <i class="fa fa-list"></i></a>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!--end section-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'main/assets/js/jquery.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+{% endblock %}

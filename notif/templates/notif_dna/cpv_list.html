@@ -1,0 +1,44 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Numeru CPV</th>
+                            <th>Montante CPV</th>
+                            <th>Data</th>
+                            <th>Kodigu Projetu</th>
+                            <th>Naran Projetu</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'dna-po-cont-list' obj.proj.hashed %}">{{ obj.number }}</a></td>
+                            <td>${{ obj.amount|intcomma }}</td>
+                            <td>{{ obj.date|date:"d/m/Y" }}</td>
+                            <td>{{ obj.proj.code }}</td>
+                            <td>{{ obj.proj.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

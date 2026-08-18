@@ -1,0 +1,149 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'fiscal-pay-cont-list' %}">Lista Kontratu Fiskal</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'fiscal-year-list' cont.hashed %}">Lista Tinan Fiskal</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Pagamentu Fiskal</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Kontratu</th><td>{{ cont.number }}</td>
+                        <tr><th>Montante Kontratu</th>
+                            <td>${{ contyear.total|intcomma }}</td>
+                        </tr>
+                        <tr>
+                            <th>Periodu Kontratu</th>
+                            <td>{{ cont.start_date|date:"d/m/Y" }} - {{ cont.end_date|date:"d/m/Y" }}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ cont.project.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ cont.project.name }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ cont.project.year }}</td></tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Tinan Fiskal</th><th>Komulativu (USD)</th><th>Komulativu (%)</th>
+                            <th>Balansu (USD)</th><th>Balansu (%)</th>{% if fiscal %}<th>Aneksu</th>{% endif %}
+                        </tr>
+                        {% if count %}
+                        <tr>
+                            <td>{{ fiscal.year }}</td>
+                            <td>${{ fiscal.com_amount|intcomma }}</td>
+                            <td>{{ fiscal.com_percent }}%</td>
+                            <td>${{ fiscal.bal_amount|intcomma }}</td>
+                            <td>{{ fiscal.bal_percent }}%</td>
+                            {% if fiscal %}
+                            <td>
+                                {% if contyear.is_end == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'pay-fiscal-update' contyear.pk fiscal.year %}">Atualiza <i class="fa fa-refresh"></i></a>
+                                <a class="btn btn-sm btn-primary" href="{% url 'pay-fiscal-end' cont.hashed fiscal.year contyear.id %}">Termina <i class="fa fa-ban"></i></a>
+                                {% else %}
+                                <a class="btn btn-sm btn-default disabled" href="#">Termina <i class="fa fa-ban"></i></a>
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="6"><div class="badge badge-warning">Pagamentu Seidauk iha</div></td></tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Lista Pagamentu Fiskal</div>
+                <div class="card-body">
+                    {% if fiscal %}
+                    {% if contyear.is_end == False %}
+                    <a class="btn btn-primary btn-sm mb-1" href="{% url 'fiscal-pay-add' cont.hashed year %}">Aumenta <i class="fa fa-plus"></i></a>
+					{% endif %}
+                    {% else %}
+                    {% if cont.is_lock == False %}
+                    <a class="btn btn-primary btn-sm mb-1" href="{% url 'fiscal-pay-add' cont.hashed year %}">Aumenta <i class="fa fa-plus"></i></a>
+					{% endif %}
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Deskrisaun</th>
+                            <th>Data</th>
+                            <th>Progresu</th>
+                            <th>Paga. (USD)</th>
+                            <th>Comulativu (USD)</th>
+                            <th>Comulativu (%)</th>
+                            <th>Balansu (USD)</th>
+                            <th>Balansu (%)</th>
+                            <th>#</th>
+                        </tr>
+                        {% for pay in pays %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ pay.desc }}</td>
+                            <td>{{ pay.date|date:"d/m/Y" }}</td>
+                            <td>{{ pay.phys_prog }}%</td>
+                            <td>${{ pay.total|intcomma }}</td>
+                            <td>${{ pay.com_amount|intcomma }}</td>
+                            <td>{{ pay.com_percent }}%</td>
+                            <td>${{ pay.bal_amount|intcomma }}</td>
+                            <td>{{ pay.bal_percent }}%</td>
+                            <td>
+                            {% if pay.is_ready == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'fiscal-pay-edit' cont.hashed pay.hashed year %}" title="Altera"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'fiscal-pay-rem' cont.hashed pay.id year %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-sm btn-warning" href="{% url 'fiscal-pay-ready' cont.hashed pay.id year %}" title="Xavi"><i class="fa fa-lock"></i></a>
+                            {% else %}
+                                <a class="btn btn-sm btn-default disabled" href="#" title="Altera"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-default disabled" href="#" title="Hapaga"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-sm btn-default disabled" href="#" title="Xavi"><i class="fa fa-lock"></i></a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

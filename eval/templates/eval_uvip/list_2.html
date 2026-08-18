@@ -1,0 +1,327 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'uvip-eval-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu  Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+              <tr><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Estimasaun Donu Projetu</th>
+                {% if eval.is_adn == True or eval.is_cna == True %}<th>Estimasaun ADN</th>{% endif %}</tr>
+              <tr>
+              <td>{{ proj.code }}</td>
+              <td>{{ proj.name }}</td>
+              <td>${{ projest.owner|intcomma }} <br>
+              {% if projest.owner %}{% else %}
+              <hr>
+              <div class="alert alert-danger" role="alert">
+              * Donu projetu presija atualiza estimasaun kustu.
+              </div>
+              {% endif %}
+              
+              </td>
+              {% if eval.is_adn == True or eval.is_cna == True %}
+              <td>${{ projest.adn|intcomma }}</td>
+              {% endif %}
+              
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+
+  {% if projest.owner %}
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Avaliasaun</div>
+        <div class="card-body">
+           <table class="table table-sm table-striped">
+              <tr>
+                  <th>Numeru Referensia</th><th>Data Hatama</th><th>Liu ADN</th><th>Liu CNA</th><th>Deskrisaun</th>
+              </tr>
+              <tr>
+                  <td>{{ eval.number }}</td>
+                  <td>{{ eval.date|date:"d/m/Y" }}</td>
+                  <td>{% if eval.is_adn == True %}LOS <i class="fa fa-check-circle i_green"></i>{% else %}LAE <i class="fa fa-ban i_red"></i>{% endif %}</td>
+                  <td>{% if eval.is_cna == True %}LOS <i class="fa fa-check-circle i_green"></i>{% else %}LAE <i class="fa fa-ban i_red"></i>{% endif %}</td>
+                  <td>{{ eval.desc|safe }}</td>
+              </tr>
+          </table>
+          <hr/>
+          {% if eval.is_send == True and eval.is_read == False %}
+          <a class="btn btn-sm btn-info" href="{% url 'uvip-eval-in' eval.id %}">Simu <i class="fa fa-check"></i></a>
+          {% else %}
+          {% if eval.is_appr == False %}
+          {% if projest.owner > 99999 %}
+          {% if eval.is_adn == False %}
+          <a class="btn btn-sm btn-info" href="{% url 'uvip-eval-adn' eval.id p1 %}">Liu ADN <i class="fa fa-check"></i></a>
+          {% endif %}
+          {% if proj.pcategory.code == 'FI' %}
+          {% if eval.is_cna == False %}
+          <a class="btn btn-sm btn-info" href="{% url 'uvip-eval-adn' eval.id p2 %}">Liu CNA <i class="fa fa-check"></i></a>
+          {% endif %}
+           {% endif %}
+          {% else %}
+          <a class="btn btn-sm btn-info" href="{% url 'uvip-eval-adn' eval.id p3 %}">Internal <i class="fa fa-check"></i></a>
+          {% endif %}
+          {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div><!--end col-->
+
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Dokumentu ToR</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Nu.</th><th>Deskrisaun</th><th>Aneksu</th></tr>
+          {% for file in files %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ file.desc }}</td>
+              <td>
+                <a href="{% url 'eval-file-pdf-boq' file.id %}" target="_blank">BOQ</a> |
+                <a href="{% url 'eval-file-pdf-design' file.id %}" target="_blank">Dezenu</i></a> |
+                <a href="{% url 'eval-file-pdf-spec' file.id %}" target="_blank">Espesifikasaun</a> |
+                <a href="{% url 'eval-file-pdf-mapq' file.id %}" target="_blank">Mapa Quarry</a> |
+                <a href="{% url 'eval-file-pdf-other' file.id %}" target="_blank">Dokumentu Seluk</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+
+  <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend2 }}</div>
+                <div class="card-body">
+                    {% if group == "uivp" %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'uvip-ver-add' eval.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Despaxu</th><th>Titulu Despaxu</th><th>Diriji ba</th><th>Data Hahu Inspeksaun</th><th>Data Ikus Inspeksaun</th><th>Status</th><th>#</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'uvip-ver-det' obj.hashed %}">{{ obj.number }}</a></td>
+                            <td>{{ obj.subject }}</td>
+                            <td>{{ obj.sec }}</td>
+                            <td>{{ obj.start_date|date:"d/m/Y" }}</td>
+                            <td>{{ obj.end_date|date:"d/m/Y" }}</td>
+                            <td>{% if obj.is_send == True %}Despaxu manda sai ona  {% else %} Despaxu seidauk manda sai {% endif %}</td>
+                            <td>{% if obj.is_send == True %}<i class="fa fa-check i_green"></i> {% else %}  <i class="fa fa-refresh i_grey"></i> {% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+
+
+  {% comment %} <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Korespondensia</div>
+        <div class="card-body">
+          {% if eval.is_end == False %}
+          {% if eval.is_read == True %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'uvip-eval-let-add' eval.hashed %}">Kria Karta <i class="fa fa-plus"></i></a>
+          {% endif %}
+           {% endif %}
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Diriji ba</th><th colspan="4">Aneksu</th>
+            </tr>
+            {% for let in lets %}
+            <tr>
+              {% if let.comment %}
+              <td rowspan="5">{{ forloop.counter }}</td>
+              {% else %}
+              <td rowspan="3">{{ forloop.counter }}</td>
+              {% endif %}
+              <td>{{ let.number }}</td>
+              <td>{{ let.subject }}</td>
+              <td>{{ let.date|date:"d/m/Y" }}</td>
+              <td>{{ let.to }}</td>
+              <td colspan="4">
+                  {% if let.file %}
+                  <a class="btn btn-sm btn-secondary" href="{% url 'eval-let-pdf' let.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                  {% endif %}
+
+                  {% if let.is_send == False %}
+                  <a class="btn btn-sm btn-info" href="{% url 'uvip-eval-let-edit' let.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                  <a class="btn btn-sm btn-danger" href="{% url 'uvip-eval-let-rem' let.id %}" title="Hamos"><i class="fa fa-trash"></i></a>
+                  {% if let.to_id == 2 %}
+                    {% if eval.is_cna == True %}
+                    <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next2' let.id %}" title="Manda ba ADN">Manda ba ADN (FI) <i class="fa fa-send"></i></a>
+                    {% else %}
+                    <a class="btn btn-sm btn-primary" href="{% url 'uvip-eval-next1' let.id %}" title="Manda ba ADN">Manda ba ADN (LM) <i class="fa fa-send"></i></a>
+                    {% endif %}
+
+                  {% elif let.to_id == 1 %}
+                    {% if eval.is_cna == True %}
+                      {% if trackfi.is_uvip_out_1 == False %}
+                      <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next1' let.id %}" title="Manda ba Gabinete">Manda ba Gabinte Ministru  (FI-1) <i class="fa fa-send"></i></a>
+                      {% else %}
+                      <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next4' let.id %}" title="Manda ba Gabinete">Manda ba Gabinte Ministru  (FI-2) <i class="fa fa-send"></i></a>
+                      {% endif %}
+                    {% else %}
+                    <a class="btn btn-sm btn-primary" href="{% url 'uvip-eval-next2' let.id %}" title="Manda ba Gabinete">Manda ba Gabinte Ministru  (LM) <i class="fa fa-send"></i></a>
+                    {% endif %}
+                  {% elif let.to_id == 3 %}
+                    <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next3' let.id %}" title="Manda ba SGP">Manda ba SGP (FI) <i class="fa fa-send"></i></a>
+                  {% elif let.to_id == 4 %}
+                    <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next5' let.id %}" title="Manda ba CNA">Manda ba CNA (FI) <i class="fa fa-send"></i></a>
+                  {% endif %}
+                {% else %}
+                  <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona ba {{let.to.code}}</div>
+                {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="11">Deskrisaun Manda Ba ADN</th></tr>
+            <tr><td colspan="11">{{ let.desc|safe }}</td></tr>
+          
+            {% for obj in letadn %}
+            
+            {% if obj.is_return == True %}
+            <tr><th colspan="11">DEVOLVE DOKUMENTU</th></tr>
+            <tr>
+            <th>Nu.Referensia ADN</th>
+            <th>Data Karta</th> 
+            <th>Data Karta Simu</th>
+            <th>Asuntu</th>
+            <th>Komentariu</th>
+            <th>Resibu Karta Simu</th>
+            <th colspan="2">#</th>
+            </tr>
+            <tr>
+            <td>{{ obj.number|safe }}</td>
+            <td>{{ obj.date|safe }}</td>
+            <td>{{ obj.datetime|safe }}</td>
+            <td>{{ obj.subject|safe }}</td>
+            <td>{{ obj.comment|safe }}</td>
+            <td ><a class="btn btn-sm btn-secondary" href="{% url 'eval-file-adn-pdf-rs' obj.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a></td>
+            <td colspan="2"><a href="{% url 'uvip-adn-eval-back-dev-edit' obj.hashed %}" title="Anexu"><i class="fa fa-edit"></i>Atualiza</a></td>
+            </tr>
+            {% else %}
+            <tr><th colspan="11">REZULTADU VERIFIKASAUN DOKUMENTU HUSI ADN</th></tr>
+            <tr>
+              <th>Nu.Referencia ADN</th>
+              <th>Data Karta</th>
+              <th>Data Karta Simu</th>
+              <th>Asuntu</th>
+              <th>Resibu Karta Simu</th>
+              <th>Dokumentu Verifiksaun</th>
+              <th>Estimasaun ADN</th>
+              <th>#</th>
+            </tr>
+            <tr><td>{{ obj.number|safe }}</td>
+            <td>{{ obj.date|safe }}</td>
+            <td>{{ obj.datetime|safe }}</td>
+            <td>{{ obj.subject|safe }}</td>
+            <td><a class="btn btn-sm btn-secondary" href="{% url 'eval-file-adn-pdf-rs' obj.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a></td>
+            <td>
+            {% if obj.file_boq %}
+            <a class="btn btn-sm btn-secondary mb-2" href="{% url 'eval-file-pdf-adn-boq' obj.id %}" title="Anexu" target="_blank">BoQ</a>
+            {% else %}
+             <a class="btn btn-sm btn-secondary mb-2" href="" title="File BoQ La Eziste">BoQ</a>
+            {% endif %}
+
+            {% if obj.file_design %}
+            <a class="btn btn-sm btn-secondary mb-2" href="{% url 'eval-file-pdf-adn-design' obj.id %}" title="Anexu" target="_blank">Dezenu</a>
+             {% else %}
+             <a class="btn btn-sm btn-secondary mb-2" href="" title="File Dezenu La Eziste">Dezenu</a>
+            {% endif %}
+
+            {% if obj.file_spec %}
+            <a class="btn btn-sm btn-secondary mb-2" href="{% url 'eval-file-pdf-adn-spec' obj.id %}" title="Anexu" target="_blank">Espesifikasaun</a>
+            {% else %}
+            <a class="btn btn-sm btn-secondary mb-2" href="" title="File Dezenu La Eziste">Espesifikasaun</a>
+            {% endif %}
+
+            {% if obj.file_mapq %}
+            <a class="btn btn-sm btn-secondary mb-2" href="{% url 'eval-file-pdf-adn-mapq' obj.id %}" title="Anexu" target="_blank">Mapa Quarry</a>
+            {% else %}
+            <a class="btn btn-sm btn-secondary mb-2" href="" title="File Dezenu La Eziste">Mapa Quarry</a>
+            {% endif %}
+
+            {% if obj.file_docoth %}
+            <a class="btn btn-sm btn-secondary mb-2" href="{% url 'eval-file-pdf-adn-other' obj.id %}" title="Anexu" target="_blank">Dokumentu Seluk</a>
+            {% else %}
+            <a class="btn btn-sm btn-secondary mb-2" href="" title="File Dezenu La Eziste">Dokumentu Seluk</a>
+            {% endif %}
+            </td>
+            <td>
+             <a class="btn btn-sm btn-info" href="{% url 'uvip-proj-est-edit'  proj.hashed projest.id %}"><i class="fa fa-edit"></i>  Atualiza </a>
+            </td>
+             <td><a class="btn btn-sm btn-info" href="{% url 'uvip-adn-eval-back-res-edit' obj.hashed %}" title="Anexu"><i class="fa fa-edit"></i>Atualiza</a></td>
+            </tr>
+            
+             {% endif %}
+            {% endfor %}
+
+            {% endfor %}
+          </table>
+          <hr/>
+          {% include "eval_uvip/detail_adn.html" %}
+          
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row--> {% endcomment %}
+
+  {% comment %} <div class="row">
+    <div class="col">
+      <div class="alert alert-success P-2">
+        {% if eval.is_cna == False %}
+          {% if eval.is_appr == True and eval.is_end == False %}
+          <i class="fa fa-info"></i> TOR APROVADU <i class="fa fa-check"></i>
+          {% endif %}
+        {% else %}
+          {% if eval.is_appr == True and eval.is_let_appr == False and eval.is_end == False %}
+          <i class="fa fa-info"></i> TOR APROVADU <i class="fa fa-check"></i>
+          {% elif eval.is_let_appr == True and eval.is_end == False %}
+          <i class="fa fa-info"></i> TOR no KARTA APROVADU <i class="fa fa-check"></i>
+            {% if trackfi.is_uvip_out_5 == True %} |
+            <a class="btn btn-primary" href="{% url 'gab-eval-end' eval.id %}">TERMINA TOR <i class="fa fa-check"></i></a>
+            {% endif %}
+          {% elif eval.is_end == True %}
+          <i class="fa fa-info"></i> TOR no KARTA APROVADU & TERMINA <i class="fa fa-check"></i>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div><!--end col-->
+  </div><!--end row--> {% endcomment %}
+
+  {% endif %}
+
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

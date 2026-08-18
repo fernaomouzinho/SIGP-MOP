@@ -1,0 +1,64 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'proj-list' %}">Lista Projetu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module_name }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <a class="btn btn-info btn-sm mb-1" href="{% url 'uvip-proj-add' %}">Aumenta <i class="fa fa-plus"></i></a>
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th>
+                                <th>Kodigu Projetu</th>
+                                <th>Naran Projetu</th>
+                                <th>Donu Projetu</th>
+                                <th>Tinan Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'uvip-proj-det' obj.hashed %}">{{ obj.code }}</a></td>
+                                <td>{{ obj.name }}</td>
+                                <td>{{ obj.owner.code }}</td>
+                                <td>{{ obj.year }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'uvip-proj-list' %}">All</a></li>
+                    {% for year in years %}
+                      <li class="breadcrumb-item"><a href="{% url 'uvip-proj-year' year.year__year %}">{{ year.year__year }}</a></li>
+                    {% endfor %}
+                    </ol>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

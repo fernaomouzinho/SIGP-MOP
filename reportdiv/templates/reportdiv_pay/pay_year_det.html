@@ -1,0 +1,170 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'r-div-pay-dash' div.id %}">Sumariu Pagamentu</a></li>
+			{% if page == 'month' %}
+			<li class="breadcrumb-item"><a href="{% url 'r-div-pay-cat-year' div.id year %}">{{ year }}</a></li>
+			{% elif page == 'date' %}
+			<li class="breadcrumb-item"><a href="{% url 'r-div-pay-cat-year' div.id year %}">{{ year }}</a></li>
+			<li class="breadcrumb-item"><a href="{% url 'r-div-pay-cat-month' div.id year month %}">{{ month }}</a></li>
+			{% endif %}
+			<li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header"></div>
+				<div class="card-body">
+					<center>
+						<h3>{{ legend|upper }}</h3>
+						<h1>{{ subtitle|upper }}</h1>
+					</center>
+					<hr/>
+					<table id="example" class="table table-sm table-no-bordered responsive" style="width:100%">
+						<thead>
+							<tr>
+								<th>Nu.</th>
+								<th>Projetu</th>
+								<th>Dono</th>
+								<th>Kategoria</th>
+								<th>Setor</th>
+								<th>Capital</th>
+								<th>Mun.</th>
+								<th>Companha</th>
+								<th>Tot. Kontratu</th>
+								<th>Prog. Fiz</th>
+								<th>Data Paga.</th>
+								<th>Paga. ($)</th>
+								<th>Paga. (%)</th>
+								<th>Kom.</th>
+								<th>Bal. ($)</th>
+								<th>Bal. (%)</th>
+								<th>Obs</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for obj in objects %}
+							<tr>
+								<td>{{ forloop.counter }}</td>
+								<td>{{ obj.0.code }}</td>
+								<td>{{ obj.0.owner.code }}</td>
+								<td>{{ obj.0.pcategory.code }}</td>
+								<td>{{ obj.0.sector }}</td>
+								<td>{{ obj.0.capital.code }}</td>
+								<td>{{ obj.0.projectloc.all.0.municipality.code }}</td>
+								<td>{% for obj3 in obj.3 %}{{ obj3.company }}<br/>{% endfor %}</td>
+								<td>${{ obj.6|intcomma }}</td>
+								<td>{{ obj.4.phys_prog }}%</td>
+								<td>{{ obj.4.date|date:"d/m/y" }}</td>
+								<td>${{ obj.4.total|intcomma }}</td>
+								<td>{{ obj.5 }}%</td>
+								<td>${{ obj.4.com_amount|intcomma }}</td>
+								<td>${{ obj.4.bal_amount|intcomma }}</td>
+								<td>{{ obj.4.bal_percent }}%</td>
+								<td>{{ obj.0.desc }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+						<tfoot>
+							<tr>
+								<th></th><th>Total</th>
+								<th></th><th></th><th></th><th></th><th></th><th></th>
+								<th>${{ total.0|intcomma }}</th>
+								<th></th><th></th>
+								<th>${{ total.1|intcomma }}</th>
+								<th></th>
+								<th>${{ total.2|intcomma }}</th>
+								<th>${{ total.4|intcomma }}</th>
+								<th></th><th></th>
+							</tr>
+						</tfoot>
+					</table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<link href="{% static 'main/datatables/css/searchBuilder.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/searchBuilder.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/buttons.dataTables.min.css' %}" rel="stylesheet">
+<style type="text/css">
+    .dtsb-searchBuilder{
+        background: #b9c7e6 !important;
+        padding: 5px
+    }
+    .dt-button, .dtsb-add {
+        background: white !important;
+    }
+    @media print{
+        @page {
+            size: landscape;
+        }
+    }
+</style>
+<script src="{% static 'main/datatables/js/dataTables.searchBuilder.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/searchBuilder.bootstrap4.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/jszip.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/pdfmake.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/vfs_fonts.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.colVis.min.js' %}"></script>
+
+<script src="{% static 'main/js/datatables.js' %}"></script>
+<script>
+    $(document).ready( function () {
+        var table = $('#example').removeAttr('width').DataTable( {
+            "scrollY": "50vh",
+            "scrollX": true,
+            "scrollCollapse": true,
+            "paging": true,
+            searchBuilder: true,
+            buttons:[
+            {
+                extend: 'excelHtml5', autoFilter: true, sheetName: 'Exported data'
+            },
+            {
+                extend: 'print',
+                exportOptions: { columns: ':visible' },
+                title: '<img src="http://localhost:8000/static/main/images/logo.png" style="width:120;" /><hr/>\
+                <center><h4>{{ legend|upper }}</h4></center>',
+                customize: function(win)
+                {                    
+                    var last = null;
+                    var current = null;
+                    var bod = [];                    
+                    var css = '@page { size: landscape; }',
+                    head = win.document.head || win.document.getElementsByTagName('head')[0],
+                    style = win.document.createElement('style');
+                    style.type = 'text/css';
+                    style.media = 'print';                    
+                    if (style.styleSheet)
+                    {
+                        style.styleSheet.cssText = css;
+                    }
+                    else
+                    {
+                        style.appendChild(win.document.createTextNode(css));
+                    }                    
+                    head.appendChild(style);
+                }
+            },
+            'colvis',
+            ],
+            dom: 'Bfrtip',
+            "deferRender": true
+        });
+        table.searchBuilder.container().prependTo(table.table().container());
+    } );
+</script>
+{% endblock %}

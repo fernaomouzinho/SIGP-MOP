@@ -1,0 +1,89 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'r-div-raw-data' div.id %}">Raw Data</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Code</th><th>Naran</th><th>Status</th><th>Dono</th>
+                        </tr>
+                        <tr>
+                            <td><a href="{% url 'proj-det' proj.hashed %}">{{ proj.code }}</a></td><td>{{ proj.name }}</td>
+                            <td>{{ proj.statusproj }}</td><td>{{ proj.owner.code }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end row-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Numeru</th><th>Montante</th><th>Data Hahu</th><th>Data Remata</th>
+                            <th>Tinan Tender</th><th>Status</th><th>Empreza</th>
+                        </tr>
+                        <tr>
+                            <td><a href="{% url 'cont-det' cont.hashed %}">{{ cont.number }}</a></td><td>${{ cont.total|intcomma }}</td>
+                            <td>{{ cont.start_date|date:"d/m/Y" }}</td>
+                            <td>{{ amend.end_date|date:"d/m/Y" }}</td>
+                            <td>{{ cont.proc_year }}</td>
+                            <td>{{ cont.status }}</td>
+                            <td>{% for comp in comps %}{{ comp.company.name }},{% endfor %}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end row-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <center>
+                        <h3>{{ legend|upper }}</h3>
+                        <h2>{{ subtitle|upper }}</h2>
+                    </center>
+                    <hr/>
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>#</th>
+                            <th>Numeru</th>
+                            <th>Data TPO</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ obj.number }}</td>
+                            <td>{{ obj.date|date:"d/m/Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,546 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'track-inv-list' %}">Lista Resibu</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu Resibu</div>
+        <div class="card-body">
+          <table class="table table-sm table-bordered table-striped">
+            <tr>
+              <th>Numeru Resibu</th><th>Numeru Kontratu</th><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kompa&ntilde;ia</th>
+            </tr>
+            <tr>
+              <td>{{ inv.number }}</td><td>{{ inv.cont.number }}</td><td>{{ inv.cont.project.code }}</td><td>{{ inv.cont.project.name }}</td><td>{{ contcomp }}</td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Track Progresu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr>
+              <td align="center" style="background-color:antiquewhite;">ETAPA</td>
+              <th style="background-color:antiquewhite;">{{ track.stages }}</th>
+            </tr>
+            <tr><td align="center">SUPERVIZAUN MUNISIPIU</td>
+              <td>
+              {% if track.is_sup_out == False %}
+              <i class="fa fa-refresh i_grey"></i>
+              {% else %}
+              <i class="fa fa-check i_green"></i> Sai ba UIVP: {{ track.date_sup_out|date:"d/m/Y" }}
+              {% endif %}
+              </td>
+            </tr>
+            
+            {% if inv.is_adn == False and inv.is_cna == False %}
+                <tr><td align="center">UIVP</td>
+                  <td>
+                  {% if track.is_sup_out == True and track.is_uvip_in == False %}<i class="fa fa-refresh i_grey"></i>
+                  {% elif track.is_uvip_in == True  and track.is_insp_start == False %}
+                  <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }} <br/>
+                  <i class="fa fa-refresh i_grey"></i> Inspeksaun
+                  {% elif track.is_insp_start == True and track.is_insp_end == False %}
+                  <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }} <br/>
+                  <i class="fa fa-refresh i_green"></i> Termina Inspeksaun
+                  
+                  {% elif track.is_insp_end == True and track.is_uvip_out_2 == False %}
+                  <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Termina Inspeksaun: {{ track.date_insp_end|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-refresh i_green"></i> Sai ba Gabinete
+
+                  {% elif track.is_uvip_out_2 == True %}
+                  <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Termina Inspeksaun: {{ track.date_insp_end|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Sai ba Gabinete: {{ track.date_uvip_out_2|date:"d/m/Y" }}
+
+                  {% if obj_days.0.0 %}(lrn {{ obj_days.0.0 }}){% endif %}
+                  {% endif %}
+                    </td>
+                  </tr>
+                  <tr><td align="center">GABINETE MINISTRU</td>
+                  <td>
+                  {% if track.is_uvip_out_2 == True and track.is_gab_in == False %}
+                  <i class="fa fa-refresh i_grey"></i><br/>
+                  {% elif track.is_gab_in == True and track.is_gap_app == False %}
+                  <i class="fa fa-check i_green"></i> Tama ba Gabinete: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-refresh i_green"></i> Hein Aprova
+                  {% elif track.is_gap_app == True and track.is_gab_out == False  %}
+                  <i class="fa fa-check i_green"></i> Tama  ba Gabinete: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Aprovadu : {{ track.date_gab_app|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-refresh i_green"></i> Sai ba DGAF 
+
+                  {% elif track.is_gab_out == True %}
+                  <i class="fa fa-check i_green"></i> Tama ba DGAF: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Aprovadu : {{ track.date_gab_app|date:"d/m/Y" }}<br/>
+                  <i class="fa fa-check i_green"></i> Sai ba DGAF : {{ track.date_gab_out|date:"d/m/Y" }}<br/>
+                  {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+                  {% endif %}
+                  </td>
+                </tr>
+                <tr><td align="center">DGAF</td>
+                  <td>
+                    {% if track.is_gab_out == True and track.is_dgaf_in == False %}
+                    <i class="fa fa-refresh i_grey"></i><br/>
+                    {% elif track.is_dgaf_in == True and track.is_dgaf_out == False %}
+                    <i class="fa fa-check i_green"></i> Tama ba DGAF: {{ track.date_dgaf_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-refresh i_green"></i> Sai ba DNA
+                    {% elif track.is_dgaf_out == True %}
+                    <i class="fa fa-check i_green"></i> Tama ba DGAF: {{ track.date_dgaf_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Sai ba DNA: {{ track.date_dgaf_out|date:"d/m/Y" }} 
+                    {% if obj_days.0.6 %}(lrn {{ obj_days.0.6 }}){% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <tr><td align="center">DNA</td>
+                  <td>
+                    {% if track.is_dgaf_out == True and track.is_dna_in == False %}
+                    <i class="fa fa-refresh i_grey"></i><br/>
+                    {% elif track.is_dna_in == True and track.is_dna_out == False %}
+                    <i class="fa fa-check i_green"></i> Tama ba DNA: {{ track.date_dna_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-refresh i_green"></i> Sai ba DNOF
+                    {% elif track.is_dna_out == True %}
+                    <i class="fa fa-check i_green"></i> Tama ba DNA: {{ track.date_dna_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Sai ba DNOF: {{ track.date_dna_out|date:"d/m/Y" }} 
+                    {% if obj_days.0.7 %}(lrn {{ obj_days.0.7 }}){% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+
+                
+                
+
+
+                <tr><td align="center">DNOF</td>
+                  <td>
+                    {% if track.is_dna_out == True and track.is_dnof_in == False %}
+                    <i class="fa fa-refresh i_grey"></i><br/>
+                    {% elif track.is_dnof_in == True and track.is_dnof_out == False %}
+                    <i class="fa fa-refresh i_green"></i> Tama ba DNOF: {{ track.date_dnof_in|date:"d/m/Y" }}
+                    {% elif track.is_dnof_out == True %}
+                    <i class="fa fa-check i_green"></i> Tama ba DNOF: {{ track.date_dnof_in|date:"d/m/Y" }}
+                    {% endif %}
+                  </td>
+                </tr>
+
+
+                <tr><td align="center">MIDLLE OFFICE</td>
+                  <td>
+                    {% if track.is_dnof_in == True and track.is_dnof_middle_out == False %}
+                    <i class="fa fa-check i_green"></i> Tama ba Middle Office: {{ track.date_dnof_in|date:"d/m/Y" }}
+                    <i class="fa fa-refresh i_green"></i> Sai ba Back Office
+                    {% elif track.is_dnof_middle_out == True %}
+                    <i class="fa fa-check i_green"></i> Tama ba Middle Office: {{ track.date_dnof_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Sai ba Back Office: {{ track.date_dnof_middle_out|date:"d/m/Y" }}
+                    {% if obj_days.0.8 %}(lrn {{ obj_days.0.8 }}){% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+
+
+                <tr><td align="center"> BACK OFFICE</td>
+                  <td>
+                    {% if track.is_dnof_middle_out == True and track.is_dnof_back_in == False %}
+                    <i class="fa fa-refresh i_grey"></i><br/>
+                    {% elif track.is_dnof_back_in == True and track.is_dnof_back_insp_start == True and track.is_dnof_back_insp_end == False%}
+                    <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-refresh i_green"></i> Prosesu Verifikasaun
+                    {% elif track.is_dnof_back_insp_end == True and track.is_dnof_back_cre_start == True and track.is_dnof_back_cre_end == False %}
+                    <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                    <i class="fa fa-refresh i_green"></i> Prosesu Kria PEP  
+                    {% elif track.is_dnof_back_cre_end == True and track.is_dnof_back_apr_start == True and track.is_dnof_back_apr_end == False %}
+                    <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i>  Kria PEP : {{ track.date_dnof_back_cre_end |date:"d/m/Y" }}<br/>  
+                    <i class="fa fa-refresh i_green"></i> Prosesu Aprova PEP  
+                    {% elif track.is_dnof_back_apr_end == True  and track.is_dnof_back_out == False %}
+                    <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i>  Kria PEP : {{ track.date_dnof_back_cre_end |date:"d/m/Y" }}<br/>  
+                    <i class="fa fa-check i_green"></i> PEP Aprovadu : {{ track.date_dnof_back_apr_end |date:"d/m/Y" }}<br/>
+                    <i class="fa fa-refresh i_green"></i> Prosesu Manda ba BNCTL 
+                    {% elif track.is_dnof_back_out == True %}
+                    <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i>  Kria PEP : {{ track.date_dnof_back_cre_end |date:"d/m/Y" }}<br/>  
+                    <i class="fa fa-check i_green"></i> PEP Aprovadu : {{ track.date_dnof_back_apr_end |date:"d/m/Y" }}<br/>
+                    <i class="fa fa-check i_green"></i> Manda ona ba BNCTL: {{ track.date_dnof_back_out |date:"d/m/Y" }}<br/> 
+
+
+                    {% if obj_days.0.8 %}(lrn {{ obj_days.0.8 }}){% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <tr><td align="center">BCTL</td>
+                  <td>{% if inv.is_end == True %}<i class="fa fa-star i_green"></i><i class="fa fa-star i_green"></i>{% endif %}</td>
+                </tr>
+
+            {% elif inv.is_adn == True and inv.is_cna == False %}
+
+              <tr><td align="center">UIVP</td>
+              <td>
+              {% if track.is_sup_out == True and track.is_uvip_in == False %}<i class="fa fa-refresh i_grey"></i>
+              {% elif track.is_uvip_in == True  and track.is_insp_start == False %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }} <br/>
+              <i class="fa fa-refresh i_grey"></i> Inspeksaun
+
+              {% elif track.is_insp_start == True and track.is_insp_end == False %}
+              <i class="fa fa-check i_green"></i> Tama: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }} <br/>
+              <i class="fa fa-refresh i_green"></i> Termina Inspeksaun
+              
+              {% elif track.is_insp_end == True and track.is_uvip_out_1 == False %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Termina Inspeksaun: {{ track.date_insp_end|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba ADN
+
+              {% elif track.is_uvip_out_1 == True %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Termina Inspeksaun: {{ track.date_insp_end|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Sai ba ADN: {{ track.date_uvip_out_1|date:"d/m/Y" }}
+
+
+              {% if obj_days.0.0 %}(lrn {{ obj_days.0.0 }}){% endif %}
+              {% endif %}
+                </td>
+              </tr>
+
+              <tr><td align="center">ADN</td>
+              <td>
+              {% if track.is_uvip_out_1 == True and track.is_adn_in == False %}
+              <i class="fa fa-check i_green"></i> Tama ba ADN: {{ track.date_uvip_out_1|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba UIVP
+              {% elif track.is_adn_in == True %}
+              <i class="fa fa-check i_green"></i> Tama ba ADN: {{ track.date_uvip_out_1|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Sai ba UIVP {{ track.date_adn_in|date:"d/m/Y" }}
+              {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+              {% endif %}
+              </td>
+            </tr>
+
+
+             <tr><td align="center">UIVP</td>
+              <td>
+              {% if track.is_adn_in == True and track.is_uvip_out_2  == False %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP {{ track.date_adn_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba Gabinete Ministro
+              {% elif track.is_uvip_out_2 == True %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP {{ track.date_adn_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Sai ba Gabinete Ministro {{ track.date_uvip_out_out_2|date:"d/m/Y" }}
+              
+              {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+              {% endif %}
+              </td>
+            </tr>
+
+            <tr><td align="center">GABINETE MINISTRU</td>
+              <td>
+              {% if track.is_uvip_out_2 == True and track.is_gab_in == False %}
+              <i class="fa fa-refresh i_grey"></i><br/>
+              {% elif track.is_gab_in == True and track.is_gap_app == False %}
+              <i class="fa fa-check i_green"></i> Tama ba Gabinete: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Hein Aprova
+               {% elif track.is_gap_app == True and track.is_gab_out == False  %}
+              <i class="fa fa-check i_green"></i> Tama  ba Gabinete: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Aprovadu : {{ track.date_gab_app|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba DGAF 
+
+              {% elif track.is_gab_out == True %}
+              <i class="fa fa-check i_green"></i> Tama ba DGAF: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Aprovadu : {{ track.date_gab_app|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Sai ba DGAF : {{ track.date_gab_out|date:"d/m/Y" }}<br/>
+              {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+              {% endif %}
+              </td>
+            </tr>
+
+
+
+            <tr><td align="center">DGAF</td>
+              <td>
+                {% if track.is_gab_out == True and track.is_dgaf_in == False %}
+                <i class="fa fa-refresh i_grey"></i><br/>
+                {% elif track.is_dgaf_in == True and track.is_dgaf_out == False %}
+                <i class="fa fa-check i_green"></i> Tama ba DGAF: {{ track.date_dgaf_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-refresh i_green"></i> Sai ba DNA
+                 {% elif track.is_dgaf_out == True %}
+                <i class="fa fa-check i_green"></i> Tama ba DGAF: {{ track.date_dgaf_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Sai ba DNA: {{ track.date_dgaf_out|date:"d/m/Y" }} 
+                {% if obj_days.0.6 %}(lrn {{ obj_days.0.6 }}){% endif %}
+                {% endif %}
+              </td>
+            </tr>
+
+            <tr><td align="center">DNA</td>
+              <td>
+                {% if track.is_dgaf_out == True and track.is_dna_in == False %}
+                <i class="fa fa-refresh i_grey"></i><br/>
+                {% elif track.is_dna_in == True and track.is_dna_out == False %}
+                <i class="fa fa-check i_green"></i> Tama ba DNA: {{ track.date_dna_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-refresh i_green"></i> Sai ba DNOF
+                {% elif track.is_dna_out == True %}
+                <i class="fa fa-check i_green"></i> Tama ba DNA: {{ track.date_dna_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Sai ba DNOF: {{ track.date_dna_out|date:"d/m/Y" }} 
+                {% if obj_days.0.7 %}(lrn {{ obj_days.0.7 }}){% endif %}
+                {% endif %}
+              </td>
+            </tr>
+
+            
+            
+
+
+             <tr><td align="center">DNOF</td>
+              <td>
+                {% if track.is_dna_out == True and track.is_dnof_in == False %}
+                <i class="fa fa-refresh i_grey"></i><br/>
+                {% elif track.is_dnof_in == True and track.is_dnof_out == False %}
+                <i class="fa fa-refresh i_green"></i> Tama ba DNOF: {{ track.date_dnof_in|date:"d/m/Y" }}
+                {% elif track.is_dnof_out == True %}
+                 <i class="fa fa-check i_green"></i> Tama ba DNOF: {{ track.date_dnof_in|date:"d/m/Y" }}
+                {% endif %}
+              </td>
+            </tr>
+
+
+            <tr><td align="center">MIDLLE OFFICE</td>
+              <td>
+                {% if track.is_dnof_in == True and track.is_dnof_middle_out == False %}
+                <i class="fa fa-check i_green"></i> Tama ba Middle Office: {{ track.date_dnof_in|date:"d/m/Y" }}
+                <i class="fa fa-refresh i_green"></i> Sai ba Back Office
+                {% elif track.is_dnof_middle_out == True %}
+                <i class="fa fa-check i_green"></i> Tama ba Middle Office: {{ track.date_dnof_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Sai ba Back Office: {{ track.date_dnof_middle_out|date:"d/m/Y" }}
+                {% if obj_days.0.8 %}(lrn {{ obj_days.0.8 }}){% endif %}
+                {% endif %}
+              </td>
+            </tr>
+
+
+             <tr><td align="center"> BACK OFFICE</td>
+              <td>
+                {% if track.is_dnof_middle_out == True and track.is_dnof_back_in == False %}
+                <i class="fa fa-refresh i_grey"></i><br/>
+                {% elif track.is_dnof_back_in == True and track.is_dnof_back_insp_start == True and track.is_dnof_back_insp_end == False%}
+                <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-refresh i_green"></i> Prosesu Verifikasaun
+                {% elif track.is_dnof_back_insp_end == True and track.is_dnof_back_cre_start == True and track.is_dnof_back_cre_end == False %}
+                <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                <i class="fa fa-refresh i_green"></i> Prosesu Kria PEP  
+                {% elif track.is_dnof_back_cre_end == True and track.is_dnof_back_apr_start == True and track.is_dnof_back_apr_end == False %}
+                <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i>  Kria PEP : {{ track.date_dnof_back_cre_end |date:"d/m/Y" }}<br/>  
+                <i class="fa fa-refresh i_green"></i> Prosesu Aprova PEP  
+                {% elif track.is_dnof_back_apr_end == True  and track.is_dnof_back_out == False %}
+                <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i>  Kria PEP : {{ track.date_dnof_back_cre_end |date:"d/m/Y" }}<br/>  
+                <i class="fa fa-check i_green"></i> PEP Aprovadu : {{ track.date_dnof_back_apr_end |date:"d/m/Y" }}<br/>
+                <i class="fa fa-refresh i_green"></i> Prosesu Manda ba BNCTL 
+                {% elif track.is_dnof_back_out == True %}
+                <i class="fa fa-check i_green"></i> Tama ba Back Office: {{ track.date_dnof_back_in|date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Verifikadu:  {{ track.date_dnof_back_insp_end |date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i>  Kria PEP : {{ track.date_dnof_back_cre_end |date:"d/m/Y" }}<br/>  
+                <i class="fa fa-check i_green"></i> PEP Aprovadu : {{ track.date_dnof_back_apr_end |date:"d/m/Y" }}<br/>
+                <i class="fa fa-check i_green"></i> Manda ona ba BNCTL: {{ track.date_dnof_back_out |date:"d/m/Y" }}<br/> 
+
+
+                {% if obj_days.0.8 %}(lrn {{ obj_days.0.8 }}){% endif %}
+                {% endif %}
+              </td>
+            </tr>
+
+             <tr><td align="center">BCTL</td>
+              <td>{% if inv.is_end == True %}<i class="fa fa-star i_green"></i><i class="fa fa-star i_green"></i>{% endif %}</td>
+            </tr>
+
+
+            {% elif inv.is_adn == True and inv.is_cna == True %}
+             <tr><td align="center">UIVP</td>
+              <td>
+              {% if track.is_sup_out == True and track.is_uvip_in == False %}<i class="fa fa-refresh i_grey"></i>
+              {% elif track.is_uvip_in == True  and track.is_insp_start == False %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }} <br/>
+              <i class="fa fa-refresh i_grey"></i> Inspeksaun
+              {% elif track.is_insp_start == True and track.is_insp_end == False %}
+              <i class="fa fa-check i_green"></i> Tama: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }} <br/>
+              <i class="fa fa-refresh i_green"></i> Termina Inspeksaun
+              
+              {% elif track.is_insp_end == True and track.is_uvip_out_1 == False %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Termina Inspeksaun: {{ track.date_insp_end|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba ADN
+
+              {% elif track.is_uvip_out_1 == True %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Hahu Inspeksaun: {{ track.date_insp_start|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Termina Inspeksaun: {{ track.date_insp_end|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Sai ba ADN: {{ track.date_uvip_out_1|date:"d/m/Y" }}
+
+
+              {% if obj_days.0.0 %}(lrn {{ obj_days.0.0 }}){% endif %}
+              {% endif %}
+                </td>
+              </tr>
+
+              <tr><td align="center">ADN</td>
+              <td>
+              {% if track.is_uvip_out_1 == True and track.is_adn_in == False %}
+              <i class="fa fa-check i_green"></i> Tama ba ADN: {{ track.date_uvip_out_1|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba UIVP
+              {% elif track.is_adn_in == True %}
+              <i class="fa fa-check i_green"></i> Tama ba ADN: {{ track.date_uvip_out_1|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Sai ba UIVP: {{ track.date_adn_in|date:"d/m/Y" }} 
+              {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+              {% endif %}
+              </td>
+            </tr>
+
+            <tr><td align="center">UIVP</td>
+              <td>
+              {% if track.is_adn_in == True  and track.is_uvip_out_2 == False %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }} <br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba Gabinete
+              {% elif track.is_uvip_out_2 == True %}
+              <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in|date:"d/m/Y" }} <br/>
+              <i class="fa fa-check i_green"></i> Sai ba Gabinete: {{ track.date_uvip_out_2|date:"d/m/Y" }}
+              {% if obj_days.0.0 %}(lrn {{ obj_days.0.0 }}){% endif %}
+              {% endif %}
+                </td>
+              </tr>
+
+            <tr><td align="center">GABINETE MINISTRU</td>
+              <td>
+              {% if track.is_uvip_out_2 == True and track.is_gab_in == False %}
+              <i class="fa fa-refresh i_grey"></i><br/>
+              {% elif track.is_gab_in == True and track.is_gap_app == False %}
+              <i class="fa fa-check i_green"></i> Tama ba Gabinete: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Hein Aprova
+               {% elif track.is_gap_app == True and track.is_gab_out == False  %}
+              <i class="fa fa-check i_green"></i> Tama  ba Gabinete: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Aprovadu : {{ track.date_gab_app|date:"d/m/Y" }}<br/>
+              <i class="fa fa-refresh i_green"></i> Sai ba SGP
+
+              {% elif track.is_gab_out == True %}
+              <i class="fa fa-check i_green"></i> Tama ba DGAF: {{ track.date_gab_in|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Aprovadu : {{ track.date_gab_app|date:"d/m/Y" }}<br/>
+              <i class="fa fa-check i_green"></i> Sai ba SGP : {{ track.date_gab_out|date:"d/m/Y" }}<br/>
+              {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+              {% endif %}
+              </td>
+            </tr>
+
+            <tr><td align="center">SGP</td>
+              <td>
+              {% if  track.is_gab_out == True %}
+              <i class="fa fa-check i_green"></i> Tama ba SIGP: {{ track.date_gab_out|date:"d/m/Y" }}<br/>
+              
+              {% if obj_days.0.0 %}(lrn {{ obj_days.0.0 }}){% endif %}
+              {% endif %}
+                </td>
+              </tr>
+
+
+
+
+
+            <tr><td align="center">Termina</td>
+              <td>{% if inv.is_end == True %}<i class="fa fa-star i_green"></i><i class="fa fa-star i_green"></i>{% endif %}</td>
+            </tr>
+
+            {% endif %}
+
+          
+
+
+          </table>
+          <hr/>
+          <div class="progress">
+            <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: {{ percent }}%;" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">{{ percent }}%</div>
+          </div><!--end progress-->
+        </div>
+      </div><!--end card-->
+    </div><!--end row-->
+  </div><!--end row-->
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="card-header">Justifikasaun</div>
+              <div class="card-body">
+                  {% if not group == "div" %}
+                  {% if inv.is_end == False %}
+                  <a class="btn btn-sm btn-info mb-1" href="{% url 'inv-justify-add' inv.hashed %}">Justifika <i class="fa fa-pencil"></i></a>
+                  {% endif %}
+                  {% endif %}
+                  <table class="table table-sm table-striped">
+                      <tr>
+                          <th>Divizaun</th><th>Justifikasaun</th><th>Uzuariu</th>
+                          {% if inv.is_approve == False %}<th>#</th>{% endif %}
+                      </tr>
+                      {% for justs in justs %}
+                      <tr>
+                          <td>{% if justs.div %}{{ justs.div.code }}{% else %}{{ justs.dg.code }}{% endif %}</td>
+                          <td>{{ justs.comment|safe }}</td>
+                          <td>{{ justs.user }}<br/>{{ justs.datetime|date:"d/m/Y" }}</td>
+                          {% if inv.is_approve == False %}
+                          <td>
+                          {% if group == "dna" and justs.is_dna == True %}
+                              <a href="{% url 'inv-justify-edit' inv.hashed justs.id %}"><i class="fa fa-edit"></i></a>
+                              <a href="{% url 'inv-justify-rem' inv.hashed justs.id %}"><i class="fa fa-trash"></i></a>
+                          {% endif %}
+                          {% if group == "dnof" and justs.is_dnof == True %}
+                              <a href="{% url 'inv-justify-edit' inv.hashed justs.id %}"><i class="fa fa-edit"></i></a>
+                              <a href="{% url 'inv-justify-rem' inv.hashed justs.id %}"><i class="fa fa-trash"></i></a>
+                          {% endif %}
+                          {% if group == "dgaf" and justs.is_dgaf == True %}
+                              <a href="{% url 'inv-justify-edit' inv.hashed justs.id %}"><i class="fa fa-edit"></i></a>
+                              <a href="{% url 'inv-justify-rem' inv.hashed justs.id %}"><i class="fa fa-trash"></i></a>
+                          {% endif %}
+                          {% if group == "vice" and justs.is_vice == True %}
+                              <a href="{% url 'inv-justify-edit' inv.hashed justs.id %}"><i class="fa fa-edit"></i></a>
+                              <a href="{% url 'inv-justify-rem' inv.hashed justs.id %}"><i class="fa fa-trash"></i></a>
+                          {% endif %}
+                          {% if group == "min" and justs.is_min == True %}
+                              <a href="{% url 'inv-justify-edit' inv.hashed justs.id %}"><i class="fa fa-edit"></i></a>
+                              <a href="{% url 'inv-justify-rem' inv.hashed justs.id %}"><i class="fa fa-trash"></i></a>
+                          {% endif %}
+                          </td>
+                          {% endif %}
+                      </tr>
+                      {% endfor %}
+                  </table>
+              </div>
+          </div>
+      </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item active">{{ legend|upper }}</li>
+		</ul>
+	</div>
+</div>
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card">
+                    <div class="card-header">{{ legend }}</div>
+                    <div class="card-body">
+						{% if page == "ppay" %}
+						{% if page2 == "pg" %}
+						{% for div in divs %}
+                        <a class="btn btn-info" href="{% url 'r-div-pay-dash' div.id %}">{{ div|upper }}</a>
+						{% endfor %}
+						{% elif page2 == "pann" %}
+						{% for div in divs %}
+                        <a class="btn btn-info" href="{% url 'r-div-pay-ann-dash' div.id %}">{{ div|upper }}</a>
+						{% endfor %}
+						{% endif %}
+						{% else %}
+						{% for div in divs %}
+						<a class="btn btn-info" href="{% url 'r-div-proj-dash' div.id %}">{{ div|upper }}</a>
+						{% endfor %}
+						{% endif %}
+					</div>
+                </div><!--end card-->
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!--end section-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

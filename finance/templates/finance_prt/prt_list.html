@@ -1,0 +1,191 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'prt-inv-list' inv.hashed %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">PRT</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Kontratu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Numeru Kontratu</th><td><a href="{% url 'dna-cont-det' cont.hashed %}">{{ cont.number }}</a></td></tr>
+            <tr><th>Montante Kontratu</th><td>${{ cont.total|intcomma }}</td></tr>
+            <tr><th>Periodu Kontratu</th><td>{{ cont.start_date }} - {{ cont.end_date }}</td></tr>
+            <tr><th>Kompa&ntilde;ia</th><td>{% for comp in comps %}{{ comp.company.name }}, {% endfor %}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Kodigu Projetu</th><td><a href="{% url 'proj-det' proj.hashed %}">{{ proj.code }}</a></td></tr>
+            <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+            <tr><th>Kategoria Projetu</th><td>{{ proj.pcategory }}</td></tr>
+            <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header"> Detallu Resibu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Numeru Resibu</th><td>{{ inv.number }}</td></tr>
+            <tr><th>Data</th><td>{{ inv.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Progresu Fiziku</th><td>{{ inv.phys_prog }}%</td></tr>
+            <tr><th>Montante Resibu</th><td>{{ inv.total|intcomma }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header"> Detallu PO</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru PO</th><th>Montante PO</th><th>Data</th><th>Aneksu</th>
+            </tr>
+            <tr>
+              <td>{{ po.number }}</td>
+              <td>${{ po.amount|intcomma }}</td>
+              <td>{{ po.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if po.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'po-pdf' po.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu PRT</div>
+        <div class="card-body">
+          {% if group == 'dnof' %}
+          {% if prt.is_ready == False %}
+          {% comment %} <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-prt-edit' inv.hashed prt.hashed %}">Altera <i class="fa fa-edit"></i></a>
+          <a class="btn btn-sm btn-success mb-1" href="{% url 'dnof-prt-ready' inv.hashed prt.id %}">Pronto <i class="fa fa-check"></i></a> {% endcomment %}
+          {% endif %}
+          {% endif %}
+          <table class="table table-sm">
+            <tr><th>Numeru PRT</th><td>{{ prt.number }}</td></tr>
+            <tr><th>Data</th><td>{{ prt.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Montante PRT</th><td>{{ prt.total }}</td></tr>
+            <tr><th>Purcentu </th><td>{{ prt.percent }}%</td></tr>
+            <tr>
+              <th colspan="2">Aneksu</th>
+              <td colspan="2">
+                {% if prt.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'prt-pdf' prt.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      
+      <div class="card">
+        <div class="card-header">Detallu EV</div>
+        <div class="card-body">
+        {% if group == 'dnof' %}
+        {% if ev.is_ready == False %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-ev-edit' inv.hashed ev.id %}">Altera <i class="fa fa-edit"></i></a>
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-ev-ready' inv.hashed ev.id %}">Pronto <i class="fa fa-check"></i></a>
+        {% endif %}
+
+        {% if ev.is_send == False %}
+        <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-ev-send' inv.hashed ev.id %}">MANDA BA DNOF BACK OFFICE <i class="fa fa-check"></i></a>
+        {% else %}
+        <a class="btn btn-sm btn-default mb-1">MANDA ONA BA DNOF BACK OFFICE <i class="fa fa-check"></i></a>
+        {% endif %}
+        {% endif %}
+       
+          <table class="table table-sm table-striped">
+            <tr><th>Numeru EV</th><th>Data</th><th>Aneksu</th></tr>
+            <tr><td>{{ ev.number }}</td><td>{{ ev.date }}</td>
+              <td>
+              {% if ev.file %}
+              <a class="btn btn-sm btn-secondary" href="{% url 'ev-pdf' ev.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+              {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+       {% if group == 'dnof-bo' %}
+       {% if ev.is_send == True %}
+        {% if ev.is_receive == False %}
+        <div class="card-header"><a class="btn btn-sm btn-primary mb-1" href="{% url 'dnof-bo-ev-receive' inv.hashed ev.id %}">SIMU<i class="fa fa-check"></i></a></div>  
+        {% else %}
+        <div class="card-header"><a class="btn btn-sm btn mb-1">SIMU ONA<i class="fa fa-check"></i></a></div>  
+        {% endif %}
+      {% endif %}
+      {% endif %}
+      </div>    
+
+      {% if group == 'dnof-bo' %}
+      {% if ev.is_receive == True %}
+      <div class="card">
+        <div class="card-header">Prosesa PEP</div>
+        <div class="card-body">
+        {% if invtrack.is_dnof_back_in == True and invtrack.is_dnof_back_insp_start == True and invtrack.is_dnof_back_insp_end == False %}
+        <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-bo-ev-verify' inv.hashed ev.id %}">Verifika <i class="fa fa-refresh i_white"></i></a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1">Kria PEP</a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1">Aprova PEP</a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1"> Manda Ba BCTL</a>
+        
+        {% elif invtrack.is_dnof_back_insp_end == True and invtrack.is_dnof_back_cre_start == True and invtrack.is_dnof_back_cre_end == False %}
+        <a class="btn btn-sm btn border mb-1">Verifika ona <i class="fa fa-check"></i></a>
+        <a class="btn btn-sm btn-info border mb-1" href="{% url 'dnof-bo-ev-create' inv.hashed ev.id %}">Kria PEP <i class="fa fa-refresh i_white"></i></a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1">Aprova PEP </a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1"> Manda Ba BCTL</a>
+
+        {% elif invtrack.is_dnof_back_cre_end == True and invtrack.is_dnof_back_apr_start == True and invtrack.is_dnof_back_apr_end == False %}
+        
+        <a class="btn btn-sm btn border mb-1">Verifika ona <i class="fa fa-check"></i></a>
+        <a class="btn btn-sm btn border mb-1">Kria Ona PEP <i class="fa fa-check"></i></a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-bo-ev-aprove' inv.hashed ev.id %}">Aprova PEP <i class="fa fa-refresh i_white"></i> </a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1"> Manda Ba BCTL</a>
+
+        {% elif invtrack.is_dnof_back_apr_end == True and invtrack.is_dnof_back_out == False %}
+        <a class="btn btn-sm btn border mb-1">Verifika ona <i class="fa fa-check"></i></a>
+        <a class="btn btn-sm btn border mb-1">Kria Ona PEP <i class="fa fa-check"></i></a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1">Aprova Ona PEP </a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn-info  mb-1" href="{% url 'dnof-bo-ev-terminate' inv.hashed ev.id %}">Manda Ba BCTL <i class="fa fa-refresh i_white"></i></a> 
+
+        {% elif invtrack.is_dnof_back_out == True %}
+        <a class="btn btn-sm btn border mb-1">Verifika ona <i class="fa fa-check"></i></a>
+        <a class="btn btn-sm btn border mb-1">Kria Ona PEP <i class="fa fa-check"></i></a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1">Aprova Ona PEP </a> <i class="fa fa-arrow-right"></i>
+        <a class="btn btn-sm btn border mb-1">Manda Ona Ba BCTL <i class="fa fa-check"></i></a>
+        {% endif %}
+        {% endif %}
+        </div>
+        </div>
+      {% endif %}
+      
+      
+    
+  
+  
+  <hr/>
+</div><!--end cont-->
+
+{% endblock %}
+{% block scripts %}
+{% endblock %}

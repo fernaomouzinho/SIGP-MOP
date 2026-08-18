@@ -1,0 +1,79 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if page == "pyear" %}
+            <li class="breadcrumb-item"><a href="{% url 'r-div-proj-dash' div.id %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'r-div-proj-year-dash' div.id year %}">{{ year }}</a></li>
+            {% else %}
+            <li class="breadcrumb-item"><a href="{% url 'r-div-proj-dash' div.id %}">Painel Relatoriu</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <center>
+                        <h3>{{ legend|upper }}</h3>
+                        <h2>{{ subtitle|upper }}</h2>
+                    </center>
+					<hr/>
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Code</th>
+                                <th>Naran Projetu</th>
+                                <th>No. Kontratu</th>
+                                <th>Total</th>
+                                <th>Data Hahu</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ obj.contract.project.code }}</td>
+                                <td><a href="{% url 'cont-det' obj.contract.hashed %}">{{ obj.contract.project.name }}</a></td>
+                                <td>{{ obj.contract.number }}</td>
+                                <td>${{ obj.total|intcomma }}</td>
+                                <td>{{ obj.contract.start_date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.contract.status }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4">Total</th>
+                                <th>${{ tot_sum|intcomma }}</th>
+                                <th colspan="3"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <hr/>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'r-div-imp-status-list' div.id status.id %}">All</a></li>
+                        {% for year in years %}
+                        <li class="breadcrumb-item"><a href="{% url 'r-div-imp-status-year-list' div.id status.id year.start_date__year %}">{{ year.start_date__year }}</a></li>
+                        {% endfor %}
+                    </ol>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,28 @@
+<ul class="breadcrumb">
+{% if page == "pcat" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cat-sum' div.id %}">Sumariu Pagamentu</a></li>
+    {% if page2 == "pmonth" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cat-sum-year' div.id year %}">{{ year }}</a></li>
+    {% elif page2 == "pdate" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cat-sum-year' div.id year %}">{{ year }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cat-sum-month' div.id year month %}">{{ monthname }}</a></li>
+    {% endif %}
+{% elif page == "pcap" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cap-sum' div.id %}">Sumariu Pagamentu</a></li>
+    {% if page2 == "pmonth" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cap-sum-year' div.id year %}">{{ year }}</a></li>
+    {% elif page2 == "pdate" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cap-sum-year' div.id year %}">{{ year }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-cap-sum-month' div.id year month %}">{{ monthname }}</a></li>
+    {% endif %}
+{% elif page == "psec" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-sec-sum' div.id %}">Sumariu Pagamentu</a></li>
+    {% if page2 == "pmonth" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-sec-sum-year' div.id year %}">{{ year }}</a></li>
+    {% elif page2 == "pdate" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-sec-sum-year' div.id year %}">{{ year }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'r-div-pay-g-sec-sum-month' div.id year month %}">{{ monthname }}</a></li>
+    {% endif %}
+{% endif %}
+    <li class="breadcrumb-item active">{{ legend }}</li>
+</ul>

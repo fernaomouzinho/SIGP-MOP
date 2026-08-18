@@ -1,0 +1,503 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'gab-eval-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Estimasaun Donu Projetu</th>
+              {% if eval.is_adn == True or eval.is_cna == True %}<th>Estimasaun ADN</th>{% endif %}</tr>
+            <tr>
+              <td>{{ proj.code }}</td><td>{{ proj.name }}</td>
+              <td>${{ projest.owner|intcomma }}</td>
+              {% if eval.is_adn == True or eval.is_cna == True %}<td>${{ projest.adn|intcomma }}</td>{% endif %}
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Avaliasaun ToR</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th width="25%">Numeru Referensia</th><td colspan="3">{{ eval.number }}</td></tr>
+            <tr><th>Data</th><td colspan="3">{{ eval.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Liu ADN</th><td>{% if eval.is_adn == True %}LOS <i class="fa fa-check-circle i_green"></i>{% else %}LAE{% endif %}</td>
+              <th>Liu CNA</th><td>{% if eval.is_cna == True %}LOS <i class="fa fa-check-circle i_green"></i>{% else %}LAE{% endif %}</td></tr>
+            <tr><th>Deskrisaun</th><td colspan="3">{{ eval.desc|safe }}</td></tr>
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Dokumentu TOR</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Nu.</th><th>Deskrisaun</th><th>Aneksu</th></tr>
+          {% for file in files %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ file.desc }}</td>
+             <td>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-boq' file.id %}" target="_blank">BOQ</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-design' file.id %}" target="_blank">Dezenu</i></a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-spec' file.id %}" target="_blank">Espesifikasaun</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-mapq' file.id %}" target="_blank">Mapa Quarry</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-other' file.id %}" target="_blank">Dokumentu Seluk</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Korespondensia</div>
+        <div class="card-body">
+        {% if trackfi.is_appr == True and trackfi.is_gab_out_1 == False %}
+        <a class="btn btn-sm btn-info mb-1" href="{% url 'gab-eval-let-add' eval.hashed %}">Kria Karta <i class="fa fa-plus"></i></a>
+        {% endif %} 
+        
+        {% if trackfi.is_gab_in_2 == True and trackfi.is_gab_out_2 == False %}
+        <a class="btn btn-sm btn-info mb-1" href="{% url 'gab-eval-let-add' eval.hashed %}">Kria Karta <i class="fa fa-plus"></i></a>
+        {% endif %} 
+
+        {% if trackfi.is_let_appr == True and trackfi.is_gab_out_3 == False %}
+        <a class="btn btn-sm btn-info mb-1" href="{% url 'gab-eval-let-add' eval.hashed %}">Kria Karta <i class="fa fa-plus"></i></a>
+        {% endif %} 
+
+        {% if trackfi.is_gab_in_4 == True and trackfi.is_gab_out_4 == False %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'gab-eval-let-add' eval.hashed %}">Kria Karta Ba UIVP <i class="fa fa-plus"></i></a>
+        {% endif %} 
+        
+        
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Diriji ba</th><th colspan="3">Aneksu</th>
+            </tr>
+            {% for let in lets %}
+            <tr>
+              {% if let.comment %}
+              <td rowspan="5">{{ forloop.counter }}</td>
+              {% else %}
+              <td rowspan="3">{{ forloop.counter }}</td>
+              {% endif %}
+              <td>{{ let.number }}</td>
+              <td>{{ let.subject }}</td>
+              <td>{{ let.date|date:"d/m/Y" }}</td>
+              <td>{{ let.to }}</td>
+              <td>
+
+                
+                    {% if let.file %}
+                    <a class="btn btn-sm btn-secondary" href="{% url 'eval-let-pdf' let.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                    {% endif %}
+
+                    {% if let.is_send == False %}
+                      {% if eval.is_cna == True %}
+                      {% if trackfi.is_gab_out_1 == False %}
+                      <a class="btn btn-sm btn-info" href="{% url 'gab-eval-let-edit' let.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                      <a class="btn btn-sm btn-danger" href="{% url 'gab-eval-let-rem' let.id %}" title="Hamos"><i class="fa fa-trash"></i></a>
+                      {% endif %}
+                      {% endif %}
+                    {% if let.to_id == 2 %}
+                      {% if eval.is_cna == True %}
+                      <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next1' let.id %}" title="Manda ba ADN">Manda ba ADN (FI) <i class="fa fa-send"></i></a>
+                      {% else %}
+                      <a class="btn btn-sm btn-primary" href="{% url 'uvip-eval-next1' let.id %}" title="Manda ba ADN">Manda ba ADN (LM) <i class="fa fa-send"></i></a>
+                      {% endif %}
+
+                    {% elif let.to_id == 1 %}
+                      {% if eval.is_cna == True %}
+                        {% if trackfi.is_uvip_out_2 == False %}
+                        <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next1' let.id %}" title="Manda ba Gabinete">Manda ba Gabinte Ministru  (FI-1) <i class="fa fa-send"></i></a>
+                        {% else %}
+                        <a class="btn btn-sm btn-primary" href="{% url 'uvip-evalfi-next4' let.id %}" title="Manda ba Gabinete">Manda ba Gabinte Ministru  (FI-2) <i class="fa fa-send"></i></a>
+                        {% endif %}
+                      {% else %}
+                      <a class="btn btn-sm btn-primary" href="{% url 'uvip-eval-next2' let.id %}" title="Manda ba Gabinete">Manda ba Gabinte Ministru  (LM) <i class="fa fa-send"></i></a>
+                      {% endif %}
+
+
+                    {% elif let.to_id == 3 %}
+                      {% if trackfi.is_gab_out_1 == False %}
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-next1' let.id %}" title="Manda ba KAFI">Manda ba KAFI (FI) <i class="fa fa-send"></i></a>
+                      {% else %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_1|date:"d/m/Y"}}</div>
+                      {% if trackfi.is_gab_in_2 == False %}
+                      <a class="btn btn-sm btn-info" href="{% url 'gab-evalfi-in2' let.id %}">Fila husi KAFI (FI) <i class="fa fa-check"></i></a>
+                      {% else %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) fila Ona husi KAFI iha Data: {{trackfi.date_gab_in_2|date:"d/m/Y"}}</div>
+                      {% endif %}
+                      {% endif %}
+
+                    {% elif let.to_id == 4 %}
+                      
+                        {% if trackfi.is_gab_out_2 == False %}
+                        <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-next2' let.id %}" title="Manda ba UIVP">Manda ba UIVP (FI) <i class="fa fa-send"></i></a>
+                        {% else %}
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_2|date:"d/m/Y"}}</div>
+                        {% if trackfi.is_uivp_check == True %}
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) hetan visto ona husi {{let.to.code}} iha Data: {{trackfi.date_uvip_check|date:"d/m/Y"}}</div>
+                        {% endif %}
+                        
+                        {% if trackfi.is_uivp_in_3 == True and trackfi.is_uvip_check == False %}
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) Simu no Processa hela iha {{let.to.code}} husi Data: {{trackfi.date_uvip_in_3|date:"d/m/Y"}}</div>
+                        {% elif trackfi.is_uvip_check == True and trackfi.is_uvip_out_3 == False %}
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) hetan visto ona husi {{let.to.code}} iha Data: {{trackfi.date_uvip_check|date:"d/m/Y"}}</div>
+                        {% elif trackfi.is_uvip_out_3 == True and trackfi.is_gab_in_3 == False %}
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) fila ona Gabinete Ministru iha Data: {{trackfi.date_uvip_out_3|date:"d/m/Y"}}</div>
+                        <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-in3' let.id %}" title="Simu">Simu </i></a>
+                        
+                        {% elif trackfi.is_gab_in_3 == True and trackfi.is_let_appr == False %}
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) fila ona ba Gabinete Ministru iha Data: {{trackfi.date_uvip_out_3|date:"d/m/Y"}}</div>
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husi Gabinete Ministru iha Data: {{trackfi.date_gab_in_3|date:"d/m/Y"}}</div>
+                        <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-next3' let.id %}" title="Manda ba UIVP">Aprova</a>
+                        
+                        {% elif trackfi.is_let_appr == True and trackfi.is_gab_out_3 == False %}
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) fila ona ba Gabinete Ministru iha Data: {{trackfi.date_uvip_out_3|date:"d/m/Y"}}</div>
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husi Gabinete Ministru iha Data: {{trackfi.date_gab_in_3|date:"d/m/Y"}}</div>
+                        <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) Aprovadu: {{trackfi.date_let_appr|date:"d/m/Y"}}</div>
+                        
+                        {% endif %}
+                        {% endif %}
+
+                      {% elif let.to_id == 5 %}
+                      {% if trackfi.is_gab_out_3 == False %}
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-next4' let.id %}" title="Manda ba CNA">Manda ba CNA (FI) <i class="fa fa-send"></i></a>
+                      {% elif trackfi.is_gab_out_3 == True and  trackfi.is_gab_in_4 == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-in4' let.id %}" title="Fila Husi CNA">Fila Husi CNA</a>
+
+                      {% elif trackfi.is_gab_in_4 == True and trackfi.is_gab_out_4 == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-result-add' hashid=let.hashed  %}" title="Rezultadu CNA">Rezultadu Husi CNA</a>  
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-return-add' hashid=let.hashed %}" title="Devolve CNA">Devolve Husi CNA</a>  
+                       <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-next5' let.id %}" title="Manda ba UIVP">Manda ba UIVP</a>  
+                      {% elif trackfi.is_gab_out_4 == True and trackfi.is_uvip_in_4 == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      
+                      {% elif trackfi.is_uvip_in_4 == True and trackfi.is_uvip_sign == False  %}  
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husi UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                     
+                     {% elif trackfi.is_uvip_sign == True and trackfi.is_uvip_out_4 == False %}  
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husi UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) asinadu husi UIVP iha data: {{trackfi.date_uvip_sign|date:"d/m/Y"}}</div>
+                     
+
+
+                      {% elif trackfi.is_uvip_out_4 == True and trackfi.is_gab_in_5 == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husu UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) asinadu husi UIVP iha data: {{trackfi.date_uvip_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona husi UIVP mai GAB iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-in5' let.id %}" title="Simu">Simu</a>
+
+                      {% elif trackfi.is_gab_in_5 == True and trackfi.is_gab_sign == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husu UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) asinadu husi UIVP iha data: {{trackfi.date_uvip_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona husi UIVP mai GAB iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi GAB iha data: {{trackfi.date_gab_in_5|date:"d/m/Y"}}</div>
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-next6' let.id %}" title="Asinadu">Asinadu</a>
+
+                      {% elif trackfi.is_gab_sign == True and  trackfi.is_gab_out_5 == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husu UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) asinadu husi UIVP iha data: {{trackfi.date_uvip_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona husi UIVP mai GAB iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi GAB iha data: {{trackfi.date_gab_in_5|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) Asinadu husi GAB iha data: {{trackfi.date_gab_sign|date:"d/m/Y"}}</div>
+                      <a class="btn btn-sm btn-primary" href="{% url 'gab-evalfi-next7' let.id %}" title="Sai ba UIVP">Manda Sai ba UIVP</a>
+
+                      {% elif trackfi.is_gab_out_5 == True and trackfi.is_uvip_in_5 == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husu UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) asinadu husi UIVP iha data: {{trackfi.date_uvip_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona husi UIVP mai GAB iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi GAB iha data: {{trackfi.date_gab_in_5|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) Asinadu husi GAB iha data: {{trackfi.date_gab_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_5|date:"d/m/Y"}}</div>
+                      
+                      {% elif trackfi.is_uvip_in_5 == True and trackfi.is_uvip_out_5 == False %}
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husu UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) asinadu husi UIVP iha data: {{trackfi.date_uvip_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona husi UIVP mai GAB iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi GAB iha data: {{trackfi.date_gab_in_5|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) Asinadu husi GAB iha data: {{trackfi.date_gab_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_5|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> UIVP simu ona Dokumentu TOR (FI) manda ona ba GAB iha Data: {{trackfi.date_gab_out_5|date:"d/m/Y"}}</div>
+                     
+
+                      {% elif trackfi.is_gab_out_5 == True and trackfi.is_end == True %}  
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona Dokumentu TOR (FI) ba {{let.to.code}} iha Data: {{trackfi.date_gab_out_3|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu ona husu UIVP iha Data: {{trackfi.date_gab_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi UIVP iha data: {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) asinadu husi UIVP iha data: {{trackfi.date_uvip_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona husi UIVP mai GAB iha Data: {{trackfi.date_gab_out_4|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) simu husi GAB iha data: {{trackfi.date_gab_in_5|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) Asinadu husi GAB iha data: {{trackfi.date_gab_sign|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Dokumentu TOR (FI) manda ona ba UIVP iha Data: {{trackfi.date_gab_out_5|date:"d/m/Y"}}</div>
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> UIVP simu ona Dokumentu TOR (FI) manda ona ba GAB iha Data: {{trackfi.date_gab_out_5|date:"d/m/Y"}}</div>
+                     
+                      <div class="alert alert-info p-1"><i class="fa fa-info"></i> Verifikasaun Termina iha data: {{trackfi.date_end|date:"d/m/Y"}}</div>
+                      
+
+                      {% endif %}
+
+
+
+                    
+                    {% endif %}
+
+
+                 
+
+
+                  {% else %}
+                    <div class="alert alert-info p-1"><i class="fa fa-info"></i> Manda ona ba {{let.to.code}}</div>
+                  {% endif %}
+                
+            
+
+
+
+
+
+
+
+                
+                  {% if let.to_id == 1 %}
+                  {% if let.is_send == True and let.is_read == False %}
+                  {% if eval.is_cna == True %}
+                    {% if trackfi.is_uvip_out_1 == True and trackfi.is_uvip_out_4 == False %}
+                    <a class="btn btn-sm btn-info" href="{% url 'gab-evalfi-in1' let.id %}" title="Simu">Simu 1 <i class="fa fa-check"></i></a>
+                    {% elif trackfi.is_uvip_out_4 == True %}
+                    <a class="btn btn-sm btn-info" href="{% url 'gab-evalfi-in2' let.id %}" title="Simu">Simu 2 <i class="fa fa-check"></i></a>
+                    {% endif %}
+                  {% else %}
+                  <a class="btn btn-sm btn-info" href="{% url 'gab-eval-in' let.id %}" title="Simu">Simu <i class="fa fa-check"></i></a>
+                  {% endif %}
+                  {% endif %}
+                  {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="5">Deskrisaun</th></tr>
+            <tr><td colspan="5">{{ let.desc|safe }}</td></tr>
+
+            {% if eval.is_return %}
+            <tr><th colspan="6">Informasaun Dokumentu TOR</th></tr>
+            <tr><th colspan="1">Data Simu</th><th colspan="0">Data Devolve</th><th colspan="4">Justifikasaun Dokumentu Devolve</th></tr>
+            <tr><td colspan="1">{{track.date_gab_in|date:"d/m/Y"}}</td><td colspan="0">{{eval.return_date|date:"d/m/Y"}}</td><td colspan="4">{{eval.return_comment}}</td></tr>
+            {% endif %}
+
+
+            {% if let.comment %}
+            <tr><th colspan="5">Deskrisaun</th></tr>
+            <tr>
+            <td colspan="5">{{ let.desc|safe }}</td>
+            </tr>
+            {% endif %}
+
+            {% comment %} {% for obj in letadn %}
+              {% if obj.evallet.id == let.id %}
+              {% if obj.is_return == True %}
+                <tr class='bg-warning'><th colspan="10">DEVOLVE DOKUMENTU HUSI ADN</th></tr>
+                <tr>
+                <th >Nu.Referensia ADN</th>
+                <th>Data Karta</th>
+                <th>Data Karta Simu</th>
+                <th>Asuntu</th>
+                <th>Komentariu</th>
+                <th class="text-center">Karta Simu</th>
+                <th class="text-center">Asaun</th>
+                {% for obj in letadn %}
+                {% if obj.evallet.id == let.id %}
+                {% if obj.is_return == False  %}
+                <th>#</th>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                </tr>
+                <tr>
+                <td>{{ obj.number|safe }}</td>
+                <td>{{ obj.date|safe }}</td>
+                <td>{{ obj.datetime|safe }}</td>
+                <td>{{ obj.subject|safe }}</td>
+                <td>{{ obj.comment|safe }}</td>
+                <td class="text-center"><a class="btn btn-sm btn-secondary" href="{% url 'eval-file-adn-pdf-rs' obj.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a></td>
+                <td class="text-center"><a class="btn btn-sm btn-secondary" href="{% url 'uvip-ver-add' obj.evallet.eval.hashed %}" title="Anexu" target="_blank">Re-Verifika</a></td>
+                {% for obj in letadn %}
+                {% if obj.evallet.id == let.id %}
+                {% if obj.is_return == False  %}
+                <td colspan="2"><a href="{% url 'uvip-adn-eval-back-dev-edit' obj.hashed %}" title="Anexu"><i class="fa fa-edit"></i>Atualiza</a></td>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                </tr>
+               {% else %}
+                <tr class='bg-success text-white'><th colspan="12">REZULTADU VERIFIKASAUN DOKUMENTU HUSI ADN</th></tr>
+                <tr>
+                  <th>Nu.Referencia ADN</th>
+                  <th>Data Karta</th>
+                  <th>Data Karta Simu</th>
+                  <th>Asuntu</th>
+                  <th>Karta Simu</th>
+                  <th>Dokumentu Verifiksaun</th>
+
+                </tr>
+                <tr><td>{{ obj.number|safe }}</td>
+                <td>{{ obj.date|safe }}</td>
+                <td>{{ obj.datetime|safe }}</td>
+                <td>{{ obj.subject|safe }}</td>
+                <td><a class="btn btn-sm btn-secondary" href="{% url 'eval-file-adn-pdf-rs' obj.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a></td>
+                <td>
+                  {% if obj.file_boq %}
+                  <a href="{% url 'eval-file-pdf-adn-boq' obj.id %}" title="Anexu" target="_blank">BoQ</a> |
+                  {% else %}
+                  <a href="" title="File BoQ La Eziste">BoQ</a>|
+                  {% endif %}
+
+                  {% if obj.file_design %}
+                  <a href="{% url 'eval-file-pdf-adn-design' obj.id %}" title="Anexu" target="_blank">Dezenu</a> |
+                  {% else %}
+                  <a href="" title="File Dezenu La Eziste">Dezenu</a> |
+                  {% endif %}
+
+                  {% if obj.file_spec %}
+                  <a href="{% url 'eval-file-pdf-adn-spec' obj.id %}" title="Anexu" target="_blank">Espesifikasaun</a> |
+                  {% else %}
+                  <a href="" title="File Dezenu La Eziste">Espesifikasaun</a> |
+                  {% endif %}
+
+                  {% if obj.file_mapq %}
+                  <a href="{% url 'eval-file-pdf-adn-mapq' obj.id %}" title="Anexu" target="_blank">Mapa Quarry</a> |
+                  {% else %}
+                  <a href="" title="File Dezenu La Eziste">Mapa Quarry</a> |
+                  {% endif %}
+
+                  {% if obj.file_docoth %}
+                  <a href="{% url 'eval-file-pdf-adn-other' obj.id %}" title="Anexu" target="_blank">Seluk</a>
+                  {% else %}
+                  <a href="" title="File Dezenu La Eziste">Seluk</a>|
+                  {% endif %}
+                  </td>
+
+              {% endif %}
+              {% endif %}
+              {% endfor %} {% endcomment %}
+
+
+
+
+            {% endfor %}
+
+
+
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col">
+      {% if eval.is_cna == False %}
+        {% if eval.is_appr == False %}
+          {% if track.is_gab_in == True %}
+          <a class="btn btn-primary" href="{% url 'gab-eval-appr' eval.id %}"> APROVA TOR <i class="fa fa-check"></i></a>
+          <a class="btn btn-primary" href="{% url 'gab-eval-return-add' eval.hashed %}"> DEVOLVE TOR <i class="fa fa-undo"></i></a>
+          {% endif %}
+        {% else %}
+        <div class="alert alert-success">
+          <i class="fa fa-info"></i> TOR APROVADU <i class="fa fa-check"></i>
+          {% if eval.is_end == False %} |
+          <a class="btn btn-primary" href="{% url 'gab-eval-end' eval.id %}">TERMINA TOR <i class="fa fa-check"></i></a>
+          {% else %}
+          <i class="fa fa-info"></i> TERMINA <i class="fa fa-check"></i>
+          {% endif %}
+        </div>
+        {% endif %}
+
+      {% else %}
+      
+        {% if eval.is_appr == False and eval.is_let_appr == False %}
+          {% if trackfi.is_gab_in_1 == True %}
+           <div class="alert alert-success">
+          <a class="btn btn-primary" href="{% url 'gab-eval-appr' eval.id %}"> APROVA TOR <i class="fa fa-check"></i></a>
+          </div>
+          {% endif %}
+        {% elif eval.is_appr == True and eval.is_let_appr == False %}
+          {% if trackfi.is_gab_out_1 == False %}
+           <div class="alert alert-success">
+          <i class="fa fa-info"></i> TOR APROVADU <i class="fa fa-check"></i>
+          </div>
+          {% endif %}
+          {% if trackfi.is_gab_in_3 == True %} 
+          {% comment %} <div class="alert alert-success">
+          <a class="btn btn-primary" href="{% url 'gab-eval-let-appr' eval.id %}">| APROVA KARTA <i class="fa fa-check"></i></a>
+          </div> {% endcomment %}
+          {% endif %}
+        {% elif eval.is_let_appr == True and eval.is_end == False %}
+        <div class="alert alert-success">
+        <i class="fa fa-info"></i> TOR no KARTA APROVADU <i class="fa fa-check"></i>
+        </div>
+        {% elif eval.is_end == True %}
+        <div class="alert alert-success">
+        <i class="fa fa-info"></i> TOR no KARTA APROVADU & TERMINA <i class="fa fa-check"></i>
+        </div>
+        {% endif %}
+      
+      {% endif %}
+
+    </div><!--end col-->
+  </div><!--end row-->
+  <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

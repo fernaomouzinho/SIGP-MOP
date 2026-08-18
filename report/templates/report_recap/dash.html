@@ -1,0 +1,122 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">PAINEL SUMARIU</a></li>
+			<li class="breadcrumb-item active">{{ legend|upper }}</li>
+		</ul>
+	</div>
+</div>
+<section class="dashboard-counts pt-4" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<center>
+					<h3>{{ legend|upper }}</h3>
+				</center>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!--end section-->
+
+
+{% comment %} <section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-sm table-bordered">
+                    <tr align="center">
+						<th rowspan="2">Nu.</th>
+						<th rowspan="2">Kapital</th>
+						<th rowspan="2">Total Projetu</th>
+						<th colspan="1">Montante Kontratu</th>
+						<th colspan="2">Total Pagamentu Kontratu</th>
+						<th colspan="2">Balansu Kontratu</th>
+                    </tr>
+					
+					<tr align="center">
+						<th>$</th><th>$</th><th>%</th><th>$</th><th>%</th>
+					</tr>
+
+                    {% for obj in objects %}
+                    <tr>
+						<td>{{ forloop.counter }}</td>
+						<td><a href="{% url 'r-recap-cap-each-det' pk=obj.0 %}">{{ obj.1.name }}</a></td>
+						<td style="text-align:center">{{ obj.2 }}</td>
+						<td style="text-align:right">{% if obj.3 %}${{ obj.3|intcomma }}{% else %}0.0{% endif %}</td>
+						<td style="text-align:right">{% if obj.4 %}${{ obj.4|intcomma }}{% else %}0.0{% endif %}</td>
+						<td style="text-align:right">{% if obj.5 %}{{ obj.5}}%{% else %}0.0{% endif %}</td>
+						<td style="text-align:right">{% if obj.6 %}${{ obj.6|intcomma }}{% else %}0.0{% endif %}</td>
+						<td style="text-align:right">{% if obj.7 %}{{ obj.7}}%{% else %}0.0{% endif %}</td>
+                    </tr>
+					{% endfor %}
+					<tr align="center">
+						<th colspan="2">TOTAL</th>
+						<th>{{ obj_tot.0 }}</th>
+						<th style="text-align:right">${{ obj_tot.1|intcomma }}</th>
+						<th style="text-align:right">${{ obj_tot.2|intcomma }}</th>
+						<th style="text-align:right">{{ obj_tot.3|intcomma }}%</th>
+						<th style="text-align:right">${{ obj_tot.4|intcomma }}</th>
+						<th style="text-align:right">{{ obj_tot.5|intcomma }}%</th>
+					</tr>
+                </table>
+            </div><!--end col-->
+        </div><!--end row-->
+</div><!--end cont--> {% endcomment %}
+
+
+<!-- Counts Section -->
+{% include 'report_recap/dash_group.html' %}
+<!-- end Counts Section -->
+
+<script>
+function activateLink(clickedLink) {
+    // remove "disabled" from all links
+    document.querySelectorAll("nav.breadcrumb a").forEach(link => {
+        link.classList.remove("disabled");
+    });
+
+    // add "disabled" only to the clicked one
+    clickedLink.classList.add("disabled");
+}
+</script
+
+{% endblock %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+
+  $(document).ready(function() {
+    $('#examples').DataTable();
+  } );
+
+
+
+const wrapper = document.getElementById("tableWrapper");
+const btn = document.getElementById("fullscreenBtn");
+const icon = document.getElementById("fullscreenIcon");
+
+btn.addEventListener("click", function () {
+    wrapper.classList.toggle("fullscreen");
+
+    if (wrapper.classList.contains("fullscreen")) {
+        icon.classList.remove("fa-expand");
+        icon.classList.add("fa-compress");   // change icon to exit full screen
+    } else {
+        icon.classList.remove("fa-compress");
+        icon.classList.add("fa-expand");     // restore icon
+    }
+});
+
+
+</script>
+{% endblock %}

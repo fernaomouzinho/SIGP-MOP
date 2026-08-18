@@ -1,0 +1,57 @@
+/* your styles go here */
+
+.i_green {
+    color: green;
+}
+.i_red {
+    color: red;
+}
+.i_blue {
+    color: cornflowerblue;
+}
+.i_grey {
+    color: grey;
+}
+.i_warning {
+    color: rgb(189, 143, 58);
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+    color: grey;
+}
+.text_rotate {
+  writing-mode: vertical-lr;
+  /* text-orientation: upright; */
+  transform: rotate(190deg);
+  text-align: left;
+  max-height: 150px;
+  font-size: small;
+  font-weight: unset;
+}
+
+.bg-one {
+    /* background-color: rgb(10, 119, 37); */
+    background: rgba(7, 39, 53, 0.833);
+    color:aliceblue;
+}
+.btn-one {
+    background-color: #042c0ebe;
+    color: white;
+}
+
+nav.navbar {
+    /* background: rgba(7, 39, 53, 0.833); */
+    background-color: #084116d7;
+    color: #fff;
+}
+.bg-card {
+  background-color:#042c0ebe;
+  color: white;
+}
+.bg-footer {
+  background-color: #084116d7;
+  color: #fff;
+}

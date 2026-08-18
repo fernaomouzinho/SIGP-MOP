@@ -1,0 +1,110 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'eng-ver-list' %}">Lista Despaxu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Kapital Projetu </th><td>{{ proj.capital.code }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Despaxu Tama</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Despaxu</th><th>Data</th><th>Asuntu</th><th>Husi</th><th>Diriji ba</th>
+                        </tr>
+                        <tr>
+                            <td>{{ versec.number }}</td>
+                            <td>{{ versec.date|date:"d/m/Y" }}</td>
+                            <td>{{ versec.subject }}</td>
+                            <td>{{ versec.sec.code }}</td>
+                            <td>
+                                {% for obj1 in object1 %}
+                                {% if obj1.verseceng.id ==  versec.id %}
+                                   {{obj1.employee|linebreaks }}
+                                 {% endif %}
+                                 {% endfor %}
+                            </td>
+                        </tr>
+                        <tr><th colspan="4">Deskrisaun</th><th>Aneksu</th></tr>
+                        <tr><td colspan="4">{{ versec.desc|safe }}</td> 
+                            <td>
+                                {% if versec.file %}
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'ver-sec-pdf' versec.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    {% if versec.is_send == True and versec.is_send_read == False %}
+                    <hr/>
+                    <a class="btn btn-sm btn-info" href="{% url 'eng-ver-in' versec.hashed %}">Simu <i class="fa fa-check"></i></a>
+                    {% endif %}
+                    {% if versec.is_send_read == True %}
+                    {% if ver.is_end == False %}<div class="alert alert-info p-1">Simu ona</div>
+                    {% else %}<div class="alert alert-success p-2"><h4>Verifikasaun Termina <i class="fa fa-check"></i></h4></div>{% endif %}
+                    {% endif %}
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Komentariu</th>
+                            <th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ versec.eng_comments|safe }}</td>
+                            <td>
+                            {% if versec.file2 %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'ver-sec-pdf2' versec.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                            {% endif %}
+                            {% if versec.is_send_read == True %}
+                            {% if versec.is_eng_back == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'eng-ver-edit' versec.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                                {% if versec.eng_comments %}
+                                <a class="btn btn-sm btn-success" href="{% url 'eng-ver-send' versec.hashed %}" title="Manda">Manda ba Xefe Seksaun <i class="fa fa-send"></i></a>
+                                {% endif %}
+                            {% else %}
+                            {% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

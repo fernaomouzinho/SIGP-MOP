@@ -1,0 +1,51 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'r-div-proj-dash' div.id %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <center>
+                        <h3>{{ legend|upper }}</h3>
+                        <h2>{{ subtitle|upper }}</h2>
+                    </center>
+                    <hr/>
+                    <table class="table table-sm table-no-bordered">
+                            <tr>
+                                <th>#</th>
+                                {% for ptype in ptypes %}
+                                <th class="text_rotate" width="{{th_w}}%"><a href="{% url 'r-div-proj-type-list' div.id ptype.id %}">{{ ptype }}</a></th>
+                                {% endfor %}
+                            </tr>
+                        {% for obj in objects %}
+                            <tr>
+                                <td>{{ obj.0 }}</td>
+                                {% for obj1 in obj.1 %}
+                                <td><a href="{% url 'r-div-proj-type-year' div.id obj1.0.id obj.0.year %}">{{ obj1.1 }}</a></td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if page == "pyear" %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-year-dash' year %}">{{ year }}</a></li>
+            {% else %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ legend|upper }}
+					<hr/>
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Numeru Referencia</th>
+                                <th>Etapa Atual</th>
+                                <th>Progresu Atual</th>
+                                <th>Asuntu</th>
+                                <th>Data Karta Simu</th>
+                                <th>Kodigu Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                {% for obj1 in evaltrack %}
+                                    {% if obj.evallet.eval.hashed == obj1.eval.hashed %}
+                                        {% if obj1.eval.is_cna == False %}
+                                            <td><a href="{% url 'track-eval-det'  obj1.eval.hashed %}">{{  obj.number }}</a></td>
+                                        {% else %}
+                                        <td><a href="{% url 'track-eval-det2' obj1.eval.hashed %}">{{ obj.number }}</a></td>
+                                        {% endif %}
+                                        <td>{{ obj1.stages }} </a></td>
+                                        <td> 
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ obj1.percent }}%;" aria-valuenow="{{ obj1.percent }}" aria-valuemin="0" aria-valuemax="100">{{ obj1.percent }}%</div>
+                                            </div>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>{{ obj.subject }}</td>
+                                <td>{{ obj.datetime|date:"d/m/Y"}}</td>
+                                <td>{{ obj.evallet.eval.proj.code }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr/>
+                   
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

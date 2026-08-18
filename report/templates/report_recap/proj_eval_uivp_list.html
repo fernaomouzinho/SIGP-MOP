@@ -1,0 +1,84 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if page == "pyear" %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-year-dash' year %}">{{ year }}</a></li>
+            {% else %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ legend|upper }}
+					<hr/>
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Numeru Referencia</th>
+                                 {% if vertrack %}
+                                <th>Etapa Atual</th>
+                                <th>Asuntu</th>
+                                
+                                {% endif %}
+                                <th>Status</th>
+                                <th>Data Karta Simu</th>
+                                <th>Kodigu Projetu</th>
+                                <th>Naran Projetu</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                {% if vertrack %}
+                                    {% for obj1 in vertrack %}
+                                        {% if obj.ver.hashed == obj1.ver.hashed %}
+                                            {% if obj.status == 'DEVOLVE' %}
+                                            <td>{{  obj.ver.number }}</td>
+                                            {% else %}
+                                            <td><a href="{% url 'track-ver-det'  obj1.ver.hashed %}">{{  obj.ver.number }}</a></td>
+                                            {% endif %}
+                                            <td>{{ obj1.stages }} ({{ obj1.percent }}%)</a></td>
+                                            <td>{{ obj.subject }}</td>
+                                            <td>{{ obj.status }}</td>
+                                            <td>{{ obj.ver.start_date|date:"d/m/Y"}}</td>
+                                            <td>{{ obj.ver.eval.proj.code }}</td>
+                                            <td>{{ obj.ver.eval.proj.name }}</a></td>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                <td>{{ obj.ver.number }}</a></td>
+                                <td>{{ obj.status }}</td>
+                                <td>{{ obj.ver.start_date|date:"d/m/Y"}}</td>
+                                <td>{{ obj.ver.eval.proj.code }}</td>
+                                <td>{{ obj.ver.eval.proj.name }}</a></td>
+                                 {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr/>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'gab-po-list' cont.hashed %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th>Numeru</th><td>{{ cont.number }}</td></tr>
+                        <tr><th>Data</th><td>{{ cont.start_date|date:"d/m/Y" }} - {{ cont.end_date|date:"d/m/Y" }}</td></tr>
+                        <tr><th>Montante</th><td>${{ cont.total|intcomma }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th width="25%">Kodigu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Tinan</th><td>{{ proj.year }}</td></tr>
+                    </tr>
+                </table>
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+</div><!--end row-->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">PO</div>
+            <div class="card-body">
+                <table class="table table-sm table-striped">
+                    <tr>
+                        <th>Numeru PO</th><th>Numeru CPV</th><th>Numeru Kontratu</th><th>Montante</th><th>Data</th>
+                    </tr>
+                    <tr>
+                        <td>{{ po.number }}</td>
+                        <td>{{ po.cpv.number }}</td>
+                        <td>{{ po.cont.number }}</td>
+                        <td>${{ po.amount|intcomma }}</td>
+                        <td>{{ po.date|date:"d/m/Y" }}</td>
+                    </tr>
+                </table>
+                <hr/>
+                <div class="alert alert-info">{{ po.status }}</div>
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+</div><!--end row-->
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">Karta Despaxu ba DNA</div>
+      <div class="card-body">         
+        <table class="table table-sm table-striped">
+          <tr>
+            <th>Numeru Despaxu</th><th>Asuntu</th><th>Data</th><th>#</th>
+          </tr>
+          <tr>
+            <td>{{ lett.number }}</td>
+            <td>{{ lett.subject }}</td>
+            <td>{{ lett.date|date:"d/m/Y" }}</td>
+            <td>
+              {% if lett.file %}
+              <a class="btn btn-sm btn-secondary" href="{% url 'po-let-pdf' lett.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div><!--end card-->      
+  </div><!--end col-->
+</div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

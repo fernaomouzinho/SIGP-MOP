@@ -1,0 +1,36 @@
+<ul class="breadcrumb">
+{% if page == "pcat" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cat-sum' %}">Sumariu Pagamentu</a></li>
+    {% if page2 == "pmonth" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cat-sum-year' year %}">{{ year }}</a></li>
+    {% elif page2 == "pdate" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cat-sum-year' year %}">{{ year }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cat-sum-month' year month %}">{{ monthname }}</a></li>
+    {% endif %}
+{% elif page == "pcat" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-mopcat-sum' %}">Sumariu Pagamentu</a></li>
+    {% if page2 == "pmonth" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-mopcat-sum-year' year %}">{{ year }}</a></li>
+    {% elif page2 == "pdate" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-mopcat-sum-year' year %}">{{ year }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-mopcat-sum-month' year month %}">{{ monthname }}</a></li>
+    {% endif %}
+{% elif page == "pcap" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cap-sum' %}">Sumariu Pagamentu</a></li>
+    {% if page2 == "pmonth" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cap-sum-year' year %}">{{ year }}</a></li>
+    {% elif page2 == "pdate" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cap-sum-year' year %}">{{ year }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-cap-sum-month' year month %}">{{ monthname }}</a></li>
+    {% endif %}
+{% elif page == "psec" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-sec-sum' %}">Sumariu Pagamentu</a></li>
+    {% if page2 == "pmonth" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-sec-sum-year' year %}">{{ year }}</a></li>
+    {% elif page2 == "pdate" %}
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-sec-sum-year' year %}">{{ year }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'r-pay-g-sec-sum-month' year month %}">{{ monthname }}</a></li>
+    {% endif %}
+{% endif %}
+    <li class="breadcrumb-item active">{{ legend }}</li>
+</ul>

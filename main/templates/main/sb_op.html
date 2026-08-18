@@ -1,0 +1,36 @@
+<div class="main-menu">
+  <h5 class="sidenav-heading">Operator</h5>
+  <ul id="side-main-menu" class="side-menu list-unstyled">                  
+    <li><a href="{% url 'home' %}"><i class="icon-home"></i> Painel</a></li>
+    <li><a href="{% url 'uvip-proj-list' %}"><i class="icon-list"></i>Lista  Projetu</a></li>
+    <li><a href="{% url 'dna-cont-list' %}"><i class="icon-list"></i>Lista  Kontratu</a></li>
+    <li><a href="{% url 'op-cpv-proj-list' %}"><i class="icon-list"></i> CPV</a></li>
+    <li><a href="{% url 'op-po-cont-list' %}"><i class="icon-list"></i> PO</a></li>
+    <li><a href="{% url 'op-prt-cont-list' %}"><i class="icon-list"></i> PRT</a></li>
+    <li><a href="{% url 'op-ev-cont-list' %}"><i class="icon-list"></i> EV</a></li>
+    <li><a href="{% url 'op-tpo-cont-list' %}"><i class="icon-list"></i> TPO</a></li>
+    <li><a href="{% url 'op-recom-cont-list' %}"><i class="icon-list"></i> Rekomendasaun Pagamentu</a></li>
+    <li><a href="{% url 'custom-pay-cont-list' %}"><i class="icon-list"></i> Pagamentu</a></li>
+    <li><a href="#reportDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i> Relatoriu</a>
+      <ul id="reportDropdown" class="collapse list-unstyled ">
+        <li><a href="{% url 'r-proj-dash' %}">Sumariu</a></li>
+        <li><a href="{% url 'r-pay-dash' %}">Pagamentu Jeral</a></li>
+        <li><a href="{% url 'r-pay-ann-dash' %}">Pagamentu Anual</a></li>
+        <li><a href="{% url 'r-div-list' %}">Diresaun</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<div class="admin-menu">
+  <h5 class="sidenav-heading">Custom</h5>
+  <ul id="side-main-menu" class="side-menu list-unstyled">                  
+    <li><a href="{% url 'comp-list' %}"> <i class="icon-home"></i>Kompa&ntilde;</a></li>
+  </ul>
+</div>
+<div class="admin-menu">
+  <h5 class="sidenav-heading">Perfil & Konta</h5>
+  <ul id="side-main-menu" class="side-menu list-unstyled">                  
+    <li><a href="{% url 'user-profile' %}"> <i class="icon-user"></i>Perfil</a></li>
+    {% comment %} <li><a href="{% url 'user-account' %}"> <i class="icon-user"></i>Konta</a></li> {% endcomment %}
+  </ul>
+</div>

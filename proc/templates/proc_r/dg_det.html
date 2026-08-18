@@ -1,0 +1,105 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'r-dg-proc-list' %}">Lista Projetu</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Tender</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kategoria</th></tr>
+            <tr><td>{{ proj.code }}</td><td>{{ proj.name }}</td><td>{{ proj.pcategory.code }}</td></tr>
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Tender</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Data Kria</th><th>Kria Husi</th><th>Status Pedidu</th><th>Status Prosesu</th></tr>
+            <tr>
+              <td>{{ proc.datetime|date:"d/m/Y" }}</td>
+              <td>{{ proc.user.employeeuser.employee.name }}</td>
+              <td>{% if proc.is_req_approve == True %}Aprova{% else %}Seidauk Aprova{% endif %}</td>
+              <td>{% if proc.is_res_end == True %}Termina{% else %}Seidauk{% endif %}</td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Rezultadu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <th>#</th><th>Naran Kompa&ntilde;ia</th><th>Data Submete</th><th>Melhor</th><th>Rezultadu</th>
+            {% for comp in comps %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ comp.company }}</td>
+              <td>{{ comp.submit_date|date:"d-m-Y" }}</td>
+              <td>{{ comp.best }}</td>
+              <td>{% if comp.is_win == True %}<i class="fa fa-star i_green"></i> Manan{% else %}<i class="fa fa-close i_red"></i>{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Relevantes</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>#</th><th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Husi</th><th>Diriji ba</th><th>Aneksu</th>
+            </tr>
+            {% for let in letters %}
+            <tr>
+              <td rowspan="3">{{ forloop.counter }}</td>
+              <td>{{ let.number }}</td>
+              <td>{{ let.subject }}</td>
+              <td>{{ let.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if let.div %}{{ let.div.code }}
+                {% elif let.dg %}{{ let.dg.code }}
+                {% elif let.min %}{{ let.min.code }}
+                {% endif %}
+              </td>
+              <td>{{ let.to }}</td>
+              <td>
+                {% if let.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'proc-let-pdf' let.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="6">Deskrisaun</th></tr>
+            <tr><td colspan="6">{{ let.desc|safe }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

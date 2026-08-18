@@ -1,0 +1,76 @@
+<div class="main-menu">
+    <h5 class="sidenav-heading">Main</h5>
+    <ul id="side-main-menu" class="side-menu list-unstyled">                  
+      <li><a href="{% url 'home' %}"><i class="icon-home"></i> Painel</a></li>
+      <li><a href="{% url 'uvip-proj-list' %}"><i class="icon-list"></i> Lista Projetu</a></li>
+      <li><a href="{% url 'uvip-eval-list' %}"><i class="icon-list"></i> Lista Avaliasaun ToR</a></li>
+      <li><a href="{% url 'dna-proc-list' %}"><i class="icon-list"></i> Lista Tender</a></li>
+      <li><a href="{% url 'ver-list' %}"><i class="icon-list"></i> Verifikasaun</a></li>
+      {% comment %} <li><a href="#tenderDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i> Tender</a>
+        <ul id="tenderDropdown" class="collapse list-unstyled ">
+          <li><a href="{% url 'dna-proc-list' %}">Lista</a></li>
+          {% comment %} <li><a href="{% url 'dna-proc-req-list' %}">Pedidu</a></li>
+          <li><a href="{% url 'dna-proc-res-list' %}">Resultadu</a></li> 
+        </ul>
+      </li> {% endcomment %}
+      <li><a href="{% url 'dna-cont-list' %}"><i class="icon-list"></i> Lista Kontratu</a></li>
+      <li><a href="#invDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i> Resibu</a>
+        <ul id="invDropdown" class="collapse list-unstyled ">
+          <li><a href="{% url 'uvip-inv-list' %}">Resibu</a></li>
+          <li><a href="{% url 'let-cont-list' %}">Karta</a></li>
+        </ul>
+      </li>
+      <li><a href="{% url 'insp-inv-list' %}"><i class="icon-list"></i> Inspeksaun</a></li>
+      <li><a href="#finDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i> Finansas</a>
+        <ul id="finDropdown" class="collapse list-unstyled ">
+          <li><a href="{% url 'gab-cpvreq-list' %}">Rekizasaun CPV</a></li>
+          <li><a href="{% url 'uvip-cpv-list' %}">CPV</a></li>
+          <li><a href="{% url 'gab-po-proj-list' %}">PO</a></li>
+          <li><a href="{% url 'prt-cont-list' %}">PRT & EV</a></li>
+          <li><a href="{% url 'tpo-cont-list' %}">TPO</a></li>
+        </ul>
+      </li>
+      <li><a href="#progDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i> Progresu</a>
+        <ul id="progDropdown" class="collapse list-unstyled ">
+          <li><a href="{% url 'dna-pay-inv-list' %}">Inv - Pagamentu</a></li>
+          <li><a href="{% url 'custom-pay-cont-list' %}">Pagamentu</a></li>
+          <li><a href="{% url 'fiscal-pay-cont-list' %}">Pagamentu Fiskal</a></li>
+          <li><a href="{% url 'pay-portal-list' %}">Pagamentu Portal</a></li>
+          <li><a href="{% url 'prog-list' %}">Fiziku</a></li>
+        </ul>
+      </li>
+      <li><a href="#reportDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i> Relatoriu</a>
+        <ul id="reportDropdown" class="collapse list-unstyled ">
+          <li><a href="{% url 'r-proj-dash' %}">Sumariu</a></li>
+          <li><a href="{% url 'r-pay-dash' %}">Pagamentu Jeral</a></li>
+          <li><a href="{% url 'r-pay-ann-dash' %}">Pagamentu Anual</a></li>
+          <li><a href="{% url 'r-div-list' %}">Diresaun</a></li>
+        </ul>
+      </li>
+      <li><a href="#trackDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-search"></i> Track</a>
+        <ul id="trackDropdown" class="collapse list-unstyled ">
+         <li><a href="{% url 'track-eval-list' %}">Avaliasaun ToR</a></li>
+         <li><a href="{% url 'track-ver-list' %}">Verifikasaun</a></li>
+         <li><a href="{% url 'track-cpvreq-list' %}">Rekizasaun CPV</a></li>
+          <li><a href="{% url 'track-proc-list' %}">Tender</a></li>
+          <li><a href="{% url 'track-inv-list' %}">Resibu</a></li>
+          <li><a href="{% url 'track-insp-list' %}">Inspeksaun</a></li>
+          <li><a href="{% url 'track-cpv-list' %}">CPV</a></li>
+          <li><a href="{% url 'track-po-list' %}">PO</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="admin-menu">
+    <h5 class="sidenav-heading">Custom</h5>
+    <ul id="side-main-menu" class="side-menu list-unstyled">                  
+      <li><a href="{% url 'comp-list' %}"> <i class="icon-home"></i>Kompa&ntilde;ia</a></li>
+    </ul>
+  </div>
+  <div class="admin-menu">
+    <h5 class="sidenav-heading">Perfil & Konta</h5>
+    <ul id="side-main-menu" class="side-menu list-unstyled">                  
+      <li><a href="{% url 'user-profile' %}"> <i class="icon-user"></i>Perfil</a></li>
+      {% comment %} <li><a href="{% url 'user-account' %}"> <i class="icon-user"></i>Konta</a></li> {% endcomment %}
+    </ul>
+  </div>

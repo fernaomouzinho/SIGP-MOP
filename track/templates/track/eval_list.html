@@ -1,0 +1,145 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+ 
+  
+     {% comment %} <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ legend1|upper }}
+					      <hr/>
+                    <section class="dashboard-counts">
+                    <div class="container-fluid p-0">
+                        <div class="row p-0">
+                            <div class="col-xl-3 col-md-3 col-3 p-0">
+                                <div class="wrapper count-title d-flex justify-content-center p-0">
+                                    <div class="name"><strong class="text-uppercase">Internal (MOP)</strong>
+                                        <p class="text-gray-500 small">Projetu</p>
+                                        <div class="count-number"><a href="{% url 'r-proj-type-sum' %}">{{ mop_count }}</a></div>
+                                    </div>
+                                </div>
+                            </div><!--end col-->
+
+                               <!-- Arrow MOP -> ADN -->
+                                <div class="col-xl-2 col-md-2 col-2 text-center">
+                                    <i class="fa fa-arrow-right i_green"></i>
+                                </div>
+
+
+                            <div class="col-xl-2 col-md-2 col-3 p-0">
+                                <div class="wrapper count-title d-flex justify-content-center p-0">
+                                    <div class="name"><strong class="text-uppercase">ADN</strong>
+                                        <p class="text-gray-500 small">Projetu</p>
+                                        <div class="count-number"><a href="{% url 'r-comp-proj-sum' %}">{{ adn_count }}</a></div>
+                                    </div>
+                                </div>
+                            </div><!--end col-->
+
+                             <!-- Arrow MOP -> ADN -->
+                                <div class="col-xl-2 col-md-2 col-1 text-center">
+                                    <i class="fa fa-arrow-right i_green"></i>
+                                </div>
+
+                            <div class="col-xl-3 col-md-3 col-3 p-0">
+                                <div class="wrapper count-title d-flex justify-content-center p-0">
+                                    <div class="name"><strong class="text-uppercase">SGP</strong>
+                                        <p class="text-gray-500 small">Projetu</p>
+                                        <div class="count-number"><a href="{% url 'r-proj-mun-sum' %}">{{ sgp_count }}</a></div>
+                                    </div>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end cont-->
+                </section><!-- end section -->
+                   
+                    <hr/>
+                   
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row--> {% endcomment %}
+
+    <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ legend|upper }}</div>
+        <div class="card-body">
+          <table id="example" class="table table-sm responsive" style="width:100%">
+            <thead>
+              <tr>
+                <th>Nu.</th>
+                <th>Numeru Referensia</th>
+                <th>Data</th>
+                <th>Etapa Atual</th>
+                <th>Progresu Atual </th>
+                <th>Kodigu Projetu</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for obj in objects %}
+              <tr>
+                  <td>{{ forloop.counter }}</td>
+                  {% if pcat == 'cd' or pcat == 'lm' or pcat == 'fi' %}
+                    {% if stage == 'h' or stage == 'i' or stage == 'l' or stage == 'm' %}  
+                    <!--Husi Rekapitulasaun-->  
+                      {% if obj.eval.is_cna == False %}
+                      <td><a href="{% url 'track-eval-det' obj.eval.hashed %}">{{ obj.eval.number }}</a></td>
+                       {% else %}
+                      <td><a href="{% url 'track-eval-det2' obj.eval.hashed %}">{{ obj.eval.number }}</a></td>
+                      {% endif %}
+
+                      <td>{{ obj.eval.date|date:"d/m/Y" }}</td>
+                      <td>{{ obj.stages }}</td>
+                      <td>
+                      <div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width: {{ obj.percent }}%;" aria-valuenow="{{ obj.percent }}" aria-valuemin="0" aria-valuemax="100">{{ obj.percent }}%</div>
+                      </div>
+                      </td>
+                      <td>{{ obj.eval.proj.code }}</td> 
+                     
+                     {% endif %}
+                    
+            
+                    {% else %}
+                      <!--Husi Tracking Evaluation list-->  
+                      {% if obj.0.is_cna == False %}
+                      <td><a href="{% url 'track-eval-det' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                      {% else %}
+                      <td><a href="{% url 'track-eval-det2' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                      {% endif %}
+                      <td>{{ obj.0.date|date:"d/m/Y" }}</td>
+                      <td>{{ obj.1.stages }} ({{ obj.1.percent }}%)</td>
+                      <td>{{ obj.0.proj.name }}</td>
+                      <td>{{ obj.0.proj.code }}</td>  
+                    {% endif %}
+                  
+
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div> <!--end card-body-->
+      </div> <!--end card-->
+    </div> <!--end col-->
+  </div> <!--end row-->
+
+
+    
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

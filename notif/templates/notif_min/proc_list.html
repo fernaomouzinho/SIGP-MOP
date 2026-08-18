@@ -1,0 +1,52 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ legend|upper }}</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru</th><th>Asuntu</th><th>Data</th><th>Husi</th><th>Diriji ba</th><th>Kodigu Projetu</th><th>Naran Projetu</th><th>#</th>
+            </tr>
+            {% for obj in objects %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ obj.number }}</td>
+              <td>{{ obj.subject }}</td>
+              <td>{{ obj.date|date:"d/m/Y" }}</td>
+              <td>{{ obj.div.code }}</td>
+              <td>{{ obj.to }}</td>
+              <td>{{ obj.project.code }}</td>
+              <td>{{ obj.project.name }}</td>
+              <td>
+                {% if obj.is_read == False %}
+                {% if obj.is_req == True %}
+                <a class="btn btn-sm btn-info" href="{% url 'min-proc-req-in' obj.proc.id obj.id %}">Simu <i class="fa fa-check"></i></a>
+                {% else %}
+                <a class="btn btn-sm btn-info" href="{% url 'min-proc-res-in' obj.proc.id obj.id %}">Simu <i class="fa fa-check"></i></a>
+                {% endif %}
+                {% else %}
+                <a class="btn btn-sm btn-default disabled" href="#">Simu Ona <i class="fa fa-check"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

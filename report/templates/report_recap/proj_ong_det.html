@@ -1,0 +1,129 @@
+
+{% extends "main/layout.html" %}
+{% block content %}
+{% load humanize %}
+<div class="breadcrumb-holder ">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if page == "pyear" %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-year-dash' year %}">{{ year }}</a></li>
+            {% else %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<section class="dashboard-counts pt-4" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<center>
+					<h3>{{ legend|upper }}</h3>
+				</center>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!--end section-->
+<div class="container-fluid pt-5">
+	<div class="row">
+	
+				<div class="col-sm-12">
+				    <a style="background-color: #0D680F;" class="btn btn-sm text-white mb-1" href="{% url 'r-recap-dash' %}">SUMARIO JERAL</a>
+					{% if pcat == 'LM' %}
+					<a style="background-color: #0D680F;" class="btn btn-sm text-white mb-1" href="{% url 'r-recap-pay-port-det' pcat='fi' %}">FI - FUNDU INFRAESTRUTURA</a>
+					{% else %}
+					<a style="background-color: #0D680F;" class="btn btn-sm text-white mb-1" href="{% url 'r-recap-pay-port-det' pcat='lm' %}">LM - LINHA MINISTEIRO</a>
+					{% endif %}
+					<table class="table table-sm table-bordered">
+						<tr align="center">
+							<th colspan='17'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">PAGAMENTU TUIR KATEGORIA {{pcat}} NO PROGRAMA - {{prog|upper}} </a></h2></th>
+						</tr>
+
+						<tr align="center">
+							<th style="background-color: #0D680F;" class="text-white" colspan="17"> </th></tr>
+						<tr align="center">
+							<th bgcolor="#9CCE8D" ></th>
+							<th bgcolor="#9CCE8D" colspan='7'>Projetu</th>
+							<th bgcolor="#9CCE6D" colspan='4'>Kontratu</th>
+							<th bgcolor="#9CCE6D" colspan='2'>Net Pagamentu</th>
+							<th bgcolor="#9CCE6D" colspan='2'>Balansu</th>
+							<th bgcolor="#9CCE6D" rowspan='2'>Estatus</th>
+						</tr>
+						<tr align="center">
+							<th>Nu.</th>
+							<th>Kodigu Projetu</th>
+							<th>Tinan</th>
+							<th>Programa</th> 
+							<th>Kat.</th>
+							<th>Kap.</th>
+							<th>Mun.</th>
+							<th>Alokasaun <br>Orsamentu</th>
+							<th>Nu. Kontratu</th>
+							<th>Kompania</th>
+							<th>Montante <br> Kontratu</th>
+							<th>Progresu <br>Fiziku</th>
+							<th>USD</th>
+							<th>%</th>
+							<th>USD</th>
+							<th>%</th>
+						</tr>
+						
+
+						{% for obj in objects %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							
+							<td><a href="#">{{ obj.con.project.code }} </a></td>
+							<td>{{ obj.con.project.year }}</td>
+							<td>{{ obj.con.project.program }}</td>
+							<td  align="center">{{ obj.con.project.pcategory.code }}</td>
+							<td  align="center">{{ obj.con.project.capital.code }}</td>
+							<td>{{ obj.con.project.projectloc.all.0.municipality }}</td>
+							<td style="text-align:right">{% if obj.alocate_bd %}$ {{ obj.alocate_bd|floatformat:2|intcomma  }}{% else %}0.0{% endif %}</td>
+							
+							<td>{{ obj.con.number }}</td>
+							<td>{{ obj.company.0 }}</td>
+
+							<td style="text-align:right">{% if obj.con.total %}$ {{ obj.con.total|floatformat:2|intcomma  }}{% else %}0.0{% endif %}</td>
+							<td style="text-align:right">{% if obj.payment.phys_prog %}{{ obj.payment.phys_prog }} %{% else %}0.0%{% endif %}</td>
+							<td style="text-align:right">{% if obj.payment.com_amount %}$ {{ obj.payment.com_amount|floatformat:2|intcomma  }}{% else %}0.0{% endif %}</td>
+							<td style="text-align:right">{% if obj.payment.com_percent %}{{ obj.payment.com_percent }} %{% else %}0.0%{% endif %}</td>
+							<td style="text-align:right">{% if obj.payment.bal_amount %}$ {{ obj.payment.bal_amount|floatformat:2|intcomma  }}{% else %}0.0{% endif %}</td>
+							<td style="text-align:right">{% if obj.payment.bal_percent %}{{ obj.payment.bal_percent }}%{% else %}0.0%{% endif %}</td>
+							<td align='center'>{{ obj.con.status }}</td>
+						</tr>
+						{% endfor %}
+						<tr align="center">
+							<th colspan="7" style="text-align:left">TOTAL</th>
+							<th style="text-align:right">{% if obj_tot.alocate_bd %}$ {{ obj_tot.alocate_bd|floatformat:2|intcomma  }} {% else %}0.0%{% endif %}</th>
+							<th colspan="2" style="text-align:right"></th>
+							<th style="text-align:right">{% if obj_tot.contract_amount %}$ {{ obj_tot.contract_amount|floatformat:2|intcomma  }} {% else %}0.0 %{% endif %}</th>
+							<td style="text-align:right">{% if obj_tot.progress_percent %}{{ obj_tot.progress_percent }} %{% else %}0.0%{% endif %}</td>
+							
+							
+							<th style="text-align:right">{% if obj_tot.payment_total %}$ {{ obj_tot.payment_total|floatformat:2|intcomma  }} {% else %}0.0 %{% endif %}</th>
+							<th style="text-align:right">{% if obj_tot.payment_percent %}{{ obj_tot.payment_percent }} %{% else %}0.0 %{% endif %}</th>
+							<th style="text-align:right">{% if obj_tot.balance %}$ {{ obj_tot.balance|floatformat:2|intcomma  }} {% else %}0.0 %{% endif %}</th>
+							<th style="text-align:right">{% if obj_tot.balance_percent %}{{ obj_tot.balance_percent }} %{% else %}0.0%{% endif %}				
+
+							
+						</tr>
+					</table>
+				</div><!--end col-->
+			</div><!--end row-->
+</div><!--end cont--> 
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}
+
+
+
+
+

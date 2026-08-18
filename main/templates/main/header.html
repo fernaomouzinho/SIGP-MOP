@@ -1,0 +1,854 @@
+<nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-holder d-flex align-items-center justify-content-between">
+
+      <div class="navbar-header">
+        <a id="toggle-btn"
+           href="{% url 'home' %}"
+           class="menu-btn">
+          <i class="icon-bars"></i>
+        </a>
+
+        <a href="#" class="navbar-brand">
+          <div class="brand-text d-none d-md-inline-block">
+            <span>SIGP</span>
+            <strong class="text-success text-sm">
+              {{ legend }}
+            </strong>
+          </div>
+        </a>
+      </div>
+
+      <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+
+        <!-- =====================================================
+             NOTIFICATION
+        ====================================================== -->
+
+        <li class="nav-item dropdown">
+
+          <a id="notifications"
+             rel="nofollow"
+             data-target="#"
+             href="#"
+             data-toggle="dropdown"
+             aria-haspopup="true"
+             aria-expanded="false"
+             class="nav-link">
+
+            <i class="fa fa-bell"></i>
+
+
+            <!-- DGAF -->
+            {% if "sigp_dgaf" in group or "sigp_dgaf_s" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifdgafbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- DIV -->
+            {% if "sigp_div" in group or "sigp_div_s" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifdivbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- DNA -->
+            {% if "sigp_dna" in group or "sigp_dna_s" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifdnabadge">
+              </span>
+            {% endif %}
+
+
+            <!-- DNOF -->
+            {% if "sigp_dnof" in group or "sigp_dnof_s" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifdnofbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- DNOF BACK OFFICE -->
+            {% if "sigp_dnof_bo" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifdnofbobadge">
+              </span>
+            {% endif %}
+
+
+            <!-- SECTION -->
+            {% if "sigp_sec" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifsecbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- ENGINEER -->
+            {% if "sigp_eng" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifengbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- UVIP -->
+            {% if "sigp_uvip" in group or "sigp_uvip_s" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifuvipbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- BD -->
+            {% if "sigp_bd" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifbdbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- GAB -->
+            {% if "sigp_gab" in group or "sigp_gab_s" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifgabbadge">
+              </span>
+            {% endif %}
+
+
+            <!-- SUPERVISOR -->
+            {% if "sigp_sup" in group %}
+              <span
+                class="badge badge-warning"
+                id="notifsupbadge">
+              </span>
+            {% endif %}
+
+          </a>
+
+
+          <!-- =====================================================
+               NOTIFICATION DROPDOWN
+          ====================================================== -->
+
+          <ul
+            aria-labelledby="notifications"
+            class="dropdown-menu">
+
+
+            <!-- =================================================
+                 DGAF
+            ================================================== -->
+
+            {% if "sigp_dgaf" in group or "sigp_dgaf_s" in group %}
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dgaf-cpvreq-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Rekizasaun CPV
+                      (<span id="notifdgafcpvreq"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dgaf-cpv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      CPV
+                      (<span id="notifdgafcpv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dgaf-proc-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Tender
+                      (<span id="notifdgafproc"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dgaf-po-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      PO
+                      (<span id="notifdgafpo"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dgaf-inv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Resibu
+                      (<span id="notifdgafinv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 DNOF
+            ================================================== -->
+
+            {% if "sigp_dnof" in group or "sigp_dnof_s" in group %}
+
+              <li class="mb-1">
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dnof-cpvreq-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Rekizasaun CPV
+                      (<span id="notifdnofcpvreq"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li class="mb-1">
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dnof-cpv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      CPV
+                      (<span id="notifdnofcpv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dnof-inv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Resibu
+                      (<span id="notifdnofinv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 DNOF BACK OFFICE
+            ================================================== -->
+
+            {% if "sigp_dnof_bo" in group %}
+
+              <li class="mb-1">
+
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dnof-bo-ev-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      PEP
+                      (<span id="notifdnofboev"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 GAB
+            ================================================== -->
+
+            {% if "sigp_gab" in group or "sigp_gab_s" in group %}
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-gab-eval-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Avaliasaun ToR
+                      (<span id="notifgabeval"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-gab-proc' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Tender
+                      (<span id="notifgabproc"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-gab-inv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Resibu
+                      (<span id="notifgabinv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-gab-cpv' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      CPV
+                      (<span id="notifgabcpv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 DNA
+            ================================================== -->
+
+            {% if "sigp_dna" in group or "sigp_dna_s" in group %}
+
+              <li class="mb-1">
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dna-eval-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Avaliasaun ToR
+                      (<span id="notifdnaeval"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li class="mb-1">
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dna-cpv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      CPV
+                      (<span id="notifdnacpv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dna-proc-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Tender
+                      (<span id="notifdnaproc"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li class="mb-1">
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dna-po-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      PO
+                      (<span id="notifdnapo"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-dna-inv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Resibu
+                      (<span id="notifdnainv"></span>)
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 DIV
+            ================================================== -->
+
+            {% if "sigp_div" in group or "sigp_div_s" in group %}
+
+              <li class="mb-1">
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-div-proj-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Projetu Foun
+                      (<span id="notifdivpp"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 UVIP
+            ================================================== -->
+
+            {% if "sigp_uvip" in group or "sigp_uvip_s" in group %}
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-uvip-eval-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Avalisaun ToR
+                      (<span id="notifuvipeval"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-uvip-ver-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Verifikasaun
+                      (<span id="notifuvipver"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-uvip-inv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Resibu
+                      (<span id="notifuvipinv"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-uvip-insp-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Inspeksaun
+                      (<span id="notifuvipinsp"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 BD
+            ================================================== -->
+
+            {% if "sigp_bd" in group %}
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-uvip-eval-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Avalisaun ToR
+                      (<span id="notifubdeval"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-uvip-inv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Resibu
+                      (<span id="notifbdinv"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-uvip-ver-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Verifikasaun
+                      (<span id="notifbdver"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 SUPERVISOR
+            ================================================== -->
+
+            {% if "sigp_sup" in group %}
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-sup-inv-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Resibu
+                      (<span id="notifsupinv"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 SECTION
+            ================================================== -->
+
+            {% if "sigp_sec" in group %}
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-sec-ver-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Verifikasaun
+                      (<span id="notifsecver"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-sec-insp-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Inspeksaun
+                      (<span id="notifsecinsp"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 ENGINEER
+            ================================================== -->
+
+            {% if "sigp_eng" in group %}
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-eng-ver-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Verifikasaun
+                      (<span id="notifengver"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+
+              <li>
+                <a
+                  rel="nofollow"
+                  href="{% url 'notif-eng-insp-list' %}"
+                  class="dropdown-item">
+
+                  <div class="notification d-flex justify-content-between">
+
+                    <div class="notification-content">
+                      <i class="fa fa-info"></i>
+                      Inspeksaun
+                      (<span id="notifenginsp"></span>)
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+
+            {% endif %}
+
+          </ul>
+        </li>
+
+
+        <!-- =====================================================
+             LOGOUT
+        ====================================================== -->
+
+        <li class="nav-item">
+
+          <a
+            href="{% url 'logout' %}"
+            class="nav-link logout">
+
+            <span class="d-none d-sm-inline-block">
+              Sai
+            </span>
+
+            <i class="fa fa-sign-out"></i>
+
+          </a>
+
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

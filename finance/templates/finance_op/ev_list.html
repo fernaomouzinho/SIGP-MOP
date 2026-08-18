@@ -1,0 +1,75 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'op-ev-cont-list' %}">Lista Kontratu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module_name }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                          <th>Numeru</th><th>Montante</th><th>Periodu</th><th>Projetu</th>
+                        </tr>
+                        <tr>
+                          <td>{{ cont.number }}</td>
+                          <td>${{ cont.total|intcomma }}</td>
+                          <td>{{ cont.start_date|date:"d/m/Y" }}-{{ cont.end_date|date:"d/m/Y" }}</td>
+                          <td>{{ cont.project.name }}</td>
+                        </tr>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>#</th>
+                            <th style="background-color: cornsilk;">Numeru PRT</th>
+                            <th style="background-color: cornsilk;">Data PRT</th>
+                            <th style="background-color: cornsilk;">Montante PRT</th>
+                            <th>Numeru EV</th>
+                            <th>Data EV</th>
+                            <th>#</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td style="background-color: cornsilk;">{{ obj.prt.number }}</td>
+                            <td style="background-color: cornsilk;">{{ obj.prt.date|date:"d/m/Y" }}</td>
+                            <td style="background-color: cornsilk;">${{ obj.prt.total|intcomma }}</td>
+                            <td>{{ obj.number }}</td>
+                            <td>{{ obj.date|date:"d/m/Y" }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-info" href="{% url 'op-ev-edit' cont.hashed obj.hashed %}"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'op-ev-rem' cont.hashed obj.id %}"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

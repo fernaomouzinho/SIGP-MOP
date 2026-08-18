@@ -1,0 +1,101 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'op-recom-cont-list' %}">Lista Kontratu</a></li>
+		    <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module_name }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Kodigu</th><th>Naran</th><th>Kapital</th><th>Kategoria</th><th>Donu Projetu</th><th>Tinan</th>
+                        </tr>
+                        <tr>
+                            <td>{{ cont.project.code }}</td>
+                            <td>{{ cont.project.name }}</td>
+                            <td>{{ cont.project.capital.code }}</td>
+                            <td>{{ cont.project.pcategory.code }}</td>
+                            <td>{{ cont.project.owner.code }}</td>
+                            <td>{{ cont.project.year }}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Numeru</th><th>Montante</th>
+                        </tr>
+                        <tr>
+                            <td>{{ cont.number }}</td>
+                            <td>${{ cont.total|intcomma }}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'op-recom-add' cont.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>#</th>
+                            <th>Termu</th>
+                            <th>Numeru</th>
+                            <th>Data</th>
+                            <th>Montante</th>
+                            <th><center>#</center></th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td>{{ obj.term }}</td>
+                            <td>{{ obj.number }}</td>
+                            <td>{{ obj.date|date:"d/m/Y" }}</td>
+                            <td>${{ obj.amount|intcomma }}</td>
+                            <td align="center">
+                                <a class="btn btn-sm btn-info" href="{% url 'op-recom-edit' cont.hashed obj.id %}"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'op-recom-rem' cont.hashed obj.id %}"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr><th colspan="5">Deskrisaun</th></tr>
+                        <tr><td colspan="5">{{ obj.desc|safe }}</td></tr>
+                        {% endfor %}
+                        <tr>
+                            <th colspan="4"><center><h3>TOTAL</h3></center></th>
+                            <th><h3>${{ tot|intcomma }}</h3></th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

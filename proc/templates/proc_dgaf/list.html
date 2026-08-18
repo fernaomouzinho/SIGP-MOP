@@ -1,0 +1,50 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow-lg border-info rounded">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th>
+                                <th>Numeru Referensia</th>
+                                <th>Data</th>
+                                <th>Kodigu Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td rowspan="3">{{ forloop.counter }}</td>
+                                <td><a href="{% url 'dgaf-proc-det' obj.hashed %}">{{ obj.number }}</a></td>
+                                <td>{{ obj.date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.proj.code }}</td>
+                            </tr>
+                            <tr><th colspan="3">Deskrisaun</th></tr>
+                            <tr><td colspan="3">{{ obj.desc|safe }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'track-po-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">  
+                <div class="card-header">PO</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru PO</th><th>Numeru CPV</th><th>Numeru Kontratu</th><th>Kodigu Projetu</th></tr>
+                        <tr>
+                            <td>{{ po.number }}</td>
+                            <td>{{ po.cpv.number }}</td>
+                            <td>{{ po.cont.number }}</td>
+                            <td>{{ po.cont.project.code }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">PO Tracking</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr align="center">
+                            <th>DNA</th><th>DGAF</th><th>DNA</th><td style="background-color:antiquewhite;">ETAPA</td>
+                        </tr>
+                        <tr align="center">
+                            <td>
+                                {% if track %}
+                                {% if track.is_dna_out == False %}<i class="fa fa-refresh i_grey"></i>
+                                {% else %}<i class="fa fa-arrow-right i_green"></i><br/>
+                                Sai: {{ track.date_dna_out|date:"d/m/Y" }} 
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if track.is_dna_out == True and track.is_dgaf_in == False %}<i class="fa fa-refresh i_grey"></i>
+                                {% elif track.is_dgaf_in == True and track.is_appr == False %}<i class="fa fa-refresh i_green"></i><br/>
+                                Tama: {{ track.date_dgaf_in|date:"d/m/Y" }}<br/>
+                                {% elif track.is_appr == True %}<i class="fa fa-arrow-right i_green"></i><br/>
+                                Tama: {{ track.date_dgaf_in|date:"d/m/Y" }}<br/>
+                                Aprova: {{ track.date_appr|date:"d/m/Y" }}<br/>
+                                Sai: {{ track.date_dgaf_out|date:"d/m/Y" }}<br/>
+                                {% if obj_days.0.0 %}(Lrn {{ obj_days.0.0 }}){% endif %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if track.is_dgaf_out == True and track.is_dna_in == False %}<i class="fa fa-refresh i_grey"></i>
+                                {% elif track.is_dna_in == True and track.is_end == False %}<i class="fa fa-refresh i_green"></i><br/>
+                                Tama: {{ track.date_dna_in|date:"d/m/Y" }}<br/>
+                                {% elif track.is_end == True %}<i class="fa fa-check i_green"></i><br/>
+                                Tama: {{ track.date_dna_in|date:"d/m/Y" }}<br/>
+                                Termina: {{ track.date_end|date:"d/m/Y" }}<br/>
+                                {% if obj_days.0.1 %}(Lrn {{ obj_days.0.1 }}){% endif %}
+                                {% endif %}
+                            </td>
+                            <th style="background-color:antiquewhite;">
+                                {{ track.stages }}
+                                {% if track.is_end == True %}<hr/>
+                                {% if obj_days.0.4 %}Durante Loron {{ obj_days.0.4 }}{% endif %}
+                                {% endif %}
+                            </th>
+                        </tr>
+                    </table>
+                    <hr/>
+                    <div class="progress">
+                        <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: {{ percent }}%;" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">{{ percent }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Justifikasaun</div>
+                <div class="card-body">
+                    {% if group == "dna" or group == "dgaf" %}
+                    {% if po.is_end == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'po-just-add' po.hashed %}">Justifika <i class="fa fa-pencil"></i></a>
+                    {% endif %}
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Divizaun</th><th>Justifikasaun</th><th>Uzuariu</th>
+                            {% if po.is_end == False %}<th>#</th>{% endif %}
+                        </tr>
+                        {% for just in justs %}
+                            <td>{% if just.is_dgaf == True %}DGAF{% else %}DNA{% endif %}</td>
+                            <td>{{ just.comment|safe }}</td>
+                            <td>{{ just.user }}<br/>{{ just.datetime|date:"d/m/Y" }}</td>
+                            {% if po.is_end == False %}
+                            <td>
+                            {% if group == "dna" and just.is_dna == True %}
+                                <a href="{% url 'po-just-edit' po.hashed just.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'po-just-rem' po.hashed just.id %}"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                            {% if group == "dgaf" and just.is_dgaf == True %}
+                                <a href="{% url 'po-just-edit' po.hashed just.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'po-just-rem' po.hashed just.id %}"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

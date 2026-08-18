@@ -1,0 +1,147 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'eng-insp-list' %}">Lista Despaxu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Kapital Projetu </th><td>{{ proj.capital.code }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Kontratu</th><td>{{ cont.number }}</td></tr>
+                        <tr><th>Periodu Kontratu</th><td>{{ cont.start_date|date:"d/m/Y" }} - {{ cont.end_date|date:"d/m/Y" }}</td></tr>
+                        <tr><th>Montante Kontratu</th><td>${{ cont.total|intcomma }}</td></tr>
+                        <tr>
+                            <th>Kompa&ntilde;ia</th>
+                            <td>{% for comp in comps %}{{ comp.company }},{% endfor %}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Resibu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Resibu</th><th>Data</th><th>Progresu Fiziku</th><th>Montante</th><th>Liu ADN</th>
+                        </tr>
+                        <tr>
+                            <td>{{ inv.number }}</td>
+                            <td>{{ inv.date }}</td>
+                            <td>{{ inv.phys_prog }}%</td>
+                            <td>${{ inv.total|intcomma }}</td>
+                            <td>{% if inv.is_adn == True %}Sim{% else %}Lae{% endif %}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Despaxu Tama</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Despaxu</th><th>Data</th><th>Asuntu</th><th>Husi</th><th>Diriji ba</th>
+                        </tr>
+                        <tr>
+                            <td>{{ inspsec.number }}</td>
+                            <td>{{ inspsec.date|date:"d/m/Y" }}</td>
+                            <td>{{ inspsec.subject }}</td>
+                            <td>{{ inspsec.sec.code }}</td>
+                            <td>
+                                {% for obj1 in object1 %}
+                                {% if obj1.inspseceng.id ==  inspsec.id %}
+                                   {{obj1.employee|linebreaks }}
+                                 {% endif %}
+                                 {% endfor %}
+                            </td>
+                        </tr>
+                        <tr><th colspan="4">Deskrisaun</th><th>Aneksu</th></tr>
+                        <tr><td colspan="4">{{ inspsec.desc|safe }}</td> 
+                            <td>
+                                {% if inspsec.file %}
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'insp-sec-pdf' inspsec.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    {% if inspsec.is_send == True and inspsec.is_send_read == False %}
+                    <hr/>
+                    <a class="btn btn-sm btn-info" href="{% url 'eng-insp-in' inspsec.hashed %}">Simu <i class="fa fa-check"></i></a>
+                    {% endif %}
+                    {% if inspsec.is_send_read == True %}
+                    {% if insp.is_end == False %}<div class="alert alert-info p-1">Simu ona</div>
+                    {% else %}<div class="alert alert-success p-2"><h4>Inspeksaun Termina <i class="fa fa-check"></i></h4></div>{% endif %}
+                    {% endif %}
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Komentariu</th>
+                            <th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ inspsec.eng_comments|safe }}</td>
+                            <td>
+                            {% if inspsec.file2 %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'insp-sec-pdf2' inspsec.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                            {% endif %}
+                            {% if inspsec.is_send_read == True %}
+                            {% if inspsec.is_eng_back == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'eng-insp-edit' inspsec.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                                {% if inspsec.eng_comments %}
+                                <a class="btn btn-sm btn-success" href="{% url 'eng-insp-send' inspsec.hashed %}" title="Manda">Manda ba Xefe Seksaun <i class="fa fa-send"></i></a>
+                                {% endif %}
+                            {% else %}
+                            {% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

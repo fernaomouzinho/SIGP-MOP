@@ -1,0 +1,46 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ legend|upper }}</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>#</th><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Donu Projetu</th><th>Kategoria</th><th>Tinan</th>
+            </tr>
+            {% for obj in objects %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td><a href="{% url 'r-dg-proc-det' obj.hashed %}">{{ obj.code }}</a></td>
+              <td>{{ obj.name }}</td>
+              <td>{{ obj.owner.code }}</td>
+              <td>{{ obj.pcategory.code }}</td>
+              <td>{{ obj.year }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+          <hr/>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'r-dg-proc-list' %}">Jeral</a></li>
+          {% for y in years %}
+            <li class="breadcrumb-item"><a href="{% url 'r-dg-proc-year' y.datetime__year %}">{{ y.datetime__year }}</a></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

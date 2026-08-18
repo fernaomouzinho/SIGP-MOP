@@ -1,0 +1,73 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'gab-cpvreq-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">CPV</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Kodigu</th><th>Naran</th><th>Estimasaun</th>
+            </tr>
+            <tr>
+              <td>{{ proj.code }}</td>
+              <td>{{ proj.name }}</td>
+              <td>${{ projest.owner|intcomma }}</td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Pedidu CPV</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Husi</th><th>Numeru Requizasaun</th><th>Assuntu</th><th>Data</th><th>Status</th><th>Anexu</th>
+            </tr>
+            <tr>
+              <td>DNOF</td>
+              <td>{{ obj.number }}</td>
+              <td>{{ obj.subject }}</td>
+              <td>{{ obj.date|date:"d/m/Y" }}</td>
+              <td>{% if obj.is_appr == True %}Aprovadu{% else %}Procesa Hela{% endif %}</td>
+              <td>
+                {% if obj.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-req-pdf' obj.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+          {% if obj.comment %}
+          <div class="alert alert-warning">
+          <h5>Komentariu Fila</h5>
+          {{ obj.comment|safe }}
+          </div>
+          {% endif %}
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'proj-list' %}">Lista Projetu</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module_name }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">{{ legend|upper }}</div>
+				<div class="card-body">
+          <a class="btn btn-info btn-sm mb-1" href="#">Mapa <i class="fa fa-map"></i></a>
+					<table id="example" class="table table-sm responsive" style="width:100%">
+						<thead>
+              <tr>
+                <th width="5%">Nu.</th>
+                <th width="8%">Kodigu Projetu</th>
+                <th width="40%">Naran Projetu</th>
+                <th width="10%">Munisipiu</th>
+                <th width="10%">Postu</th>
+                <th width="14%">Pontu Hahu</th>
+                <th width="14%">Pontu Remata</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for obj in objects %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ obj.project.code }}</td>
+                <td><a href="{% url 'proj-det' obj.project.hashed %}">{{ obj.project.name }}</a></td>
+                <td>{{ obj.municipality }}</td>
+                <td>{{ obj.administrativepost.name }}</td>
+                <td>{{ obj.start_lat }}, {{ obj.start_lng }}</td>
+                <td>{{ obj.end_lat }}, {{ obj.end_lng }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item">{% if group != 'uvip' %}<a href="{% url 'custom-pay-cont-list' %}">Lista Kontratu</a>{% else %}Lista Kontratu{% endif %}</li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Kustom Pagamentu</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Kontratu</th><td>{{ cont.number }}</td>
+                        <tr><th>Montante Kontratu</th>
+                            <td>
+                                {% if cont.total == amend.total %}
+                                ${{ cont.total|intcomma }}
+                                {% else %}
+                                <strike style="color:red;">${{ cont.total|intcomma }}</strike>
+                                ${{ amend.total|intcomma }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Periodu Kontratu</th>
+                            <td>{{ cont.start_date|date:"d/m/Y" }} - {{ cont.end_date|date:"d/m/Y" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kompa&ntilde;ia</th>
+                            <td>{{ contComp }}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ cont.project.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ cont.project.name }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ cont.project.year }}</td></tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Lista Pagamentu</div>
+                <div class="card-body">
+                    {% if last < 100.00 %}
+                    {% if group == 'uivp' %}
+					<a class="btn btn-primary btn-sm mb-1" href="{% url 'custom-pay-add' cont.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+					{% endif %}
+                    {% if amend_a %}
+					<a class="btn btn-info btn-sm mb-1" href="{% url 'custom-pay-refresh' cont.hashed %}">Atualiza Kalkulasaun <i class="fa fa-refresh"></i></a> 
+					<a class="btn btn-warning btn-sm mb-1" href="#" target="_blank">Historia <i class="fa fa-file-text-o"></i></a> 
+					{% endif %}
+					{% endif %}
+					{% if deduc %}
+					<a class="btn btn-info btn-sm mb-1" href="{% url 'custom-pay-deduc-refresh' cont.hashed %}">Atualiza Dedusaun <i class="fa fa-refresh"></i></a> 
+					{% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Deskrisaun</th>
+                            <th>Data</th>
+                            <th>Progresu Fiziku</th>
+                            <th>Montante Pagamentu (USD)</th>
+                            <th>Komulativu (USD)</th>
+                            <th>Komulativu (%)</th>
+                            <th>Balansu (USD)</th>
+                            <th>Balansu (%)</th>
+                            <th>Aneksu</th>
+                        </tr>
+                        {% for pay in pays %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ pay.desc }}</td>
+                            <td>{{ pay.date|date:"d/m/Y" }}</td>
+                            <td>{{ pay.phys_prog }}%</td>
+                            <td>${{ pay.total|intcomma }}</td>
+                            <td>${{ pay.com_amount|intcomma }}</td>
+                            <td>{{ pay.com_percent }}%</td>
+                            <td>${{ pay.bal_amount|intcomma }}</td>
+                            <td>{{ pay.bal_percent }}%</td>
+                            <td>
+                            {% if pay.is_ready == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'custom-pay-edit' cont.hashed pay.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'custom-pay-rem' cont.hashed pay.id %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-sm btn-warning" href="{% url 'custom-pay-ready' cont.hashed pay.id %}" title="Xavi"><i class="fa fa-lock"></i></a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dna-proc-res-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Rezultadu Tender</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Tender</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Numeru Referensia</th><td><a href="{% url 'dna-proc-det' proc.hashed %}">{{ proc.number }}</a></td></tr>
+            <tr><th>Data Kria</th><td>{{ proc.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Data Husi</th><td>{{ proc.user.employeeuser.employee.name }}</td></tr>
+            <tr><th colspan="2">Deskrisaun</th></tr>
+            <tr><td colspan="2">{{ proc.desc|safe }}</td></tr>
+          </table>
+          <hr/>
+          <table class="table table-sm table-striped">
+            <tr><th>Kompa&ntilde;ia</th><th>Melhor</th><th>Rezultadu</th></tr>
+            {% for comp in comps %}
+            <tr>
+              <td>{{ comp.company }}</td>
+              <td>{{ comp.best }}</td>
+               <td>{% if comp.is_win == True %}<i class="fa fa-star i_green"></i> Manan{% else %}<i class="fa fa-close i_red"></i>{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td>
+            <tr><th>Naran Projetu</th><td>{{ proj.name }}</td>
+            <tr><th>Donu Projetu</th><td>{{ proj.owner.code }}</td></tr>
+            <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+        {% if proc.is_res_start == False %}
+        <a class="btn btn-sm btn-info" href="{% url 'dna-proc-res-start' proc.pk %}">Hahu Procesu <i class="fa fa-star"></i></a>
+        {% endif %}
+        {% if track.is_start == True %}
+        <div class="alert alert-info p-1 mb-1">PROSESU HAHU ONA <i class="fa fa-star"></i></div>
+        {% endif %}
+        {% if track.is_dna_out == False %}
+        <a class="btn btn-sm btn-success" href="{% url 'dna-proc-res-next' proc.pk %}">Manda ba DGAF <i class="fa fa-send"></i></a>
+        {% else %}<div class="alert alert-secondary p-1 mb-1">DNA BA DGAF <i class="fa fa-check"></i></div>
+        {% endif %}
+        {% if track.is_dgaf_out_1 == True %}
+        <div class="alert alert-secondary p-1 mb-1">DGAF BA GABINETE MINISTRU <i class="fa fa-check"></i></div>
+        {% endif %}
+        {% if proc.is_res_appr == True %}
+        <div class="alert alert-success p-1 mb-1">REZULTADU TENDER APROVADU <i class="fa fa-check"></i></div>
+        {% endif %}
+        {% if track.is_gab_out == True %}
+        <div class="alert alert-secondary p-1 mb-1">GABINETE MINISTRU BA DGAF <i class="fa fa-check"></i></div>
+        {% endif %}
+        {% if track.is_dgaf_out_2 == True %}
+        <div class="alert alert-secondary p-1 mb-1">DGAF BA DNA <i class="fa fa-check"></i></div>
+        {% endif %}
+        {% if proc.is_res_end == False and track.is_dna_in == True %}
+        <a class="btn btn-primary" href="{% url 'dna-proc-res-end' proc.id %}" title="Termina">TERMINA PROSESU TENDER <i class="fa fa-check"></i></a>
+        {% endif %}
+        {% if proc.is_res_end == True %}
+        <div class="alert alert-info p-1">PROSESU TERMINA  <i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+        {% endif %}
+        <a class="btn btn-sm btn-info" href="{% url 'dna-proc-det' proc.hashed %}">Detallu Tender </a>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Relevante</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Referensia </th><th>Data</th><th>Husi</th><th>Diriji ba</th><th>#</th>
+            </tr>
+            {% for let in lets %}
+            <tr>
+              <td rowspan="5">{{ forloop.counter }}</td>
+              <td>{{ let.number }}</td>
+              <td>{{ let.date|date:"d/m/Y" }}</td>
+              <td>{% if let.is_dgaf == True %}DGAF{% else %}GABINETE MINISTRU{% endif %}</td>
+              <td>{{ let.to }}</td>
+              <td>
+                {% if let.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'proc-let-pdf' let.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="5">Asuntu</th></tr>
+            <tr><td colspan="5">{{ let.subject }}</td></tr>
+            <tr><th colspan="5">Deskrisaun</th></tr>
+            <tr><td colspan="5">{{ let.desc|safe }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

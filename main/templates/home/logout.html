@@ -1,0 +1,57 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>SIGP-LOGOUT</title>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'main/vendor/bootstrap/css/bootstrap.min.css' %}">
+		<link rel="icon" href="{% static 'main/images/logo.png' %}">
+		<link rel="stylesheet" href="{% static 'main/vendor/font-awesome/css/font-awesome.min.css' %}">
+		
+		<link rel="stylesheet" href="{% static 'main/css/custom.css' %}">
+	</head>
+	<body>
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-navbar fixed-top">
+            </nav>
+        </header>
+        <hr/>
+		<main role="main" class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card shadow-lg pt-3 rounded">
+								<div class="card-body">
+									<h6 class="font-weight-light my-4">Ita boot sai ona husi sistema</h6>
+									<small class="text-muted">
+										<a class="btn btn-one btn-sm" href="{% url 'login' %}">Tama fali <i class="fa fa-arrow-circle-right"></i></a>
+									</small>
+								</div> <!--end card-body-->
+							</div> <!--end card-->
+						</div> <!--end col-->
+					</div> <!--end row-->
+				</div>
+			</div>
+		</main>
+		<!-- Footer -->
+		<footer class="page-footer font-small bg-footer mt-3">
+			<!-- Copyright -->
+			<div class="footer-copyright text-center py-3">
+				Copyright &copy; 2024 MOP<br/>
+				All right reserved
+			</div>
+			<!-- Copyright -->
+		</footer>
+		<!-- Footer -->
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="{% static 'main/vendor/jquery/jquery.min.js' %}"></script>
+		<script src="{% static 'main/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	</body>
+</html>

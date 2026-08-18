@@ -1,0 +1,91 @@
+{% load humanize %}
+<!--category-->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="{% url 'r-pay-ann-cat-sum' %}">Kategoria</a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<div class="col-sm-6">
+				<table class="table table-sm">
+					<tr><th>Kategoria</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+				{% for tot_cat in tot_cats %}
+				<tr>
+					<td><a href="{% url 'r-pay-ann-cat-all' tot_cat.0.id page %}">{{ tot_cat.0.code }}</a></td>
+					<td>${{ tot_cat.1|intcomma }}</td>
+					<td>${{ tot_cat.2|intcomma }}</td>
+					<td>${{ tot_cat.3|intcomma }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			</div><!--end col-->
+			<div class="col-sm-6">
+				<div id="container" style="width: 100%; height: 200px;">
+                    <canvas id="paycat_data"></canvas>
+                </div>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<!--sector-->
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="{% url 'r-pay-ann-sec-sum' %}">Sector</a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<div class="col-sm-6">
+				<table class="table table-sm">
+					<tr><th>Setor</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+				{% for tot_sec in tot_secs %}
+				<tr>
+					<td><a href="{% url 'r-pay-ann-sec-all' tot_sec.0.id page %}">{{ tot_sec.0.name }}</a></td>
+					<td>${{ tot_sec.1|intcomma }}</td>
+					<td>${{ tot_sec.2|intcomma }}</td>
+					<td>${{ tot_sec.3|intcomma }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			</div><!--end col-->
+			<div class="col-sm-6">
+				<div id="container" style="width: 100%; height: 200px;">
+                    <canvas id="paysec_data"></canvas>
+                </div>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<!--capital-->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="{% url 'r-pay-ann-cap-sum' %}">Capital</a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<div class="col-sm-6">
+				<table class="table table-sm">
+					<tr><th>Capital</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+				{% for tot_cap in tot_caps %}
+				<tr>
+					<td><a href="{% url 'r-pay-ann-cap-all' tot_cap.0.id page %}">{{ tot_cap.0.code }}</a></td>
+					<td>${{ tot_cap.1|intcomma }}</td>
+					<td>${{ tot_cap.2|intcomma }}</td>
+					<td>${{ tot_cap.3|intcomma }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			</div><!--end col-->
+			<div class="col-sm-6">
+				<div id="container" style="width: 100%; height: 200px;">
+                    <canvas id="paycap_data"></canvas>
+                </div>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->

@@ -1,0 +1,63 @@
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4">Kategoria</h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+            {% for p_cat in p_cats %}
+			<div class="col-xl-3 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name"><strong class="text-uppercase">{{ p_cat.0.code }}</strong>
+						<p class="text-gray-500 small">{{ p_cat.0.name }}</p>
+						<div class="count-number"><a href="{% url 'r-div-pcat-list' div.id p_cat.0.id %}">{{ p_cat.1 }}</a></div>
+					</div>
+				</div>
+			</div><!--end col-->
+            {% endfor %}
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4">Capital</h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+            {% for p_cap in p_caps %}
+			<div class="col-xl-4 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name"><strong class="text-uppercase">{{ p_cap.0.code }}</strong>
+						<p class="text-gray-500 small">{{ p_cap.0.name }}</p>
+						<div class="count-number"><a href="{% url 'r-div-pcap-list' div.id p_cap.0.id %}">{{ p_cap.1 }}</a></div>
+					</div>
+				</div>
+			</div><!--end col-->
+            {% endfor %}
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4">Sector</h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+            {% for p_sec in p_secs %}
+			<div class="col-xl-2 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name"><strong class="text-uppercase">{{ p_sec.0.code }}</strong>
+						<p class="text-gray-500 small">{{ p_sec.0.name }}</p>
+						<div class="count-number"><a href="{% url 'r-div-psec-list' div.id p_sec.0.id %}">{{ p_sec.1 }}</a></div>
+					</div>
+				</div>
+			</div><!--end col-->
+            {% endfor %}
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->

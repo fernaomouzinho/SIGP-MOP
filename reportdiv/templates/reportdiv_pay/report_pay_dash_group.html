@@ -1,0 +1,76 @@
+{% load humanize %}
+<!--category-->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="{% url 'r-div-pay-cat-sum' div.id %}">Kategoria</a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-sm">
+					<tr><th>Kategoria</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+				{% for tot_cat in tot_cats %}
+				<tr>
+					<td><a href="{% url 'r-div-pay-cat-all' div.id tot_cat.0.id page %}">{{ tot_cat.0.code }}</a></td>
+					<td>${{ tot_cat.1|intcomma }}</td>
+					<td>${{ tot_cat.2|intcomma }}</td>
+					<td>${{ tot_cat.3|intcomma }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<!--sector-->
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="{% url 'r-div-pay-sec-sum' div.id %}">Sector</a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-sm">
+					<tr><th>Setor</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+				{% for tot_sec in tot_secs %}
+				<tr>
+					<td><a href="{% url 'r-div-pay-sec-all' div.id tot_sec.0.id page %}">{{ tot_sec.0.name }}</a></td>
+					<td>${{ tot_sec.1|intcomma }}</td>
+					<td>${{ tot_sec.2|intcomma }}</td>
+					<td>${{ tot_sec.3|intcomma }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<!--capital-->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="{% url 'r-div-pay-cap-sum' div.id %}">Capital</a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-sm">
+					<tr><th>Capital</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+				{% for tot_cap in tot_caps %}
+				<tr>
+					<td><a href="{% url 'r-div-pay-cap-all' div.id tot_cap.0.id page %}">{{ tot_cap.0.code }}</a></td>
+					<td>${{ tot_cap.1|intcomma }}</td>
+					<td>${{ tot_cap.2|intcomma }}</td>
+					<td>${{ tot_cap.3|intcomma }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->

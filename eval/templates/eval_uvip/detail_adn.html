@@ -1,0 +1,27 @@
+{% load crispy_forms_tags %}
+{% if eval.is_cna == True %}
+    {% if trackfi.is_uvip_out_2 == True and trackfi.is_uvip_in_3 == False %}
+        <a class="btn btn-sm btn-info" href="{% url 'uvip-evalfi-in3' eval.id %}">Fila ona husi ADN (FI) <i class="fa fa-check"></i></a>
+    {% elif trackfi.is_uvip_in_3 == True %}
+        <span class="badge badge-secondary p-2">Fila ona husi ADN iha data {{trackfi.date_uvip_in_3|date:"d/m/Y"}}</span>
+    {% endif %} <!--end track-->
+
+    {% if trackfi.is_uvip_out_3 == True and trackfi.is_uvip_in_4 == False %}
+        <a class="btn btn-sm btn-info" href="{% url 'uvip-evalfi-in4' eval.id %}">Fila ona husi SGP (FI) <i class="fa fa-check"></i></a>
+    {% elif trackfi.is_uvip_in_4 == True %}
+        <span class="badge badge-secondary p-2">Fila ona husi SGP iha data {{trackfi.date_uvip_in_4|date:"d/m/Y"}}</span>
+    {% endif %} <!--end track-->
+{% else %}
+    {% if track.is_uvip_out_1 == True and track.is_adn_in == False %}
+        <a class="btn btn-sm btn-info" href="{% url 'uvip-eval-adnin' eval.id %}">Fila ona husi ADN (LM) <i class="fa fa-check"></i></a>
+         <hr/>
+		
+    {% elif track.is_adn_in == True and track.is_uvip_out_2 == False %}
+    
+    <div class="alert alert-info p-1">Fila ona husi ADN iha data ({{track.date_adn_in|date:"d/m/Y"}})</div>
+    <a class="btn btn-sm btn-info" href="{% url 'uvip-adn-eval-back-res' let.hashed %}"> Rezultadu husi ADN</a> | <a class="btn btn-sm btn-info" href="{% url 'uvip-adn-eval-back-dev' let.hashed %}">Devolve husi ADN </a>  
+    {% comment %} <a class="btn btn-sm btn-info" href="{% url 'uvip-adn-eval-back-dev' let.hashed %}">Devolve </a> | <a class="btn btn-sm btn-info" href="{% url 'uvip-proj-est-edit'  proj.hashed projest.id %}"> Rezultadu</a>
+     {% endcomment %}
+   
+    {% endif %} <!--end track-->
+{% endif %} <!--end fi-->   

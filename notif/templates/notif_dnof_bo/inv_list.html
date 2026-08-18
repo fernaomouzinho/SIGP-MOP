@@ -1,0 +1,59 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th>
+                                <th>Numeru Resibu</th>
+                                <th>Data</th>
+                                <th>Numeru Kontratu</th>
+                                <th>Kodigu Projetu</th>
+                                <th>Naran Projetu</th>
+                                <th>Kompa&ntilde;ia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'prt-list' obj.hashed %}">{{ obj.inv.number }}</a></td>
+                                <td>{{ obj.date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.inv.cont.number }}</td>
+                                <td>{{ obj.inv.cont.project.code }}</td>
+                                <td>{{ obj.inv.cont.project.name }}</td>
+                                 {% for obj1 in compcont %}
+                                 {% if obj1.contract == obj.inv.cont %}
+                                  <td>{{ obj1.company }}</td>
+                                 {% endif %}
+                                 {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+</div><!--end cont-->
+
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

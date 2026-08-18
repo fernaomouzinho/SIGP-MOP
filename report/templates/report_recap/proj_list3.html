@@ -1,0 +1,179 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if page == "pyear" %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-year-dash' year %}">{{ year }}</a></li>
+            {% else %}
+            <li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">Painel Relatoriu</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ legend|upper }}
+					<hr/>
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Kodigu Projetu</th>
+                                <th>Naran Projetu</th>
+                                <th>Kapital</th>
+                                <th>Kategoria</th>
+                                <th>Setor</th>
+                                <th>Status</th>
+                                <th>Livru</th>
+                                <th>Tinan Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           {% for obj in objects %}
+                            <tr>
+                                {% if pcat == 'lm' %}
+                                    {% if stage == 'a' or stage == 'b' or stage == 'c' or stage == 'r'%}
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ obj.project.code }}</td>
+                                        {% if obj.project.hashed %}
+                                            <td><a href="{% url 'proj-det' obj.project.hashed %}">{{ obj.project.name }}</a></td>
+                                        {% else %}
+                                            <td>{{ obj.project.name }}</td>
+                                        {% endif %}
+                                        <td>{{ obj.project.capital.code }}</td>
+                                        <td>{{ obj.project.pcategory.code }}</td>
+                                        <td>{{ obj.project.sector }}</td>
+                                        <td>{{ obj.project.status }}</td>
+                                        <td>{{ obj.project.book }}</td>
+                                        <td>{{ obj.project.year }}</td>
+                                    {% endif %}  
+
+                                   {% if stage == 'f' or stage == 'i'  %}
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ obj.eval.proj.code }}</td>
+                                        {% if obj.eval.proj.hashed %}
+                                            <td><a href="{% url 'proj-det' obj.eval.proj.hashed %}">{{ obj.eval.proj.name }}</a></td>
+                                        {% else %}
+                                            <td>{{ obj.eval.proj.name }}</td>
+                                        {% endif %}
+                                        <td>{{ obj.eval.proj.capital.code }}</td>
+                                        <td>{{ obj.eval.proj.pcategory.code }}</td>
+                                        <td>{{ obj.eval.proj.sector }}</td>
+                                        <td>{{ obj.eval.proj.status }}</td>
+                                        <td>{{ obj.eval.proj.book }}</td>
+                                        <td>{{ obj.eval.proj.year }}</td>
+                                    {% endif %}  
+
+                                    {% if stage == "g" or stage == "h"  %}
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ obj.evallet.eval.proj.code }}</td>
+                                        {% if obj.evallet.eval.proj.hashed %}
+                                            <td><a href="{% url 'proj-det' obj.evallet.eval.proj.hashed %}">{{ obj.evallet.eval.proj.name }}</a></td>
+                                        {% else %}
+                                            <td>{{ obj.evallet.eval.proj.name }}</td>
+                                        {% endif %}
+                                        <td>{{ obj.evallet.eval.proj.capital.code }}</td>
+                                        <td>{{ obj.evallet.eval.proj.pcategory.code }}</td>
+                                        <td>{{ obj.evallet.eval.proj.sector }}</td>
+                                        <td>{{ obj.evallet.eval.proj.status }}</td>
+                                        <td>{{ obj.evallet.eval.proj.book }}</td>
+                                        <td>{{ obj.evallet.eval.proj.year }}</td>
+                                    {% endif %} 
+
+                                    {% if stage == 'o' or stage == 'p' or stage == 'q'  %}
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ obj.proj.code }}</td>
+                                        {% if obj.proj.hashed %}
+                                            <td><a href="{% url 'proj-det' obj.proj.hashed %}">{{ obj.proj.name }}</a></td>
+                                        {% else %}
+                                            <td>{{ obj.proj.name }}</td>
+                                        {% endif %} 
+                                        <td>{{ obj.proj.capital.code }}</td>
+                                        <td>{{ obj.proj.pcategory.code }}</td>
+                                        <td>{{ obj.proj.sector }}</td>
+                                        <td>{{ obj.proj.status }}</td>
+                                        <td>{{ obj.proj.book }}</td>
+                                        <td>{{ obj.proj.year }}</td>     
+                                    {% endif %} 
+                                {% endif %}
+
+
+                                {% if pcat == 'fi' %}
+                                    {% if stage == 'a' or stage == 'b' or stage == 'c' %}
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ obj.project.code }}</td>
+                                        {% if obj.project.hashed %}
+                                            <td><a href="{% url 'proj-det' obj.project.hashed %}">{{ obj.project.name }}</a></td>
+                                        {% else %}
+                                            <td>{{ obj.project.name }}</td>
+                                        {% endif %}
+                                        <td>{{ obj.project.capital.code}}</td>
+                                        <td>{{ obj.project.pcategory.code }}</td>
+                                        <td>{{ obj.project.sector }}</td>
+                                        <td>{{ obj.project.status }}</td>
+                                        <td>{{ obj.project.book }}</td>
+                                        <td>{{ obj.project.year }}</td>
+                                    {% endif %}  
+
+                                   {% if stage == 'f' or stage == 'i' or stage == 'j' or stage == 'k' or stage == 'l'%}
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ obj.eval.proj.code }}</td>
+                                        {% if obj.eval.proj.hashed %}
+                                            <td><a href="{% url 'proj-det' obj.eval.proj.hashed %}">{{ obj.eval.proj.name }}</a></td>
+                                        {% else %}
+                                            <td>{{ obj.eval.proj.name }}</td>
+                                        {% endif %}
+                                        <td>{{ obj.eval.proj.capital.code }}</td>
+                                        <td>{{ obj.eval.proj.pcategory.code }}</td>
+                                        <td>{{ obj.eval.proj.sector }}</td>
+                                        <td>{{ obj.eval.proj.status }}</td>
+                                        <td>{{ obj.eval.proj.book }}</td>
+                                        <td>{{ obj.eval.proj.year }}</td>
+                                    {% endif %}  
+
+                                    {% if stage == "g" or stage == "h" or stage == 'm' or stage == 'n' %}
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ obj.evallet.eval.proj.code }}</td>
+                                        {% if obj.evallet.eval.proj.hashed %}
+                                            <td><a href="{% url 'proj-det' obj.evallet.eval.proj.hashed %}">{{ obj.evallet.eval.proj.name }}</a></td>
+                                        {% else %}
+                                            <td>{{ obj.evallet.eval.proj.name }}</td>
+                                        {% endif %}
+                                        <td>{{ obj.evallet.eval.proj.capital.code }}</td>
+                                        <td>{{ obj.evallet.eval.proj.pcategory.code }}</td>
+                                        <td>{{ obj.evallet.eval.proj.sector }}</td>
+                                        <td>{{ obj.evallet.eval.proj.status }}</td>
+                                        <td>{{ obj.evallet.eval.proj.book }}</td>
+                                        <td>{{ obj.evallet.eval.proj.year }}</td>
+                                    {% endif %} 
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'r-proj-list' %}">All</a></li>
+                        {% for year in years %}
+                        <li class="breadcrumb-item"><a href="{% url 'r-proj-year-list' year.year__year %}">{{ year.year__year }}</a></li>
+                        {% endfor %}
+                    </ol>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

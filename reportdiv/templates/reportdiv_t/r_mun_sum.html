@@ -1,0 +1,50 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'r-div-proj-dash' div.id %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <center>
+                        <h3>{{ legend|upper }}</h3>
+                        <h2>{{ subtitle|upper }}</h2>
+                    </center>
+					<hr/>
+                    <table class="table table-sm">
+                            <tr>
+                                <th>#</th>
+                                {% for mun in muns %}
+                                <th><a href="{% url 'r-div-proj-mun-list' div.id mun.id %}">{{ mun.code }}</a></th>
+                                {% endfor %}
+                            </tr>
+                        {% for obj in objects %}
+                            <tr>
+                                <td>{{ obj.0 }}</td>
+                                {% for obj1 in obj.1 %}
+                                <td><a href="{% url 'r-div-proj-mun-year' div.id obj1.0.id obj.0.year %}">{{ obj1.1 }}</a></td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('proj/status/', views.APIProjStatus.as_view()),
+    path('proj/status/<str:year>/', views.APIProjStatusYear.as_view()),
+    path('plan/status/', views.APIPlanStatus.as_view()),
+    path('plan/status/<str:year>/', views.APIPlanStatusYear.as_view()),
+    path('imp/status/', views.APIImpStatus.as_view()),
+    path('imp/status/<str:year>/', views.APIImpStatusYear.as_view()),
+    path('proj/mopcat/', views.APIPMopCat.as_view()),
+    path('proj/mopcat/<str:year>/', views.APIPMopCatYear.as_view()),
+    path('proj/cat/', views.APIPCat.as_view()),
+    path('proj/cat/<str:year>/', views.APIPCatYear.as_view()),
+    path('proj/sec/', views.APIPSec.as_view()),
+    path('proj/sec/<str:year>/', views.APIPSecYear.as_view()),
+    path('proj/cap/', views.APIPCap.as_view()),
+    path('proj/cap/<str:year>/', views.APIPCapYear.as_view()),
+    path('proj/mun/', views.APIPMun.as_view()),
+    path('proj/mun/<str:year>/', views.APIPMunYear.as_view()),
+    path('proj/year/', views.APIPYear.as_view()),
+    #
+    path('pay/monthly/', views.APIPayMonthly.as_view()),
+    path('pay/monthly/<str:year>/', views.APIPayMonthlyY.as_view()),
+    ### DIV
+    path('div/proj/status/<str:pk>/', views.divAPIProjStatus.as_view()),
+    path('div/proj/status/<str:pk>/<str:year>/', views.divAPIProjStatusYear.as_view()),
+    path('div/plan/status/<str:pk>/', views.divAPIPlanStatus.as_view()),
+    path('div/plan/status/<str:pk>/<str:year>/', views.divAPIPlanStatusYear.as_view()),
+    path('div/imp/status/<str:pk>/', views.divAPIImpStatus.as_view()),
+    path('div/imp/status/<str:pk>/<str:year>/', views.divAPIImpStatusYear.as_view()),
+    path('div/proj/mopcat/<str:pk>/', views.divAPIPMopCat.as_view()),
+    path('div/proj/mopcat/<str:pk>/<str:year>/', views.divAPIPMopCatYear.as_view()),
+    path('div/proj/cat/<str:pk>/', views.divAPIPCat.as_view()),
+    path('div/proj/cat/<str:pk>/<str:year>/', views.divAPIPCatYear.as_view()),
+    path('div/proj/sec/<str:pk>/', views.divAPIPSec.as_view()),
+    path('div/proj/sec/<str:pk>/<str:year>/', views.divAPIPSecYear.as_view()),
+    path('div/proj/cap/<str:pk>/', views.divAPIPCap.as_view()),
+    path('div/proj/cap/<str:pk>/<str:year>/', views.divAPIPCapYear.as_view()),
+    path('div/proj/mun/<str:pk>/', views.divAPIPMun.as_view()),
+    path('div/proj/mun/<str:pk>/<str:year>/', views.divAPIPMunYear.as_view()),
+    path('div/proj/year/<str:pk>/', views.divAPIPYear.as_view()),
+    #
+    path('div/pay/monthly/<str:pk>/', views.divAPIPayMonthly.as_view()),
+    path('div/pay/monthly/<str:pk>/<str:year>/', views.divAPIPayMonthlyY.as_view()),
+]

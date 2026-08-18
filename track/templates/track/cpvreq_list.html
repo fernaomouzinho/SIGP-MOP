@@ -1,0 +1,49 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                      <thead>
+                        <tr>
+                            <th>Nu.</th><th>Numeru Rekizasaun</th><th>Asuntu</th>
+                            <th>Etapa</th><th>Progresu</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       
+                        <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td><a href="{% url 'track-cpvreq-det' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                          <td>{{ obj.0.subject }}</td>
+                          <td>{{ obj.1.stages }}</td>
+                          <td>{{ obj.1.percent }}%</td>
+                          <td>{{ obj.0.proj.code }}</td>    
+                          <td>{{ obj.0.proj.name }}</td>   
+                        </tr>
+                       
+                      </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

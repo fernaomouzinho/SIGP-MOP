@@ -1,0 +1,293 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'all-inv-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Kontratu</th><td>{{ inv.cont.number }}</td></tr>
+                        <tr><th>Periodu Kontratu</th><td>{{ inv.cont.start_date|date:"d/m/Y" }}-{{ inv.cont.end_date|date:"d/m/Y" }}</td></tr>
+                        <tr><th>Montante Kontratu</th><td>${{ inv.cont.total|intcomma }}</td></tr>
+                         <tr><th>Kompa&ntilde;ia</th><td>{{ contcomp }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ inv.cont.project.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ inv.cont.project.name }}</td></tr>
+                        <tr><th>Donu Projetu</th><td>{{ inv.cont.project.owner }} ({{ inv.cont.project.owner.code }})</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ inv.cont.project.year }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-header">Detallu Resibu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Resibu</th><th>Data</th><th>Progresu Fiziku</th><th>Montante Resibu</th><th>Liu ADN</th><th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ inv.number }}</td>
+                            <td>{{ inv.date }}</td>
+                            <td>{{ inv.phys_prog }}%</td>
+                            <td>${{ inv.total|intcomma }}</td>
+                            <td>{% if inv.is_adn == True %}Los{% else %}Lae{% endif %}</td>
+                            <td>
+                                {% if inv.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'inv-pdf' inv.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    <hr/>
+                    {% if track.is_gab_in == True %}
+                    {% if inv.is_appr == False %}
+                    <a class="btn btn-primary" href="{% url 'gab-inv-appr' inv.id %}">APROVA <i class="fa fa-check"></i></a>
+                    {% else %}
+                    <div class="alert alert-success p-2"><h5>RESIBU APROVADU</h5></div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">Prosesu Verifikasaun</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Despaxu</th><th>Status</th></tr>
+                        {% for ver in vers %}
+                        <tr>
+                            <td><a href="{% url 'all-ver-det' ver.hashed %}" target="_blank">{{ ver.number }}</a></td>
+                            <td>{% if ver.is_end == False %}
+                                Lao hela <i class="fa fa-refresh"></i>
+                                {% else %}Termina <i class="fa fa-check"></i>{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Sertifikadu Pagamentu husi UIVP</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Referensia</th><th>Data</th><th>Progresu Fiziku</th><th>Montante Pagamentu</th>
+                        </tr>
+                        {% for certpay in certpays %}
+                        <tr>
+                            <td>{{ certpay.number }}</td>
+                            <td>{{ certpay.date|date:"d/m/Y" }}</td>
+                            <td>{{ certpay.phys_prog }}%</td>
+                            <td>${{ certpay.total|intcomma }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Rekomendasaun husi ADN, I.P.</div>
+                <div class="card-body">
+                {% if inv.is_adn == True %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Rekomendasaun</th><th>Data</th><th>Progresu Fiziku</th><th>Montante Rekomendasaun</th>
+                        </tr>
+                        {% for recom in recoms %}
+                        <tr>
+                            <td><a href="{% url 'uvip-recom-det' recom.hashed %}">{{ recom.number }}</a></td>
+                            <td>{{ recom.date|date:"d/m/Y" }}</td>
+                            <td>{{ recom.phys_prog }}%</td>
+                            <td>${{ recom.amount|intcomma }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <h5>Laiha rekomendasaun pagamentu tamba la liu husi ADN</h5>
+                {% endif %}
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu CPV</div>
+                <div class="card-body">
+                    {% if cpv %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru CPV</th><th>Data</th><th>Montante CPV</th><th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ cpv.number }}</td>
+                            <td>{{ cpv.date|date:"d/m/Y" }}</td>
+                            <td>${{ cpv.amount|intcomma }}</td>
+                            <td>
+                                {% if cpv.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-pdf' cpv.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    {% else %}
+                    <div class="alert alert-danger p-2">CVP seidauk eziste</div>
+                    {% endif %}
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu PO</div>
+                <div class="card-body">
+                    {% if po %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru PO</th><th>Data</th><th>Montante PO</th><th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ po.number }}</td>
+                            <td>{{ po.date|date:"d/m/Y" }}</td>
+                            <td>${{ po.amount|intcomma }}</td>
+                            <td>
+                                {% if po.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'po-pdf' po.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    {% else %}
+                    <div class="alert alert-danger p-2">PO seidauk eziste</div>
+                    {% endif %}
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    {% if prt %}
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu PRT</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru PRT</th><th>Data</th><th>Montante PRT</th><th>Pursentu</th><th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ prt.number }}</td>
+                            <td>{{ prt.date|date:"d/m/Y" }}</td>
+                            <td>{% if prt.total %}${{ prt.total|intcomma }}{% endif %}</td>
+                            <td>{% if prt.percent %}{{ prt.percent }}%{% endif %}</td>
+                            <td>
+                                {% if prt.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'prt-pdf' prt.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu EV</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Resibu</th><th>Data</th><th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ ev.number }}</td><td>{{ ev.date|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if ev.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'ev-pdf' ev.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Karta Despaxu</div>
+                <div class="card-body">
+                    {% if inv.is_appr == True %}
+                    {% if track.is_gab_out == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'inv-let-add' inv.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+                    {% endif %}
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Husi</th><th>Diriji ba</th><th>Aneksu</th>
+                        </tr>
+                        {% for let in lets %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td>{{ let.number }}</td>
+                            <td>{{ let.subject }}</td>
+                            <td>{{ let.date|date:"d/m/Y" }}</td>
+                            <td>{% if let.is_gab == True %}GABINETE MINISTRU{% elif let.is_uvip == True %}UVIP{% endif %}</td>
+                            <td>{{ let.to }}</td>
+                            <td>
+                                {% if let.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'inv-let-pdf' let.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                                {% if let.is_gab == True %}
+                                {% if let.is_send == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'inv-let-edit' let.hashed %}"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'inv-let-rem' let.id %}"><i class="fa fa-trash"></i></a>
+                                {% if let.to_id == 3 %}
+                                <a class="btn btn-sm btn-primary" href="{% url 'gab-inv-next1' let.id %}" title="Manda">Manda ba DGAF <i class="fa fa-send"></i></a>
+                                {% elif let.to_id == 7 %}
+                                <a class="btn btn-sm btn-primary" href="{% url 'gab-inv-next2' let.id %}" title="Manda">Manda ba MPS & Termina <i class="fa fa-check"></i></a>
+                                {% endif %}
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><th colspan="6">Deskrisaun</th></tr>
+                        <tr><td colspan="6">{{ let.desc|safe }}</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

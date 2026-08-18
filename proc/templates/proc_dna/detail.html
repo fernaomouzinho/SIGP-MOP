@@ -1,0 +1,242 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dna-proc-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Informasaun Tender Foun</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Tender Foun</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Numeru Referensia</th><td>{{ proc.number }}</td></tr>
+            <tr><th>Data Kria</th><td>{{ proc.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Data Husi</th><td>{{ proc.user.employeeuser.employee.name }}</td></tr>
+            <tr><th colspan="2">Deskrisaun</th></tr>
+            <tr><td colspan="2">{{ proc.desc|safe }}</td></tr>
+          </table>
+          <hr/>
+          {% if proc.is_lock == False %}
+          <a class="btn btn-sm btn-info" href="{% url 'dna-proc-edit' proc.hashed %}">Altera <i class="fa fa-edit"></i></a>
+          <a class="btn btn-sm btn-danger" href="{% url 'dna-proc-rem' proc.hashed %}">Hamos <i class="fa fa-trash"></i></a>
+          {% endif %}
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+            <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+            <tr><th>Donu Projetu</th><td>{{ proj.owner.code }}</td></tr>
+            <tr><th>Tinan</th><td>{{ proj.year }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Rekizasaun Tender Foun</div>
+        <div class="card-body pb-5">
+          {% if proc.is_req_start == False %}
+          <a class="btn btn-sm btn-info" href="{% url 'dna-proc-req-start' proc.pk %}">Hahu Rekizasaun Tender <i class="fa fa-star"></i></a>
+          {% endif %}
+          {% if trackreq.is_start == True %}
+          <div class="alert alert-info p-2 mb-1">Rekizasaun Tender Foun Hahu Ona<i class="fa fa-star"></i></div>
+          {% endif %}
+          {% if trackreq.is_dna_out == True %}
+          <div class="alert alert-secondary p-1 mb-1">DNA BA DGAF <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if trackreq.is_dgaf_out_1 == True %}
+          <div class="alert alert-secondary p-1 mb-1">DGAF BA GABINETE MINISTRO <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if proc.is_req_appr == True %}
+          <div class="alert alert-success p-1 mb-1">REKIZASAUN TENDER FOUN APROVADO <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if trackreq.is_gab_out == True %}
+          <div class="alert alert-secondary p-1 mb-1">GABINETE MINISTRO BA DGAF <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if trackreq.is_dgaf_out_2 == True %}
+          <div class="alert alert-secondary p-1 mb-1">DGAF BA DNA <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if trackreq.is_end == True %}
+          <div class="alert alert-info p-2 mb-1">REKIZASAUN TENDER FOUN TERMINA ONA <i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          <hr>
+          {% endif %}
+          <a class="btn btn-sm btn-info" href="{% url 'dna-proc-req-det' proc.hashed %}" target="_blank">Hare Prosesu Detallu Tender <i class="fa fa-list"></i></a>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+
+      <div class="card">
+        <div class="card-header">Prosesu Anunsiu No Avaliasaun Tender
+         {% if trackres.is_dna_out == False and trackreq.is_dna_out == True %}
+        <a class="btn btn-sm btn-info mb-1" href="{% url 'dna-proc-track-edit' hashid=proc.hashed pk=track.id %}">Prense Data Anunsia <i class="fa fa-plus"></i></a>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          
+          
+          
+          {% if proc.is_req_end == True and proc.is_res_start == False %}
+          <a class="btn btn-sm btn-info" href="{% url 'dna-proc-res-start' proc.pk %}">Hahu Prosesu <i class="fa fa-star"></i></a>
+          {% endif %}
+          {% if trackres.is_start == True %}
+          <div class="alert alert-info p-1 mb-1">PROSESU ANUNSIU NO AVALIASAUN HAHU ONA <i class="fa fa-star"></i></div>
+          {% endif %}
+
+          {% if trackres.is_dna_out == True %}
+          <div class="alert alert-secondary p-1 mb-1">DNA BA DGAF <i class="fa fa-check"></i></div>
+          {% endif %}
+
+
+          {% if trackres.is_dgaf_out_1 == True %}
+          <div class="alert alert-secondary p-1 mb-1">DGAF BA GABINETE MINISTRO <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if proc.is_res_appr == True %}
+          <div class="alert alert-success p-1 mb-1">RESULTADU TENDER APROVADO <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if trackres.is_gab_out == True %}
+          <div class="alert alert-secondary p-1 mb-1">GABINETE MINISTRU BA DNA <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% comment %} {% if trackres.is_dgaf_out_2 == True %}
+          <div class="alert alert-secondary p-1 mb-1">DGAF BA DNA <i class="fa fa-check"></i></div>
+          {% endif %} {% endcomment %}
+          {% if trackres.is_end == True %}
+          <div class="alert alert-info p-1 mb-1">PROSESU AVALIASAUN TERMINA ONA <i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          {% endif %}
+         
+          {% if proc.is_res_end == True %}
+          <hr/>
+          <a class="btn btn-sm btn-info" href="{% url 'dna-cont-add' %}">Kria Kontratu <i class="fa fa-plus"></i></a>
+          <a class="btn btn-sm btn-secondary" href="{% url 'dna-proc-file-list' proc.hashed %}">Aneksu Dokumentu <i class="fa fa-list"></i></a>
+          {% endif %}
+
+
+
+        </div>
+      </div><!--end card-->
+            <div class="card">
+                <div class="card-header">Track Prosesu & Rezultadu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>HAHU</th>
+                            <td colspan="3">
+                                {% if track2.is_start == False %}<i class="fa fa-ban i_grey"></i>
+                                {% else %}<i class="fa fa-star i_green ml-1"></i>
+                                Hahu iha data: {{ track2.date_start|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th rowspan="4" colspan="2">Prosesu</th><th>Anunsiu Tender Foun</th>
+                            <td>
+                                {% if track.is_announce == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track.is_announce == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track.date_announce|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Open Bid</th>
+                            <td>
+                                {% if track.is_open == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track.is_open == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track.date_open|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Avaliasaun Tender</th>
+                            <td>
+                                {% if track.is_eval == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track.is_eval == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track.date_eval|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Rezultadu Avaliasaun</th>
+                            <td>
+                                {% if track.is_result == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track.is_result == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track.date_result|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        
+                    </table> 
+                </div>
+            </div>
+           
+        </div><!--end col-->
+    
+
+    
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Kompa&ntilde;ia</div>
+        <div class="card-body">
+          {% if trackres.is_start == True and trackres.is_dna_out == False %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'dna-proc-comp-add' proc.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+          {% endif %}
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Naran Kompa&ntilde;ia </th><th>Data Submete</th><th>Melhor</th><th>Rezultadu Avaliasaun</th>
+              {% if trackres.is_dna_out == False %}<th>Aneksu</th> {% if not trackres.is_dna_out == True %}<th>#</th>{% endif %}{% endif %}
+            </tr>
+            {% for comp in comps %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ comp.company }}</td>
+              <td>{{ comp.submit_date|date:"d-m-Y" }}</td>
+              <td>{{ comp.best }}</td>
+              <td>{% if comp.is_win == True %}<i class="fa fa-star i_green"></i> Manan Nain{% else %}<i class="fa fa-close i_red"></i>{% endif %}</td>
+              {% if trackres.is_dna_out == False %}
+              <td>
+                <a class="btn btn-sm btn-info" href="{% url 'dna-proc-comp-edit' comp.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-danger" href="{% url 'dna-proc-comp-rem' comp.hashed %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+                <a class="btn btn-sm btn-success" href="{% url 'dna-proc-comp-win' comp.hashed %}">Manan Nain <i class="fa fa-star"></i></a>
+              </td>
+              {% endif %}
+               {% if not trackres.is_dna_out == True %}
+              <td rowspan="2" align="center">
+              {% if comp.is_win == True %}
+             
+              <a class="btn btn-sm btn-info" href="{% url 'dna-proc-res-det' proc.hashed %}" target="_blank">Manda Rezultadu Avaliasaun Tender Ba DGAF <i class="fa fa-list"></i></a>
+             
+              {% endif %}
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </table>
+           
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

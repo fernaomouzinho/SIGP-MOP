@@ -1,0 +1,244 @@
+{% load static %}
+
+<div class="side-navbar-wrapper">
+
+    <!-- =========================================================
+         SIDEBAR HEADER
+    ========================================================== -->
+
+    <div class="sidenav-header d-flex align-items-center justify-content-center">
+
+        <!-- User Info -->
+        <div class="sidenav-header-inner text-center">
+
+            <h2 class="h5">
+                {{ request.user.username|upper }}
+            </h2>
+
+            {% comment %}
+            <span>{{ group|join:", "|upper }}</span>
+            {% endcomment %}
+
+        </div>
+
+
+        <!-- =====================================================
+             SMALL BRAND
+        ====================================================== -->
+
+        <div class="sidenav-header-logo">
+
+            <a
+                href="{% url 'home' %}"
+                class="brand-small text-center"
+            >
+                <strong class="text-primary">
+                    PMI
+                </strong>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         SIDEBAR NAVIGATION
+         Authentication still uses request.user
+         Roles use SSO "group"
+    ========================================================== -->
+
+    {% if request.user.is_authenticated %}
+
+
+        <!-- =====================================================
+             DIV
+        ====================================================== -->
+
+        {% if "sigp_div" in group or "sigp_div_s" in group %}
+
+            {% include 'main/sb_div.html' %}
+
+
+        <!-- =====================================================
+             DNA
+        ====================================================== -->
+
+        {% elif "sigp_dna" in group or "sigp_dna_s" in group %}
+
+            {% include 'main/sb_dna.html' %}
+
+
+        <!-- =====================================================
+             DNOF
+        ====================================================== -->
+
+        {% elif "sigp_dnof" in group or "sigp_dnof_s" in group %}
+
+            {% include 'main/sb_dnof.html' %}
+
+
+        <!-- =====================================================
+             DNOF BACK OFFICE
+        ====================================================== -->
+
+        {% elif "sigp_dnof_bo" in group %}
+
+            {% include 'main/sb_dnof_bo.html' %}
+
+
+        <!-- =====================================================
+             DGAF
+        ====================================================== -->
+
+        {% elif "sigp_dgaf" in group or "sigp_dgaf_s" in group %}
+
+            {% include 'main/sb_dgaf.html' %}
+
+
+        <!-- =====================================================
+             DIRECTOR GENERAL
+        ====================================================== -->
+
+        {% elif "sigp_dg" in group %}
+
+            {% include 'main/sb_dg.html' %}
+
+
+        <!-- =====================================================
+             DGHU
+        ====================================================== -->
+
+        {% elif "sigp_dghu" in group %}
+
+            {% include 'main/sb_dghu.html' %}
+
+
+        <!-- =====================================================
+             MINISTER
+        ====================================================== -->
+
+        {% elif "sigp_min" in group or "sigp_min_s" in group %}
+
+            {% include 'main/sb_min.html' %}
+
+
+        <!-- =====================================================
+             VICE MINISTER
+        ====================================================== -->
+
+        {% elif "sigp_vice" in group or "sigp_vice_s" in group %}
+
+            {% include 'main/sb_vice.html' %}
+
+
+        <!-- =====================================================
+             SECTION
+        ====================================================== -->
+
+        {% elif "sigp_sec" in group %}
+
+            {% include 'main/sb_sec.html' %}
+
+
+        <!-- =====================================================
+             ENGINEER
+        ====================================================== -->
+
+        {% elif "sigp_eng" in group %}
+
+            {% include 'main/sb_eng.html' %}
+
+
+        <!-- =====================================================
+             OPERATOR
+        ====================================================== -->
+
+        {% elif "sigp_op" in group %}
+
+            {% include 'main/sb_op.html' %}
+
+
+        <!-- =====================================================
+             SUPERVISOR
+        ====================================================== -->
+
+        {% elif "sigp_sup" in group %}
+
+            {% include 'main/sb_sup.html' %}
+
+
+        <!-- =====================================================
+             UVIP
+        ====================================================== -->
+
+        {% elif "sigp_uvip" in group or "sigp_uvip_s" in group %}
+
+            {% include 'main/sb_uvip.html' %}
+
+
+        <!-- =====================================================
+             BD
+        ====================================================== -->
+
+        {% elif "sigp_bd" in group %}
+
+            {% include 'main/sb_bd.html' %}
+
+
+        <!-- =====================================================
+             BD ENGINEER
+        ====================================================== -->
+
+        {% elif "sigp_bd_eng" in group %}
+
+            {% include 'main/sb_bd_eng.html' %}
+
+
+        <!-- =====================================================
+             GAB
+        ====================================================== -->
+
+        {% elif "sigp_gab" in group or "sigp_gab_s" in group %}
+
+            {% include 'main/sb_gab.html' %}
+
+
+        <!-- =====================================================
+             COMPANY
+        ====================================================== -->
+
+        {% elif "sigp_comp" in group %}
+
+            {% include 'main/sb_comp.html' %}
+
+
+        <!-- =====================================================
+             ADMIN
+        ====================================================== -->
+
+        {% elif "sigp_admin" in group %}
+
+            {% include 'main/sb_admin.html' %}
+
+
+        <!-- =====================================================
+             NO SIGP ROLE
+        ====================================================== -->
+
+        {% else %}
+
+            <div class="p-3 text-center">
+
+                <small class="text-muted">
+                    La iha permisaun atu asesu menu SIGP.
+                </small>
+
+            </div>
+
+        {% endif %}
+
+
+    {% endif %}
+
+</div>

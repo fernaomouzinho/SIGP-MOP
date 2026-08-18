@@ -1,0 +1,44 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+		    <li class="breadcrumb-item"><a href="{% url 'op-recom-list' cont.hashed %}">Lista Rekomendasaun</a></li>
+		    <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">Resibu</div>
+				<div class="card-body">
+					<table class="table table-sm table-striped">
+						<tr><th>Numeru Kontratu</th><th>Montante</th></tr>
+						<tr>
+						  <td>{{ cont.number }}</td>
+						  <td>${{ cont.total|intcomma }}</td>
+						</tr>
+					  </table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+	<div class="row">
+		  <div class="col-sm-12">
+			  <div class="card">
+				  <div class="card-header">{{ legend|upper }}</div>
+				  <div class="card-body">
+					  {% crispy form %}
+				  </div> <!--end card-body-->
+			  </div> <!--end card-->
+		  </div> <!--end col-->
+	  </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

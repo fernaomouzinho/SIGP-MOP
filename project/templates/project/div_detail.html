@@ -1,0 +1,165 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'proj-list' %}">Lista Projetu</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ legend }}</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Kodigu Projetu</th><th colspan="4">Naran Projetu</th><th>Kategoria Projetu</th>
+            </tr>
+            <tr>
+              <td>{{ proj.code }}</td><td colspan="4">{{ proj.name }}</td><td>{{ proj.pcategory.code }}/{{ proj.pcat.code }}</td>
+            </tr>
+            <tr>
+              <th>Kapital</th><th>Set&oacute;r</th><th colspan="2">Tipu Projetu</th><th colspan='2'>Fundus Projetu</th>
+            </tr>
+            <tr>
+              <td>{{ proj.capital.code }}</td><td>{{ proj.sector }}</td><td colspan="2">{{ proj.ptype }}</td><td colspan='2'>{{ proj.fund }}</td>
+            </tr>
+           <tr>
+              <th>Livru</th><th>Donu Projetu</th><th>Tinan Projetu</th><th>Status Orsamentu</th><th>Status Planu</th><th></th>
+            </tr>
+            <tr>
+              <td>{{ proj.book }}</td><td>{{ proj.owner.code }}</td><td>{{ proj.year }}</td><td>{{ proj.statusproj }}</td><td>{{ proj.status }}</td><td></td>
+            </tr>
+
+            <tr>
+              <th>Alokasaun Orsamentu</th><th colspan='5'>Tinan Alokasaun Orsamentu</th>
+            </tr>
+            <tr>
+              <td>{{ proj.alocate_bd }}</td><td>{{ proj.year_alocate_bd }}</td>
+            </tr>
+            <tr><th colspan="5">Deskrisaun</th><th> Verifika ADN</th></tr>
+            <tr>
+              <td colspan="5">{{ proj.desc }}</td>
+              <td>{% if proj.is_adn == True %}LOS{% else %}LAE{% endif %}</td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">    
+      <div class="card">
+        <div class="card-header">Estimasaun Kustu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Donu Projetu</th><th>Kustu Estimasaun husi Donu Projetu</th>{% if proj.is_lock == False %}<th>#</th>{% endif %}
+            </tr>
+            <tr>
+              <td>{{ div }}</td>
+              <td>{% if est.owner %}
+              ${{ est.owner|intcomma }}
+              {% else %}
+              $
+              <hr>
+              <div class="alert alert-danger" role="alert">
+              * Presija atualiza kustu
+              </div>
+              {% endif %}
+              
+              </td>
+              {% if proj.is_lock == False %}
+              <td>
+                <a href="{% url 'div-proj-est-edit' proj.hashed est.id %}">Atualiza <i class="fa fa-edit"></i></a>
+                {% if est.owner %}
+                | <a href="{% url 'div-proj-est-rem' proj.hashed est.id %}">Hamos <i class="fa fa-trash"></i></a>
+                {% endif %}
+              </td>
+              {% endif %}
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">Lokalizasaun Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Munisipiu</th><th>Postu</th><th>Suku</th>
+              {% if loc.end_lat %}<th>Kordenada Hahu</th><th>Kordenada Remata</th>{% else %}<th>Kordenada</th>{% endif %}<th>#</th>
+            </tr>
+            <tr>
+              <td>{{ loc.municipality }}</td>
+              <td>{{ loc.administrativepost.name }}</td>
+              <td>{{ loc.village.name }}</td>
+              <td>{{ loc.start_lat }}, {{ loc.start_lng }}</td>
+              {% if loc.end_lat %}
+              <td>{{ loc.end_lat }}, {{ loc.end_lng }}</td>
+              {% endif %}
+              <td>
+                <a href="{% url 'div-proj-loc-edit' proj.hashed loc.id %}">Atualiza <i class="fa fa-edit"></i></a>
+              </td>
+            </tr>
+          </table>
+           <hr>
+              {% if not loc.municipality %}
+              <div class="alert alert-danger" role="alert">
+              * Munisipiu = "None" <br>
+              * Presija atualiza "Munisipiu" no "Kordenada" ba funsionamentu "Sistema Informasaun Geografika-MOP"
+              </div>
+              {% else %}
+              * Wainhira atualiza ona estimasaun kustu no lokalizasaun, bele kontinua ona ba faze Kria Tor <a href="{% url 'div-eval-list' %}"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+              {% endif %}
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div id="mapid" style="width: 100%; height: 350px;"></div>
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+    
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/MarkerCluster.Default.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoukaK1udD0Z4erUsxwkYzRKTOWmJid34"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoukaK1udD0Z4erUsxwkYzRKTOWmJid34&libraries=places">
+    </script>
+    <script>
+		var mymap = L.map('mapid').setView([{{ loc.start_lat }}, {{ loc.start_lng }}], 15);
+
+		L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+        attribution: 'Google Maps',
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(mymap);
+
+		L.marker([{{ loc.start_lat }}, {{ loc.start_lng }}]).addTo(mymap)
+			.bindPopup("Projetu: {{ proj.name }}").openPopup();
+
+		var popup = L.popup();
+
+	
+	</script>
+{% endblock %}

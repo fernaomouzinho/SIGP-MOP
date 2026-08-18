@@ -1,0 +1,78 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'hist-inv-det' inv.hashed %}">Detallu Resibu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Resibu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Resibu</th><th>Divizaun</th><th>Data</th><th>Naran Projetu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ inv.number }}</td>
+                            <td>{% if inv.div %}{{ inv.div.code }}{% else %}{{ inv.dg.code }}{% endif %}</td>
+                            <td>{{ inv.date }}</td>
+                            <td>{{ inv.project.name }}</td>
+                        </tr>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru</th><th>Asuntu</th>
+                            <th>Data</th><th>Husi</th><th>Dirije ba</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td>{{ obj.number }}</td>
+                            <td>{{ obj.subject }}</td>
+                            <td>{{ obj.date }}</td>
+                            <td>
+                                {% if obj.div %}{{ obj.div.code }}
+                                {% elif obj.dg %}{{ obj.dg.code }}
+                                {% else %}{{ obj.min.code }}{% endif %}
+                            </td>
+                            <td>{{ obj.to }}</td>
+                            
+                        </tr>
+                        <tr><th colspan="4">Deskrisaun</th><th>Aneksu</th></tr>
+                        <tr><td colspan="4">{{ obj.desc|safe }}</td>
+                            <td>
+                                {% if obj.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'inv-letter-pdf' obj.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

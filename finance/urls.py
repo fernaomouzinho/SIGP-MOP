@@ -1,0 +1,155 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    ### CPV REQ
+    # dnof
+    path('dnof/cpvreq/list/', views.dnofCPVReqList, name="dnof-cpvreq-list"),
+    path('dnof/cpvreq/det/<str:hashid>/', views.dnofCPVReqDet, name="dnof-cpvreq-det"),
+    path('dnof/cpvreq/add/', views.dnofCPVReqAdd, name="dnof-cpvreq-add"),
+    path('dnof/cpvreq/edit/<str:hashid>/', views.dnofCPVReqEdit, name="dnof-cpvreq-edit"),
+    path('dnof/cpvreq/rem/<str:pk>/', views.dnofCPVReqRem, name="dnof-cpvreq-rem"),
+    path('dnof/cpvreq/send/<str:pk>/', views.dnofCPVReqSend, name="dnof-cpvreq-send"),
+    path('dgaf/cpvreq/end/<str:pk>/', views.dnofCPVReqEnd, name="dnof-cpvreq-end"),
+    #dgaf
+    path('dgaf/cpvreq/list/', views.dgafCPVReqList, name="dgaf-cpvreq-list"),
+    path('dgaf/cpvreq/det/<str:hashid>/', views.dgafCPVReqDet, name="dgaf-cpvreq-det"),
+    path('dgaf/cpvreq/back/<str:hashid>/', views.dgafCPVReqBack, name="dgaf-cpvreq-back"),
+    path('dgaf/cpvreq/in/<str:pk>/', views.dgafCPVReqIn, name="dgaf-cpvreq-in"),
+    path('dgaf/cpvreq/appr/<str:pk>/', views.dgafCPVReqAppr, name="dgaf-cpvreq-appr"),
+    #gab
+    path('gab/cpvreq/list/', views.gabCPVReqList, name="gab-cpvreq-list"),
+    path('gab/cpvreq/det/<str:hashid>/', views.gabCPVReqDet, name="gab-cpvreq-det"),
+    ### CPV
+    #dnof
+    path('dnof/cpv/list/', views.dnofCPVList, name="dnof-cpv-list"),
+    path('dnof/cpv/det/<str:hashid>/', views.dnofCPVDet, name="dnof-cpv-det"),
+    path('dnof/cpv/add/<str:hashid>/', views.dnofCPVAdd, name="dnof-cpv-add"),
+    path('dnof/cpv/edit/<str:hashid>/', views.dnofCPVEdit, name="dnof-cpv-edit"),
+    path('dnof/cpv/rem/<str:pk>/', views.dnofCPVRem, name="dnof-cpv-rem"),
+    path('dnof/cpv/send/<str:pk>/<str:pk2>/', views.dnofCPVSend, name="dnof-cpv-send"),
+    path('dnof/cpv/let/det/<str:hashid>/', views.dnofCPVLetDet, name="dnof-cpv-let-det"),
+    path('dnof/cpv/in/<str:pk>/', views.dnofCPVIn, name="dnof-cpv-in"),
+    path('dnof/cpv/end/<str:pk>/', views.dnofCPVEnd, name="dnof-cpv-end"),
+    #dgaf
+    path('dgaf/cpv/list/', views.dgafCPVList, name="dgaf-cpv-list"),
+    path('dgaf/cpv/det/<str:hashid>/', views.dgafCPVDet, name="dgaf-cpv-det"),
+    path('dgaf/cpv/back/<str:hashid>/', views.dgafCPVBack, name="dgaf-cpv-back"),
+    path('dgaf/cpv/in/<str:pk>/', views.dgafCPVIn, name="dgaf-cpv-in"),
+    path('dgaf/cpv/appr/<str:pk>/', views.dgafCPVAppr, name="dgaf-cpv-appr"),
+    path('dgaf/cpv/let/edit/<str:hashid>/<str:pk>/', views.dgafCPVLetEdit, name="dgaf-cpv-let-edit"),
+    path('dgaf/cpv/let/rem/<str:pk>/', views.dgafCPVLetRem, name="dgaf-cpv-let-rem"),
+    path('dgaf/cpv/send/<str:pk>/', views.dgafCPVSend, name="dgaf-cpv-send"),
+    #uvip
+    path('uvip/cpv/list/', views.uvipCPVList, name="uvip-cpv-list"),
+    path('uvip/cpv/det/<str:hashid>/', views.uvipCPVDet, name="uvip-cpv-det"),
+    ### PO
+    path('dna/po/proj/list/', views.dnaPOProjList, name="dna-po-proj-list"),
+    path('dna/po/cont/list/<str:hashid>/', views.dnaPOContList, name="dna-po-cont-list"),
+    path('dna/po/list/<str:hashid>/', views.dnaPOList, name="dna-po-list"),
+    path('dna/po/det/<str:hashid>/', views.dnaPODet, name="dna-po-det"),
+    path('dna/po/add/<str:hashid>/', views.dnaPOAdd, name="dna-po-add"),
+    path('dna/po/edit/<str:hashid>/', views.dnaPOEdit, name="dna-po-edit"),
+    path('dna/po/edit2/<str:hashid>/', views.dnaPOEdit2, name="dna-po-edit2"),
+    path('dna/po/ref/<str:pk>/<str:pk2>/', views.dnaPORef, name="dna-po-ref"),
+    path('dna/po/rem/<str:pk>/', views.dnaPORem, name="dna-po-rem"),
+    path('dna/po/send/<str:pk>/', views.dnaPOSend, name="dna-po-send"),
+    path('dna/po/in/<str:pk>/', views.dnaPOIn, name="dna-po-in"),
+    path('dna/po/end/<str:pk>/', views.dnaPOEnd, name="dna-po-end"),
+    #dgaf
+    path('dgaf/po/proj/list/', views.dgafPOProjList, name="dgaf-po-proj-list"),
+    path('dgaf/po/cont/list/<str:hashid>/', views.dgafPOContList, name="dgaf-po-cont-list"),
+    path('dgaf/po/list/<str:hashid>/', views.dgafPOList, name="dgaf-po-list"),
+    path('dgaf/po/det/<str:hashid>/', views.dgafPODet, name="dgaf-po-det"),
+    path('dgaf/po/back/<str:hashid>/', views.dgafPOBack, name="dgaf-po-back"),
+    path('dgaf/po/in/<str:pk>/', views.dgafPOIn, name="dgaf-po-in"),
+    path('dgaf/po/appr/<str:pk>/', views.dgafPOAppr, name="dgaf-po-appr"),
+    path('dgaf/po/let/edit/<str:hashid>/<str:pk>/', views.dgafPOLetEdit, name="dgaf-po-let-edit"),
+    path('dgaf/po/let/rem/<str:pk>/', views.dgafPOLetRem, name="dgaf-po-let-rem"),
+    path('dgaf/po/send/<str:pk>/', views.dgafPOSend, name="dgaf-po-send"),
+    #
+    path('gab/po/proj/list/', views.gabPOProjList, name="gab-po-proj-list"),
+    path('gab/po/cont/list/<str:hashid>/', views.gabPOContList, name="gab-po-cont-list"),
+    path('gab/po/list/<str:hashid>/', views.gabPOList, name="gab-po-list"),
+    path('gab/po/det/<str:hashid>/', views.gabPODet, name="gab-po-det"),
+    ### PRT
+    path('prt/cont/list/', views.PRTContList, name="prt-cont-list"),
+    path('prt/inv/list/<str:hashid>/', views.PRTInvList, name="prt-inv-list"),
+    path('prt/list/<str:hashid>/', views.PRTList, name="prt-list"),
+    path('dna/prt/add/<str:hashid>/', views.dnaPRTAdd, name="dna-prt-add"),
+    path('dna/prt/edit/<str:hashid>/', views.dnaPRTEdit, name="dna-prt-edit"),
+    path('dna/prt/rem/<str:hashid>/<str:pk>/', views.dnaPRTRem, name="dna-prt-rem"),
+    path('dna/prt/ready/<str:hashid>/<str:pk>/', views.dnaPRTReady, name="dna-prt-ready"),
+    path('dnof/ev/edit/<str:hashid>/<str:pk>/', views.dnofEVEdit, name="dnof-ev-edit"),
+    path('dnof/ev/ready/<str:hashid>/<str:pk>/', views.dnofEVReady, name="dnof-ev-ready"),
+    path('dnof/ev/send/<str:hashid>/<str:pk>/', views.dnofEVSend, name="dnof-ev-send"),
+    path('dnof/bo/ev/receive/<str:hashid>/<str:pk>/', views.dnofboEVReceive, name="dnof-bo-ev-receive"),
+    path('dnof/bo/ev/verify/<str:hashid>/<str:pk>/', views.dnofboEVVerify, name="dnof-bo-ev-verify"),
+    path('dnof/bo/ev/create/<str:hashid>/<str:pk>/', views.dnofboEVCreate, name="dnof-bo-ev-create"),
+    path('dnof/bo/ev/aprove/<str:hashid>/<str:pk>/', views.dnofboEVAprove, name="dnof-bo-ev-aprove"),
+    path('dnof/bo/ev/terminate/<str:hashid>/<str:pk>/', views.dnofboEVTerminate, name="dnof-bo-ev-terminate"),
+    
+    
+    
+    ### TPO
+    path('tpo/cont/list/', views.TPOContList, name="tpo-cont-list"),
+    path('tpo/inv/list/<str:hashid>/', views.TPOInvList, name="tpo-inv-list"),
+    path('tpo/list/<str:hashid>/', views.TPOList, name="tpo-list"),
+    path('dnof/tpo/add/<str:hashid>/', views.dnofTPOAdd, name="dnof-tpo-add"),
+    path('dnof/tpo/edit/<str:hashid>/<str:hashid2>/', views.dnofTPOEdit, name="dnof-tpo-edit"),
+    path('dnof/tpo/rem/<str:hashid>/<str:pk>/', views.dnofTPORem, name="dnof-tpo-rem"),
+    path('dnof/tpo/ready/<str:hashid>/<str:pk>/', views.dnofTPOReady, name="dnof-tpo-ready"),
+    ### FILES
+    path('files/list/<str:hashid>/', views.FinFileList, name="fin-file-list"),
+    path('files/add/<str:hashid>/', views.FinFilesAdd, name="fin-file-add"),
+    path('files/edit/<str:hashid>/<str:pk>/', views.FinFilesEdit, name="fin-file-edit"),
+    path('files/rem/<str:hashid>/<str:pk>/', views.FinFilesRem, name="fin-file-rem"),
+    path('files/lock/<str:hashid>/<str:pk>/', views.FinFilesLock, name="fin-file-lock"),
+    path('files/unlock/<str:hashid>/<str:pk>/', views.FinFilesUnlock, name="fin-file-unlock"),
+    path('files/ready/<str:hashid>/<str:pk>/', views.FinFilesReady, name="fin-file-ready"),
+    ### PDF
+    path('cpv/req/pdf/<str:hashid>/', views.CPVReqPDF, name="cpv-req-pdf"),
+    path('cpv/pdf/<str:hashid>/', views.CPVPDF, name="cpv-pdf"),
+    path('cpv/let/pdf/<str:hashid>/', views.CPVLetPDF, name="cpv-let-pdf"),
+    path('po/pdf/<str:hashid>/', views.POPDF, name="po-pdf"),
+    path('po/let/pdf/<str:hashid>/', views.POLetPDF, name="po-let-pdf"),
+    path('prt/pdf/<str:hashid>/', views.PRTPDF, name="prt-pdf"),
+    path('ev/pdf/<str:hashid>/', views.EVPDF, name="ev-pdf"),
+    path('files/pdf/<str:pk>/', views.FinFilePDF, name="fin-file-pdf"),
+
+    ### OP
+    # cpv
+    path('op/cpv/proj/list/', views.opCPVProjList, name="op-cpv-proj-list"),
+    path('op/cpv/list/<str:hashid>/', views.opCPVList, name="op-cpv-list"),
+    path('op/cpv/add/<str:hashid>/', views.opCPVAdd, name="op-cpv-add"),
+    path('op/cpv/edit/<str:hashid>/<str:hashid2>/', views.opCPVEdit, name="op-cpv-edit"),
+    path('op/cpv/rem/<str:hashid>/<str:pk>/', views.opCPVRem, name="op-cpv-rem"),
+    path('op/cpv/lock/<str:hashid>/<str:pk>/', views.opCPVLock, name="op-cpv-lock"),
+    # po
+    path('op/po/cont/list/', views.opPOContList, name="op-po-cont-list"),
+    path('op/po/list/<str:hashid>/', views.opPOList, name="op-po-list"),
+    path('op/po/add/<str:hashid>/', views.opPOAdd, name="op-po-add"),
+    path('op/po/edit/<str:hashid>/<str:hashid2>/', views.opPOEdit, name="op-po-edit"),
+    path('op/po/rem/<str:hashid>/<str:pk>/', views.opPORem, name="op-po-rem"),
+    path('op/po/lock/<str:hashid>/<str:pk>/', views.opPOLock, name="op-po-lock"),
+    # prt
+    path('op/prt/cont/list/', views.opPRTContList, name="op-prt-cont-list"),
+    path('op/prt/list/<str:hashid>/', views.opPRTList, name="op-prt-list"),
+    path('op/prt/add/<str:hashid>/', views.opPRTAdd, name="op-prt-add"),
+    path('op/prt/edit/<str:hashid>/<str:hashid2>/', views.opPRTEdit, name="op-prt-edit"),
+    path('op/prt/rem/<str:hashid>/<str:pk>/', views.opPRTRem, name="op-prt-rem"),
+    path('op/prt/lock/<str:hashid>/<str:pk>/', views.opPRTLock, name="op-prt-lock"),
+    # ev
+    path('op/ev/cont/list/', views.opEVContList, name="op-ev-cont-list"),
+    path('op/ev/list/<str:hashid>/', views.opEVList, name="op-ev-list"),
+    path('op/ev/edit/<str:hashid>/<str:hashid2>/', views.opEVEdit, name="op-ev-edit"),
+    path('op/ev/rem/<str:hashid>/<str:pk>/', views.opEVRem, name="op-ev-rem"),
+    path('op/ev/lock/<str:hashid>/<str:pk>/', views.opEVLock, name="op-ev-lock"),
+    # tpo
+    path('op/tpo/cont/list/', views.opTPOContList, name="op-tpo-cont-list"),
+    path('op/tpo/list/<str:hashid>/', views.opTPOList, name="op-tpo-list"),
+    path('op/tpo/add/<str:hashid>/', views.opTPOAdd, name="op-tpo-add"),
+    path('op/tpo/edit/<str:hashid>/<str:hashid2>/', views.opTPOEdit, name="op-tpo-edit"),
+    path('op/tpo/rem/<str:hashid>/<str:pk>/', views.opTPORem, name="op-tpo-rem"),
+    path('op/tpo/lock/<str:hashid>/<str:pk>/', views.opTPOLock, name="op-tpo-lock"),
+]

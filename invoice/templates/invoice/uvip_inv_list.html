@@ -1,0 +1,63 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">RESIBU</h1>
+  </div>
+</header>
+<div class="container-fluid"> 
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <a class="btn btn-sm btn-secondary mb-1" href="{% url 'hist-inv-list' %}" target="_blank">Historia Resibu<i class="fa fa-list"></i></a>
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th><th>Numeru Resibu</th><th>Data</th><th>Numeru Kontratu</th><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kompa&ntilde;ia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'uvip-inv-det' obj.hashed %}">{{ obj.number }}</a></td>
+                                <td>{{ obj.date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.cont.number }}</td>
+                                <td>{{ obj.cont.project.code }}</td>
+                                <td>{{ obj.cont.project.name }}</td>
+                                <td>
+                                {% for comp in contcomp %}
+                                    {% if comp.contract == obj.cont %}
+                                    {{ comp.company.name }}
+                                    {% endif %}
+                                {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

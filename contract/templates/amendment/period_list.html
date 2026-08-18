@@ -1,0 +1,61 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dna-cont-list' %}">Lista Kontratu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Kontratu</th>
+                                <th>Data Remata Tuan</th>
+                                <th>Data Remata Foun</th>
+                                <th>Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'amend-per-det' obj.hashed %}">{{ obj.number }}</a></td>
+                                <td>
+                                    {% if not obj.end_date == obj.amendment.end_date %}
+                                        <strike>{{ obj.end_date|date:"d/m/Y" }}</strike>
+                                    {% else %}
+                                        {{ obj.end_date|date:"d/m/Y" }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if not obj.end_date == obj.amendment.end_date %}
+                                    {{ obj.amendment.end_date|date:"d/m/Y" }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ obj.project.code }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

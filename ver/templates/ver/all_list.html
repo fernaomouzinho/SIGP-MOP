@@ -1,0 +1,96 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ver-inv-list' %}">Lista Invoice</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">VERIFIKASAUN</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Kontratu</th><td>{{ cont.number }}</td></tr>
+                        <tr><th>Periodu Kontratu</th><td>{{ cont.start_date|date:"d/m/Y" }} - {{ cont.end_date|date:"d/m/Y" }}</td></tr>
+                        <tr><th>Montante Kontratu</th><td>${{ cont.total|intcomma }}</td></tr>
+                        <tr>
+                            <th>Kompa&ntilde;ia</th>
+                            <td>{% for comp in comps %}{{ comp.company }},{% endfor %}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header"> Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Donu Projetu</th><td>{{ proj.owner.code }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Resibu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Resibu</th><th>Data</th><th>Progresu Fiziku</th><th>Montante Resibu</th><th>Liu ADN</th>
+                        </tr>
+                        <tr>
+                            <td>{{ inv.number }}</td>
+                            <td>{{ inv.date }}</td>
+                            <td>{{ inv.phys_prog }}%</td>
+                            <td>${{ inv.total|intcomma }}</td>
+                            <td>{% if inv.is_adn == True %}Sim{% else %}Lae{% endif %}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Referensia</th><th>Titulu</th><th>Data Hahu</th><th>Data Ikus</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'all-ver-det' obj.hashed %}">{{ obj.number }}</a></td>
+                            <td>{{ obj.subject }}</td>
+                            <td>{{ obj.start_date|date:"d/m/Y" }}</td>
+                            <td>{{ obj.end_date|date:"d/m/Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

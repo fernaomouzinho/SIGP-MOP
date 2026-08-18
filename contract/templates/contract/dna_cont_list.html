@@ -1,0 +1,69 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">Kontratu</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    {% if group != 'gab' %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'dna-cont-add' %}">Aumenta Kontratu <i class="fa fa-plus"></i></a>
+                    <a class="btn btn-sm btn-secondary mb-1" href="{% url 'amend-per-list' %}">Amenda Tempu <i class="fa fa-calendar"></i></a>
+                    <a class="btn btn-sm btn-secondary mb-1" href="{% url 'amend-am-list' %}">Amenda VO <i class="fa fa-dollar"></i></a>
+                    <a class="btn btn-sm btn-secondary mb-1" href="{% url 'deduc-list' %}">Dedusaun <i class="fa fa-dollar"></i></a>
+                    <a class="btn btn-sm btn-secondary mb-1" href="{% url 'cont-monitor-list' %}">Monitor Periodu <i class="fa fa-calendar"></i></a>
+                    <a class="btn btn-sm btn-secondary mb-1" href="{% url 'dna-cont-proj-update-status' %}">Atualiza Estatus Orsamentu <i class="fa fa-calendar"></i></a>
+                    {% endif %}
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th>
+                                <th>Numeru Kontratu</th>
+                                <th>Total Kontratu</th>
+                                <th>Tinan Tender</th>
+                                <th>Kodigu Projetu</th>
+                                <th>Naran Projetu</th>
+                                <th>Kapital</th>
+                                <th>Kategoria Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                {% if group == 'gab' %}
+                                <td>{{ obj.0.number }}</td>
+                                {% else %}
+                                <td><a href="{% url 'dna-cont-det' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                                {% endif %}
+                                <td>${{ obj.1.total|intcomma }}</td>
+                                <td>{{ obj.0.proc_year }}</td>
+                                <td>{{ obj.0.project.code }}</a></td>
+                                <td>{{ obj.0.project.name }}</td>
+                                <td>{{ obj.0.project.capital }}</td>
+                                <td>{{ obj.0.project.pcat.code }}</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

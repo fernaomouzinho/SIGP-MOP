@@ -1,0 +1,340 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'track-proc-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-header">Detallu Tender</div>
+            <div class="card-body">
+              <table class="table table-sm table-striped">
+                <tr><th>Numeru Referensia</th><td>{{ proc.number }}</td></tr>
+                <tr><th>Data Kria</th><td>{{ proc.date|date:"d/m/Y" }}</td></tr>
+                <tr><th>Data Husi</th><td>{{ proc.user.employeeuser.employee.name }}</td></tr>
+                <tr><th colspan="2">Deskrisaun</th></tr>
+                <tr><td colspan="2">{{ proc.desc|safe }}</td></tr>
+              </table>
+            </div>
+          </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-header">Detallu Projetu</div>
+            <div class="card-body">
+              <table class="table table-sm table-striped">
+                <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                <tr><th>Donu Projetu</th><td>{{ proj.owner.code }}</td></tr>
+                <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+              </table>
+            </div>
+          </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Track Rekizasaun</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>HAHU</th>
+                            <td>
+                                {% if track1.is_start == False %}<i class="fa fa-ban i_grey"></i>
+                                {% else %}<i class="fa fa-star i_green ml-1"></i>
+                                Hahu iha data: {{ track1.date_start|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DNA</th>
+                            <td>
+                                {% if track1.is_start == True and track1.is_dna_out == False %}<i class="fa fa-refresh i_grey"></i>
+                                {% elif track1.is_dna_out == True %}<i class="fa fa-arrow-down i_green ml-1"></i>
+                                Sai: {{ track1.date_dna_out|date:"d/m/Y" }}
+                                {% if obj_days1.0.0 %}(Lrn {{ obj_days1.0.0 }}){% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DGAF</th>
+                            <td>
+                            {% if track1.is_dna_out == True and track1.is_dgaf_in_1 == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track1.is_dgaf_in_1 == True and track1.is_dgaf_out_1 == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track1.date_dgaf_in_1|date:"d/m/Y" }}
+                            {% elif track1.is_dgaf_out_1 == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track1.date_dgaf_in_1|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-arrow-down i_green ml-1"></i> Sai: {{ track1.date_dgaf_out_1|date:"d/m/Y" }}
+                                {% if obj_days1.0.1 %}(Lrn {{ obj_days1.0.1 }}){% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>GABINETE MINISTRU</th>
+                            <td>
+                            {% if track1.is_dgaf_out_1 == True and track1.is_gab_in == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track1.is_gab_in == True and track1.is_gab_out == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track1.date_gab_in|date:"d/m/Y" }}
+                            {% elif track1.is_gab_out == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track1.date_gab_in|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-arrow-down i_green ml-1"></i> Sai: {{ track1.date_gab_out|date:"d/m/Y" }}
+                                {% if obj_days1.0.2 %}(Lrn {{ obj_days1.0.2 }}){% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DGAF</th>
+                            <td>
+                            {% if track1.is_gab_out == True and track1.is_dgaf_in_2 == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track1.is_dgaf_in_2 == True and track1.is_dgaf_out_2 == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track1.date_dgaf_in_2|date:"d/m/Y" }}
+                            {% elif track1.is_dgaf_out_2 == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track1.date_dgaf_in_2|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-arrow-down i_green ml-1"></i> Sai: {{ track1.date_dgaf_out_2|date:"d/m/Y" }}
+                                {% if obj_days1.0.3 %}(Lrn {{ obj_days1.0.3 }}){% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DNA</th>
+                            <td>
+                            {% if track1.is_dgaf_out_2 == True and track1.is_dna_in == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track1.is_dna_in == True and track1.is_end == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track1.date_dna_in|date:"d/m/Y" }}
+                            {% elif track1.is_end == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track1.date_dna_in|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-star i_green"></i><i class="fa fa-star i_green ml-1"></i> Termina: {{ track1.date_end|date:"d/m/Y" }}
+                            {% endif %}
+                            </td>
+                        </tr>
+                    </table> 
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-sm-12"> 
+                    <div class="progress">
+                        <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: {{ percent1 }}%;" aria-valuenow="{{ percent1 }}" aria-valuemin="0" aria-valuemax="100">{{ percent1 }}%</div>
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Track Prosesu & Rezultadu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>HAHU</th>
+                            <td colspan="3">
+                                {% if track2.is_start == False %}<i class="fa fa-ban i_grey"></i>
+                                {% else %}<i class="fa fa-star i_green ml-1"></i>
+                                Hahu iha data: {{ track2.date_start|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th rowspan="4" colspan="2">PROSESU</th><th>Anunsiu</th>
+                            <td>
+                                {% if track3.is_announce == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track3.is_announce == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track3.date_announce|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>OPEN BID</th>
+                            <td>
+                                {% if track3.is_open == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track3.is_open == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track3.date_open|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Avaliasaun</th>
+                            <td>
+                                {% if track3.is_eval == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track3.is_eval == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track3.date_eval|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Rezultadu</th>
+                            <td>
+                                {% if track3.is_result == False %}<i class="fa fa-ban i_grey"></i>
+                                {% elif track3.is_result == True %}<i class="fa fa-check i_green ml-1"></i>
+                                Data: {{ track3.date_result|date:"d/m/Y" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DNA</th>
+                            <td colspan="3">
+                                {% if track2.is_start == True and track2.is_dna_out == False %}<i class="fa fa-refresh i_grey"></i>
+                                {% elif track2.is_dna_out == True %}<i class="fa fa-arrow-down i_green ml-1"></i>
+                                Sai: {{ track2.date_dna_out|date:"d/m/Y" }}
+                                {% if obj_days2.0.0 %}(Lrn {{ obj_days2.0.0 }}){% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DGAF</th>
+                            <td colspan="3">
+                            {% if track2.is_dna_out == True and track2.is_dgaf_in_1 == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track2.is_dgaf_in_1 == True and track2.is_dgaf_out_1 == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track2.date_dgaf_in_1|date:"d/m/Y" }}
+                            {% elif track2.is_dgaf_out_1 == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track2.date_dgaf_in_1|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-arrow-down i_green ml-1"></i> Sai: {{ track2.date_dgaf_out_1|date:"d/m/Y" }}
+                                {% if obj_days2.0.1 %}(Lrn {{ obj_days2.0.1 }}){% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>GABINETE MINISTRU</th>
+                            <td colspan="3">
+                            {% if track2.is_dgaf_out_1 == True and track2.is_gab_in == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track2.is_gab_in == True and track2.is_gab_out == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track2.date_gab_in|date:"d/m/Y" }}
+                            {% elif track2.is_gab_out == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track2.date_gab_in|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-arrow-down i_green ml-1"></i> Sai: {{ track2.date_gab_out|date:"d/m/Y" }}
+                                {% if obj_days2.0.2 %}(Lrn {{ obj_days2.0.2 }}){% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        {% comment %} <tr>
+                            <th>DGAF</th>
+                            <td colspan="3">
+                            {% if track2.is_gab_out == True and track2.is_dgaf_in_2 == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track2.is_dgaf_in_2 == True and track2.is_dgaf_out_2 == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track2.date_dgaf_in_2|date:"d/m/Y" }}
+                            {% elif track2.is_dgaf_out_2 == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track2.date_dgaf_in_2|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-arrow-down i_green ml-1"></i> Sai: {{ track2.date_dgaf_out_2|date:"d/m/Y" }}
+                                {% if obj_days2.0.3 %}(Lrn {{ obj_days2.0.3 }}){% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr> {% endcomment %}
+                            <th>DNA</th>
+                            <td colspan="3">
+                            {% if track2.is_gab_out == True  == True and track2.is_dna_in == False %}<i class="fa fa-refresh i_grey"></i>
+                            {% elif track2.is_dna_in == True and track2.is_end == False %}<i class="fa fa-refresh i_green"></i>
+                                Simu: {{ track2.date_dna_in|date:"d/m/Y" }}
+                            {% elif track2.is_end == True %}
+                                <i class="fa fa-check i_green ml-1"></i> Simu: {{ track2.date_dna_in|date:"d/m/Y" }}<br/>
+                                <i class="fa fa-star i_green"></i><i class="fa fa-star i_green ml-1"></i> Termina: {{ track2.date_end|date:"d/m/Y" }}
+                            {% endif %}
+                            </td>
+                        </tr>
+                    </table> 
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-sm-12"> 
+                    <div class="progress">
+                        <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: {{ percent2 }}%;" aria-valuenow="{{ percent2 }}" aria-valuemin="0" aria-valuemax="100">{{ percent2 }}%</div>
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Track Prosesu Tender</div>
+                <div class="card-body">
+                    {% if group == "dna" %}
+                    {% if track2.is_start == True and track2.is_dna_out == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'dna-proc-track-edit' proc.hashed track1.id %}">Altera <i class="fa fa-edit"></i></a>
+                    {% endif %}
+                    {% endif %}
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Anunsiu</th>
+                            <th>Open Bid</th>
+                            <th>Avaliasaun</th>
+                            <th>Rezultadu Avaliasaun</th>
+                            <th style="background-color:antiquewhite;">Etapa</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if track3.is_announce == True %}<i class="fa fa-check i_green"></i> {{ track3.date_announce|date:"d/m/Y" }}
+                                {% else %}<i class="fa fa-ban i_grey"></i>{% endif %}
+                            </td>
+                            <td>
+                                {% if track3.is_open == True %}<i class="fa fa-check i_green"></i> {{ track3.date_open|date:"d/m/Y"  }}
+                                {% else %}<i class="fa fa-ban i_grey"></i>{% endif %}
+                            </td>
+                            <td>
+                                {% if track3.is_eval == True %}<i class="fa fa-check i_green"></i> {{ track3.date_eval|date:"d/m/Y"  }}
+                                {% else %}<i class="fa fa-ban i_grey"></i>{% endif %}
+                            </td>
+                            <td>
+                                {% if track3.is_result == True %}<i class="fa fa-check i_green"></i> {{ track3.date_result|date:"d/m/Y"  }}
+                                {% else %}<i class="fa fa-ban i_grey"></i>{% endif %}
+                            </td>
+                            <td style="background-color:antiquewhite ;">{{ track3.stages|upper }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Justifikasaun</div>
+                <div class="card-body">
+                    {% if group == "dna" or group == "dgaf" or group == "gab" %}
+                    {% if proc.is_res_end == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'proc-just-add' proc.hashed %}">Justifika <i class="fa fa-pencil"></i></a>
+                    {% endif %}
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Diresaun</th><th>Justifikasaun</th><th>Uzuariu</th>
+                            {% if proc.is_res_end == False %}<th>#</th>{% endif %}
+                        </tr>
+                        {% for just in justs %}
+                        <tr>
+                            <td>{% if just.div %}{{ just.div.code }}{% else %}{{ just.dg.code }}{% endif %}</td>
+                            <td>{{ just.comment|safe }}</td>
+                            <td>{{ just.user }}<br/>{{ just.datetime|date:"d/m/Y" }}</td>
+                            {% if proc.is_res_end == False %}
+                            <td>
+                            {% if group == "dna" and just.is_dna == True %}
+                                <a href="{% url 'proc-just-edit' proc.hashed just.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'proc-just-rem' proc.hashed just.id %}"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                            {% if group == "dgaf" and just.is_dgaf == True %}
+                                <a href="{% url 'proc-just-edit' proc.hashed just.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'proc-just-rem' proc.hashed just.id %}"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                            {% if group == "gab" and just.is_gab == True %}
+                                <a href="{% url 'proc-just-edit' proc.hashed just.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'proc-just-rem' proc.hashed just.id %}"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

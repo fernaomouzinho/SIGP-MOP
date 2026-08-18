@@ -1,0 +1,68 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>  
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th><th>Kompania</th><th>Naran Projetu</th><th>Numeru Kontratu</th><th>Progresu Fiziku Atual</th><th>Data Ikus Atualiza</th><th>Progresu Fiziku</th>
+                                <th>Komulativu</th><th>Balansu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ obj.3}}</td>
+                                <td>{{ obj.0.project.name }}</td>
+                                <td><a href="{% url 'phy-prog-list' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                                <td>
+                                {% if obj.2.prog_percent %}{{ obj.2.prog_percent }}%{% else %}0{% endif %}
+                                </td>
+                                <td>
+                                {{ obj.2.date|date:"d/m/Y" }}
+                                </td>
+
+                                <td>{% if obj.1.phys_prog %}{{ obj.1.phys_prog }}%{% else %}0{% endif %}</td>
+                                <td>{% if obj.1.com_percent %}{{ obj.1.com_percent }}%{% else %}0{% endif %}</td>
+                                <td>{% if obj.1.bal_percent %}{{ obj.1.bal_percent }}%{% else %}0{% endif %}</td>
+                                
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'prog-list' %}">Jeral</a></li>
+                    {% for y in years %}
+                        <li class="breadcrumb-item"><a href="{% url 'prog-year' y.start_date__year %}">{{ y.start_date__year }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

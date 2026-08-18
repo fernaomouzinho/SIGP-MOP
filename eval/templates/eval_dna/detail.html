@@ -1,0 +1,130 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dna-eval-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Estimasaun Donu Projetu</th>
+              {% if eval.is_adn == True or eval.is_cna == True %}<th>Estimasaun ADN</th>{% endif %}</tr>
+            <tr>
+              <td>{{ proj.code }}</td><td>{{ proj.name }}</td>
+              <td>${{ projest.owner|intcomma }}</td>
+              {% if eval.is_adn == True or eval.is_cna == True %}<td>${{ projest.adn|intcomma }}</td>{% endif %}
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Avaliasaun</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th width="25%">Numeru Referensia</th><td colspan="3">{{ eval.number }}</td></tr>
+            <tr><th>Data</th><td colspan="3">{{ eval.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Liu ADN</th><td>{% if eval.is_adn == True %}SIM <i class="fa fa-check-circle i_green"></i>{% else %}LAE{% endif %}</td>
+              <th>Liu CNA</th><td>{% if eval.is_cna == True %}SIM <i class="fa fa-check-circle i_green"></i>{% else %}LAE{% endif %}</td></tr>
+            <tr><th>Deskrisaun</th><td colspan="3">{{ eval.desc|safe }}</td></tr>
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Dokumentu ToR</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Nu.</th><th>Deskrisaun</th><th>Aneksu</th></tr>
+          {% for file in files %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ file.desc }}</td>
+              <td>
+               <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-boq' file.id %}" target="_blank">BOQ</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-design' file.id %}" target="_blank">Dezenu</i></a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-spec' file.id %}" target="_blank">Espesifikasaun</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-mapq' file.id %}" target="_blank">Mapa Quarry</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'eval-file-pdf-other' file.id %}" target="_blank">Dokumentu Seluk</a> 
+              </td>
+            </tr>
+          {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Relevante</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Diriji ba</th><th>Aneksu</th>
+            </tr>
+            {% for let in lets %}
+            <tr>
+              {% if let.comment %}
+              <td rowspan="5">{{ forloop.counter }}</td>
+              {% else %}
+              <td rowspan="3">{{ forloop.counter }}</td>
+              {% endif %}
+              <td>{{ let.number }}</td>
+              <td>{{ let.subject }}</td>
+              <td>{{ let.date|date:"d/m/Y" }}</td>
+              <td>{{ let.to }}</td>
+              <td>
+                  {% if let.file %}
+                  <a class="btn btn-sm btn-secondary" href="{% url 'eval-let-pdf' let.hashed %}" title="Anexu" target="_blank"><i claile-pdf-o"></i></a>
+                  {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="5">Deskrisaun</th></tr>
+            <tr><td colspan="5">{{ let.desc|safe }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col">
+      <div class="alert alert-info P-2">
+      {% if eval.is_appr == True %}
+      <i class="fa fa-success"></i> TOR APROVADU <i class="fa fa-check"></i>
+      {% endif %}
+
+      {% if eval.is_end == False %}
+      | <a class="btn btn-custom border" href="#" title="Hahu Tender" > PLANU TENDER SEIDAUK IHA<i class="fa fa-check"></i></a>
+      {% else %}
+      | <a class="btn btn-info" href="{% url 'dna-proc-list' %}" title="Planu Tender">PLANU TENDER <i class="fa fa-refresh"></i></a>
+    
+      {% endif %}
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

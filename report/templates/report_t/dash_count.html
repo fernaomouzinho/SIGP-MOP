@@ -1,0 +1,157 @@
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4">Planu Projetu</h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="row">
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Total</p>
+								<strong class="text-uppercase">Projetu</strong>
+								<div class="count-number"><a href="{% url 'r-proj-list' %}">{{ t_proj }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Foun</strong>
+								<div class="count-number"><a href="{% url 'r-proj-statusp-list' pk=1 %}">{{ t_new }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Reapropriasaun</strong>
+								<div class="count-number"><a href="{% url 'r-proj-statusp-list' pk=2 %}">{{ t_rollover }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+				</div><!--end row-->
+			</div><!--end col-->
+			<div class="col-sm-6" style="background-color: antiquewhite;">
+				<div class="row">
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Kompletu</strong>
+								<div class="count-number"><a href="{% url 'r-proj-status-list' pk=4 %}">{{ t_comp }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Lao Hela</strong>
+								<div class="count-number"><a href="{% url 'r-proj-status-list' pk=2 %}">{{ t_ongoing }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Seidauk Hahu</strong>
+								<div class="count-number"><a href="{% url 'r-proj-status-list' pk=1 %}">{{ t_notstarted }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+
+
+				</div>
+			</div><!--end col-->
+		</div><!--end row-->		
+	</div><!--end cont-->
+</section>
+<!-- end Counts Section -->
+<!-- Counts Section -->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4">Status Implementasaun Projetu</h2>
+            </div><!--end col-->
+        </div><!--end row-->
+		<div class="row">
+			<!-- Count item widget-->
+			<div class="col-xl-2 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name">
+						<p class="text-gray-500 small mb-1">Total</p>
+						<strong class="text-uppercase">Kontratu</strong>
+						<div class="count-number"><a href="{% url 'r-imp-list' %}">{{ t_imp }}</a></div>
+					</div>
+				</div>
+			</div><!--end item-->
+			<!-- Count item widget-->
+			<div class="col-xl-2 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name">
+						<p class="text-gray-500 small mb-1">Projetu</p>
+						<strong class="text-uppercase">Lao Hela</strong>
+						<div class="count-number"><a href="{% url 'r-imp-status-list' pk=1 %}">{{ t_onprog }}</a></div>
+					</div>
+				</div>
+			</div><!--end item-->
+			<!-- Count item widget-->
+			<div class="col-xl-2 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name">
+						<p class="text-gray-500 small mb-1">Projetu</p>
+						<strong class="text-uppercase">PHO</strong>
+						<div class="count-number"><a href="{% url 'r-imp-status-list' pk=4 %}">{{ t_pho }}</a></div>
+					</div>
+				</div>
+			</div><!--end item-->
+			<!-- Count item widget-->
+			<div class="col-xl-2 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name">
+						<p class="text-gray-500 small mb-1">Projetu</p>
+						<strong class="text-uppercase">FHO</strong>
+						<div class="count-number"><a href="{% url 'r-imp-status-list' pk=5 %}">{{ t_fho }}</a></div>
+					</div>
+				</div>
+			</div><!--end item-->
+			<!-- Count item widget-->
+			<div class="col-xl-2 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name">
+						<p class="text-gray-500 small mb-1">Projetu</p>
+						<strong class="text-uppercase">Tarde</strong>
+						<div class="count-number"><a href="{% url 'r-imp-status-list' pk=2 %}">{{ t_delay }}</a></div>
+					</div>
+				</div>
+			</div><!--end item-->
+			<!-- Count item widget-->
+			<div class="col-xl-2 col-md-4 col-6">
+				<div class="wrapper count-title d-flex">
+					<div class="name">
+						<p class="text-gray-500 small mb-1">Projetu</p>
+						<strong class="text-uppercase">Abandona</strong>
+						<div class="count-number"><a href="{% url 'r-imp-status-list' pk=3 %}">{{ t_abandon }}</a></div>
+					</div>
+				</div>
+			</div><!--end item-->
+		</div>
+	</div>
+</section>
+<!-- end Counts Section -->

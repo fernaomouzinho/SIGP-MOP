@@ -1,0 +1,64 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module_name }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Numeru</th>
+                                <th>Montante</th>
+                                <th>Periodu</th>
+                                <th>Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                {% if page == "po" %}
+                                <td><a href="{% url 'op-po-list' obj.hashed %}">{{ obj.number }}</a></td>
+                                {% elif page == "prt" %}
+                                <td><a href="{% url 'op-prt-list' obj.hashed %}">{{ obj.number }}</a></td>
+                                {% elif page == "tpo" %}
+                                <td><a href="{% url 'op-tpo-list' obj.hashed %}">{{ obj.number }}</a></td>
+                                {% elif page == "ev" %}
+                                <td><a href="{% url 'op-ev-list' obj.hashed %}">{{ obj.number }}</a></td>
+                                {% endif %}
+                                <td>${{ obj.total|intcomma }}</td>
+                                <td>{{ obj.start_date|date:"d/m/Y" }}-{{ obj.end_date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.project.name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

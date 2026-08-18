@@ -1,0 +1,89 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dna-cont-det' proj.hashed %}">Detallu Kontratu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru</th>
+                            <td>
+                                {% if not cont.number == amend.number %}
+                                <strike style="color:red;">{{ cont.number }}</strike> <strong>{{ amend.number }}</strong>
+                                {% else %}{{ cont.number }}{% endif %}
+                            </td>
+                        </tr>
+                        <tr><th>Montante</th><td>${{ cont.total|intcomma }}</td></tr>
+                        <tr><th>Data Remata</th>
+                            <td>
+                                {% if not cont.end_date == amend.end_date %}
+                                <strike style="color:red;">{{ cont.end_date|date:"d/m/Y" }}</strike> <strong>{{ amend.end_date|date:"d/m/Y" }}</strong>
+                                {% else %}{{ cont.end_date|date:"d/m/Y" }}{% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu</th><td>{{ cont.project.code }}</td></tr>
+                        <tr><th>Naran</th><td>{{ cont.project.name }}</td></tr>
+                        <tr><th>Tinan</th><td>{{ proj.year }}</td></tr>
+                    </table>     
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Amenda Tempu</div>
+                <div class="card-body">
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'amend-per-add' cont.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>#</th><th>Kontratu Foun</th><th>Data Extensaun</th><th>#</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ obj.contract }} {% if obj.is_active == True %}<i class="fa fa-check"></i>{% endif %}</td>
+                            <td>{{ obj.end_date }}</td>
+                            <td>
+                            {% if obj.is_confirm == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'amend-per-edit' cont.hashed obj.id %}" title="Altera"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'amend-per-rem' cont.hashed obj.id %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-sm btn-primary" href="{% url 'amend-per-conf' cont.hashed obj.id %}" title="Konfirma"><i class="fa fa-check"></i></a>
+                            {% else %}
+                                <a class="btn btn-sm btn-info disabled" href="#" title="Altera"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger disabled" href="#" title="Hapaga"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-sm btn-primary disabled" href="#" title="Konfirma"><i class="fa fa-check"></i></a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

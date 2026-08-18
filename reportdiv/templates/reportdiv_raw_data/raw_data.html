@@ -1,0 +1,177 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'r-div-proj-dash' div.id %}">Sumariu Pagamentu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <center>
+                        <h3>{{ legend|upper }}</h3>
+                        <h2>{{ subtitle|upper }}</h2>
+                    </center>
+                    <hr/>
+                    <table id="example" class="table table-sm table-bordered display nowrap" style="width:100%">
+                        <thead>
+                            <tr align="center">
+                                <th rowspan="2">#</th>
+                                <th colspan="9" style="background-color:aquamarine;">Projetu</th>
+                                <th colspan="7" style="background-color:aqua;">Kontratu</th>
+                                <th colspan="5" style="background-color:burlywood;">CPV</th>
+                                <th colspan="6" style="background-color:bisque;">Rekomendasaun ADN/Payment Certificate/Invoice</th>
+                                <th colspan="5" style="background-color:cadetblue;">PRT</th>
+                                <th colspan="3" style="background-color:azure;">TPO</th>
+                                <th colspan="4" style="background-color:cornflowerblue">Pagamentu</th>
+                            </tr>
+                            <tr>
+                                <!--project-->
+                                <th>Code</th><th>Naran</th><th>Dono</th><th>Tinan</th><th>Kat.</th>
+                                <th>Capital</th><th>Sector</th><th>Status</th><th>Mun.</th>
+                                <!--cont-->
+                                <th>Nu. Kontratu</th><th>Montante</th><th>Tinan Tender</th>
+                                <th>Empreza Ezekutador</th><th>Data Hahu</th><th>Data Remata</th><th>Desc.</th>
+                                <!--cpv-->
+                                <th>CPV No.</th><th>Line Item</th><th>Data CPV</th><th>Montante CPV</th><th>#</th>
+                                <!--recom-->
+                                <th>Term</th><th>No.</th><th>Data</th><th>Desc</th><th>Montante</th><th>#</th>
+                                <!--prt-->
+                                <th>No.</th><th>Data</th><th>Montante</th><th>%</th><th>#</th>
+                                <!--top-->
+                                <th>No.</th><th>Data</th><th>#</th>
+                                <!--pay-->
+                                <th>Montante Net</th><th>Bal. ($)</th><th>Bal. (%)</th><th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <!--project-->
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ obj.0.code }}</td><td>{{ obj.0.code }}</td>
+                                <td>{{ obj.0.owner.code }}</td><td>{{ obj.0.year }}</td>
+                                <td>{{ obj.0.pcategory.code }}</td><td>{{ obj.0.capital.code }}</td>
+                                <td>{{ obj.0.sector }}</td><td>{{ obj.0.statusproj }}</td>
+                                <td>{{ obj.1.municipality }}</td>
+                                <!--cont-->
+                                <td>{{ obj.2.number }}</td><td>${{ obj.4.total|intcomma }}</td>
+                                <td>{{ obj.2.proc_year }}</td><td>{% for obj3 in obj.3 %}{{ obj3.company }}{% endfor %}</td>
+                                <td>{{ obj.2.start_date|date:"d/m/Y" }}</td><td>{{ obj.4.end_date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.2.desc }}</td>
+                                <!--cpv-->
+                                <td>{{ obj.6.number }}</td><td>{{ obj.6.line_item }}</td>
+                                <td>{{ obj.6.date|date:"d/m/Y" }}</td><td>{% if obj.6.amount %}${{ obj.6.amount|intcomma }}{% endif %}</td>
+                                <td><a href="{% url 'r-div-raw-data-cpv' div.id obj.0.hashed %}" title="Mais" target="_blank"><i class="fa fa-list"></i></a></td>
+                                <!--recom-->
+                                <td>{{ obj.7.term }}</td><td>{{ obj.7.number }}</td>
+                                <td>{{ obj.7.date|date:"d/m/Y" }}</td><td>{{ obj.7.desc }}</td>
+                                <td>{% if obj.7.amount %}${{ obj.7.amount|intcomma }}{% endif %}</td>
+                                <td><a href="{% url 'r-div-raw-data-recom' div.id obj.2.hashed %}" title="Mais" target="_blank"><i class="fa fa-list"></i></a></td>
+                                <!--prt-->
+                                <td>{{ obj.8.number }}</td><td>{{ obj.8.date|date:"d/m/Y" }}</td>
+                                <td>{% if obj.8.total %}${{ obj.8.total|intcomma }}{% endif %}</td>
+                                <td>{{ obj.8.percent }}</td>
+                                <td><a href="{% url 'r-div-raw-data-prt' div.id obj.2.hashed %}" title="Mais" target="_blank"><i class="fa fa-list"></i></a></td>
+                                <!--tpo-->
+                                <td>{{ obj.9.number }}</td>
+                                <td>{{ obj.9.date|date:"d/m/Y" }}</td>
+                                <td><a href="{% url 'r-div-raw-data-tpo' div.id obj.2.hashed %}" title="Mais" target="_blank"><i class="fa fa-list"></i></a></td>
+                                <!--pay-->
+                                <td>{% if obj.10.com_amount %}${{ obj.10.com_amount|intcomma }}{% endif %}</td>
+                                <td>{% if obj.10.bal_amount %}${{ obj.10.bal_amount|intcomma }}{% endif %}</td>
+                                <td>{{ obj.10.bal_percent }}</td>
+                                <td><a href="{% url 'all-pay-list' obj.2.hashed %}" title="Mais" target="_blank"><i class="fa fa-list"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<link href="{% static 'main/datatables/css/searchBuilder.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/searchBuilder.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/buttons.dataTables.min.css' %}" rel="stylesheet">
+<style type="text/css">
+    .dtsb-searchBuilder{
+        background: #b9c7e6 !important;
+        padding: 5px
+    }
+    .dt-button, .dtsb-add {
+        background: white !important;
+    }
+    @media print{
+        @page {
+            size: landscape;
+        }
+    }
+</style>
+<script src="{% static 'main/datatables/js/dataTables.searchBuilder.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/searchBuilder.bootstrap4.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/jszip.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/pdfmake.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/vfs_fonts.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.colVis.min.js' %}"></script>
+
+<script src="{% static 'main/js/datatables.js' %}"></script>
+<script>
+    $(document).ready( function () {
+        var table = $('#example').removeAttr('width').DataTable( {
+            "scrollY": "50vh",
+            "scrollX": true,
+            "scrollCollapse": true,
+            "paging": true,
+            searchBuilder: true,
+            buttons:[
+            {
+                extend: 'excelHtml5', autoFilter: true, sheetName: 'Exported data'
+            },
+            {
+                extend: 'print',
+                exportOptions: { columns: ':visible' },
+                title: '<img src="http://localhost:8000/static/main/images/logo.png" style="width:120;" /><hr/>\
+                <center><h4>{{ legend|upper }}</h4></center>',
+                customize: function(win)
+                {                    
+                    var last = null;
+                    var current = null;
+                    var bod = [];                    
+                    var css = '@page { size: landscape; }',
+                    head = win.document.head || win.document.getElementsByTagName('head')[0],
+                    style = win.document.createElement('style');
+                    style.type = 'text/css';
+                    style.media = 'print';                    
+                    if (style.styleSheet)
+                    {
+                        style.styleSheet.cssText = css;
+                    }
+                    else
+                    {
+                        style.appendChild(win.document.createTextNode(css));
+                    }                    
+                    head.appendChild(style);
+                }
+            },
+            'colvis',
+            ],
+            dom: 'Bfrtip',
+            "deferRender": true
+        });
+        table.searchBuilder.container().prependTo(table.table().container());
+    } );
+</script>
+{% endblock %}

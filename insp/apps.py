@@ -1,0 +1,10 @@
+from django.apps import AppConfig
+
+
+class InspConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'insp'
+    
+    def ready(self):
+        import insp.signals
+

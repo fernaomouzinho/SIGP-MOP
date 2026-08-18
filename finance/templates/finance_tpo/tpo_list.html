@@ -1,0 +1,129 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'prt-cont-list' %}">Lista Projetu</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'prt-inv-list' inv.hashed %}">Lista Kontratu</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Kontratu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Numeru Kontratu</th><td><a href="{% url 'dna-cont-det' cont.hashed %}">{{ cont.number }}</a></td></tr>
+            <tr><th>Montante Kontratu</th><td>${{ cont.total|intcomma }}</td></tr>
+            <tr><th>Periodu Kontratu</th><td>{{ cont.start_date }} - {{ cont.end_date }}</td></tr>
+            <tr><th>Kompa&ntilde;ia</th><td>{{ comp.company }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Kodigu Projetu</th><td><a href="{% url 'proj-det' proj.hashed %}">{{ proj.code }}</a></td></tr>
+            <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Detallu Resibu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Numeru Resibu</th><td>{{ inv.number }}</td></tr>
+            <tr><th>Data</th><td>{{ inv.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Progresu Fiziku</th><td>{{ inv.phys_prog }}%</td></tr>
+            <tr><th>Montante Resibu</th><td>{{ inv.total|intcomma }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Detallu PO</div>
+        <div class="card-body">
+          <table class="table table-sm table-bordered table-striped">
+            <tr>
+              <th>Numeru PO</th><th>Montante PO</th><th>Data</th><th>Dokumentu</th>
+            </tr>
+            <tr>
+              <td>{{ po.number }}</td>
+              <td>${{ po.amount|intcomma }}</td>
+              <td>{{ po.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if po.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'po-pdf' po.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu PRT</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Numeru PRT</th><td>{{ prt.number }}</td></tr>
+            <tr><th>Data</th><td>{{ prt.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Montante PRT</th><td>{{ prt.total }}</td></tr>
+            <tr><th>Pursentu</th><td>{{ prt.percent }}%</td></tr>
+            <tr>
+              <th colspan="2">Aneksu</th>
+              <td colspan="2">
+                {% if prt.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'prt-pdf' prt.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Detallu EV</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Numeru EV</th><th>Data</th><th>Dokumentu</th></tr>
+            <tr><td>{{ ev.number }}</td><td>{{ ev.date }}</td>
+              <td>
+                {% if ev.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'ev-pdf' ev.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Detallu TPO</div>
+        <div class="card-body">
+          {% if group == 'dnof' %}
+          {% if not tpo %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-tpo-add' inv.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+          {% else %}
+          {% if tpo.is_ready == False %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'dnof-tpo-edit' inv.hashed tpo.hashed %}">Atualiza <i class="fa fa-edit"></i></a>
+          <a class="btn btn-sm btn-success mb-1" href="{% url 'dnof-tpo-ready' inv.hashed tpo.id %}">Prontu <i class="fa fa-check"></i></a>
+          {% endif %}
+          {% endif %}
+          {% endif %}
+          <table class="table table-sm">
+            <tr><th>Numeru TPO</th><th>Data</th><th>Montante TPO</th></tr>
+            <tr><td>{{ tpo.number }}</td><td>{{ tpo.date }}</td><td>${{ tpo.amount|intcomma }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

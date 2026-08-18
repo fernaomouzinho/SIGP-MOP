@@ -1,0 +1,56 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module_name }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">{{ legend|upper }}</div>
+        <div class="card-body">
+            <a class="btn btn-sm btn-secondary mb-1" href="{% url 'uvip-proj-hash-update' %}">Atualiza Hash <i class="fa fa-refresh"></i></a>
+            <table class="table datatable" id="example" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Kodigu</th>
+                    <th>Naran</th>
+                    <th>hashed</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in objects %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.code }}</td>
+                    <td>{{ obj.name }}</td>
+                    <td>{{ obj.hashed }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

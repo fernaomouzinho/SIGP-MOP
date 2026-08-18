@@ -1,0 +1,111 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'gab-po-cont-list' proj.hashed %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Purchase Order (PO)</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Kontratu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Numeru</th><td><a href="{% url 'cont-det' cont.hashed %}">{{ cont.number }}</a></td></tr>
+            <tr><th>Montante</th><td>${{ cont.total|intcomma }}</td></tr>
+            <tr><th>Periodu</th><td>{{ cont.start_date }} - {{ cont.end_date }}</td></tr>
+            <tr><th>Kompa&ntilde;ia</th><td>{% for comp in comps %}{{ comp.company.name }}, {% endfor %}</td></tr>
+          </table>
+        </div>
+      </div>      
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th>Kodigu</th><td><a href="{% url 'proj-det' proj.hashed %}">{{ proj.code }}</a></td></tr>
+            <tr><th>Naran</th><td>{{ proj.name }}</td></tr>
+            <tr><th>Kategoria</th><td>{{ proj.pcategory.code }}</td></tr>
+            <tr><th>Tinan</th><td>{{ proj.year }}</td></tr>
+          </table>
+        </div>
+      </div>      
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Lista CPV</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>#</th><th>Numeru CPV</th><th>Montante</th><th>Data</th>
+            </tr>
+            {% for cpv in cpvs %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              {% if group == "gab" %}
+              <td><a href="{% url 'gab-cpv-det' cpv.proj.hashed %}" target="_blank">{{ cpv.number }}</a></td>
+              {% elif group == "dnof" %}
+              <td><a href="{% url 'dnof-cpv-det' cpv.proj.hashed %}" target="_blank">{{ cpv.number }}</a></td>
+              {% else %}
+              <td><a href="{% url 'uvip-cpv-det' cpv.proj.hashed %}" target="_blank">{{ cpv.number }}</a></td>
+              {% endif %}
+              <td>${{ cpv.amount|intcomma }}</td>
+              <td>{{ cpv.date|date:"d/m/Y" }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>      
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Lista PO</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>#</th><th>Numeru PO</th><th>Numeru CPV</th><th>Resibu</th><th>Montante</th>
+              <th>Data</th><th>#</th>
+            </tr>
+            {% for obj in objects %}
+            <tr>
+              <td rowspan="3">{{ forloop.counter }}</td>
+              <td><a href="{% url 'gab-po-det' obj.hashed %}">{{ obj.number }}</a></td>
+              <td>{{ obj.cpv.number }}</td>
+              <td>{{ obj.inv }}</td>
+              <td>${{ obj.amount|intcomma }}</td>
+              <td>{{ obj.date|date:"d/m/Y" }}</td>              
+              <td>
+                {% if obj.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'po-pdf' obj.hashed %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="6">Deskrisaun</th></tr>
+            <tr><td colspan="6">{{ obj.desc|safe }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,122 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('dash/', views.rPayDash, name="r-pay-dash"),
+    path('year/<str:year>/', views.rPayYear, name="r-pay-year"),
+    #
+    path('g/dash/', views.rPayGDash, name="r-pay-g-dash"),
+    path('g/year/<str:year>/', views.rPayGYear, name="r-pay-g-year"),
+    # mopcat
+    path('g/mopcat/all/<str:pk>/<str:page>/', views.rPayGMopCatAll, name="r-pay-g-mopcat-all"),
+    path('g/mopcat/year/<str:year>/<str:pk>/<str:page>/', views.rPayGMopCatYear, name="r-pay-g-mopcat-year"),
+    path('g/mopcat/sum/', views.rPayGMopCatSum, name="r-pay-g-mopcat-sum"),
+    path('g/mopcat/sum/year/<str:year>/', views.rPayGMopCatSumYear, name="r-pay-g-mopcat-sum-year"),
+    path('g/mopcat/sum/year/det/<str:year>/<str:pk>/', views.rPayGMopCatSumYearDet, name="r-pay-g-mopcat-sum-year-det"),
+    path('g/mopcat/sum/month/<str:year>/<str:month>/', views.rPayGMopCatSumMonth, name="r-pay-g-mopcat-sum-month"),
+    path('g/mopcat/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayGMopCatSumMonthDet, name="r-pay-g-mopcat-sum-month-det"),
+    # cat
+    path('g/cat/all/<str:pk>/<str:page>/', views.rPayGCatAll, name="r-pay-g-cat-all"),
+    path('g/cat/year/<str:year>/<str:pk>/<str:page>/', views.rPayGCatYear, name="r-pay-g-cat-year"),
+    path('g/cat/sum/', views.rPayGCatSum, name="r-pay-g-cat-sum"),
+    path('g/cat/sum/year/<str:year>/', views.rPayGCatSumYear, name="r-pay-g-cat-sum-year"),
+    path('g/cat/sum/year/det/<str:year>/<str:pk>/', views.rPayGCatSumYearDet, name="r-pay-g-cat-sum-year-det"),
+    path('g/cat/sum/month/<str:year>/<str:month>/', views.rPayGCatSumMonth, name="r-pay-g-cat-sum-month"),
+    path('g/cat/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayGCatSumMonthDet, name="r-pay-g-cat-sum-month-det"),
+    # sec
+    path('g/sec/all/<str:pk>/<str:page>/', views.rPayGSecAll, name="r-pay-g-sec-all"),
+    path('g/sec/year/<str:year>/<str:pk>/<str:page>/', views.rPayGSecYear, name="r-pay-g-sec-year"),
+    path('g/sec/sum/', views.rPayGSecSum, name="r-pay-g-sec-sum"),
+    path('g/sec/sum/year/<str:year>/', views.rPayGSecSumYear, name="r-pay-g-sec-sum-year"),
+    path('g/sec/sum/year/det/<str:year>/<str:pk>/', views.rPayGSecSumYearDet, name="r-pay-g-sec-sum-year-det"),
+    path('g/sec/sum/month/<str:year>/<str:month>/', views.rPayGSecSumMonth, name="r-pay-g-sec-sum-month"),
+    path('g/sec/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayGSecSumMonthDet, name="r-pay-g-sec-sum-month-det"),
+    # cap
+    path('g/cap/all/<str:pk>/<str:page>/', views.rPayGCapAll, name="r-pay-g-cap-all"),
+    path('g/cap/year/<str:year>/<str:pk>/<str:page>/', views.rPayGCapYear, name="r-pay-g-cap-year"),
+    path('g/cap/sum/', views.rPayGCapSum, name="r-pay-g-cap-sum"),
+    path('g/cap/sum/year/<str:year>/', views.rPayGCapSumYear, name="r-pay-g-cap-sum-year"),
+    path('g/cap/sum/year/det/<str:year>/<str:pk>/', views.rPayGCapSumYearDet, name="r-pay-g-cap-sum-year-det"),
+    path('g/cap/sum/month/<str:year>/<str:month>/', views.rPayGCapSumMonth, name="r-pay-g-cap-sum-month"),
+    path('g/cap/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayGCapSumMonthDet, name="r-pay-g-cap-sum-month-det"),
+    #
+    path('year/list/<str:year>/<str:page>/', views.rPayYearList, name="r-pay-year-list"),
+    path('month/list/<str:year>/<str:month>/<str:page>/', views.rPayMonthList, name="r-pay-month-list"),
+    path('date/list/<str:year>/<str:month>/<str:date>/<str:page>/', views.rPayDateList, name="r-pay-date-list"),
+    ### FISCAL
+    path('fis/dash/', views.rPayFisDash, name="r-pay-fis-dash"),
+    path('fis/year/<str:year>/', views.rPayFisYear, name="r-pay-fis-year"),
+    # mopcat
+    path('fis/mopcat/all/<str:pk>/<str:page>/', views.rPayFisMopCatAll, name="r-pay-fis-mopcat-all"),
+    path('fis/mopcat/year/<str:year>/<str:pk>/<str:page>/', views.rPayFisMopCatYear, name="r-pay-fis-mopcat-year"),
+    path('fis/mopcat/sum/', views.rPayFisMopCatSum, name="r-pay-fis-mopcat-sum"),
+    path('fis/mopcat/sum/year/<str:year>/', views.rPayFisMopCatSumYear, name="r-pay-fis-mopcat-sum-year"),
+    path('fis/mopcat/sum/year/det/<str:year>/<str:pk>/', views.rPayFisMopCatSumYearDet, name="r-pay-fis-mopcat-sum-year-det"),
+    path('fis/mopcat/sum/month/<str:year>/<str:month>/', views.rPayFisMopCatSumMonth, name="r-pay-fis-mopcat-sum-month"),
+    path('fis/mopcat/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayFisMopCatSumMonthDet, name="r-pay-fis-mopcat-sum-month-det"),
+    # cat
+    path('fis/cat/all/<str:pk>/<str:page>/', views.rPayFisCatAll, name="r-pay-fis-cat-all"),
+    path('fis/cat/year/<str:year>/<str:pk>/<str:page>/', views.rPayFisCatYear, name="r-pay-fis-cat-year"),
+    path('fis/cat/sum/', views.rPayFisCatSum, name="r-pay-fis-cat-sum"),
+    path('fis/cat/sum/year/<str:year>/', views.rPayFisCatSumYear, name="r-pay-fis-cat-sum-year"),
+    path('fis/cat/sum/year/det/<str:year>/<str:pk>/', views.rPayFisCatSumYearDet, name="r-pay-fis-cat-sum-year-det"),
+    path('fis/cat/sum/month/<str:year>/<str:month>/', views.rPayFisCatSumMonth, name="r-pay-fis-cat-sum-month"),
+    path('fis/cat/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayFisCatSumMonthDet, name="r-pay-fis-cat-sum-month-det"),
+    # sec
+    path('fis/sec/all/<str:pk>/<str:page>/', views.rPayFisSecAll, name="r-pay-fis-sec-all"),
+    path('fis/sec/year/<str:year>/<str:pk>/<str:page>/', views.rPayFisSecYear, name="r-pay-fis-sec-year"),
+    path('fis/sec/sum/', views.rPayFisSecSum, name="r-pay-fis-sec-sum"),
+    path('fis/sec/sum/year/<str:year>/', views.rPayFisSecSumYear, name="r-pay-fis-sec-sum-year"),
+    path('fis/sec/sum/year/det/<str:year>/<str:pk>/', views.rPayFisSecSumYearDet, name="r-pay-fis-sec-sum-year-det"),
+    path('fis/sec/sum/month/<str:year>/<str:month>/', views.rPayFisSecSumMonth, name="r-pay-fis-sec-sum-month"),
+    path('fis/sec/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayFisSecSumMonthDet, name="r-pay-fis-sec-sum-month-det"),
+    # cap
+    path('fis/cap/all/<str:pk>/<str:page>/', views.rPayFisCapAll, name="r-pay-fis-cap-all"),
+    path('fis/cap/year/<str:year>/<str:pk>/<str:page>/', views.rPayFisCapYear, name="r-pay-fis-cap-year"),
+    path('fis/cap/sum/', views.rPayFisCapSum, name="r-pay-fis-cap-sum"),
+    path('fis/cap/sum/year/<str:year>/', views.rPayFisCapSumYear, name="r-pay-fis-cap-sum-year"),
+    path('fis/cap/sum/year/det/<str:year>/<str:pk>/', views.rPayFisCapSumYearDet, name="r-pay-fis-cap-sum-year-det"),
+    path('fis/cap/sum/month/<str:year>/<str:month>/', views.rPayFisCapSumMonth, name="r-pay-fis-cap-sum-month"),
+    path('fis/cap/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayFisCapSumMonthDet, name="r-pay-fis-cap-sum-month-det"),
+    ### ANNUAL
+    path('ann/dash/', views.rPayAnnDash, name="r-pay-ann-dash"),
+    path('ann/year/<str:year>/', views.rPayAnnYear, name="r-pay-ann-year"),
+    # mopcat
+    path('ann/mopcat/all/<str:pk>/<str:page>/', views.rPayAnnMopCatAll, name="r-pay-ann-mopcat-all"),
+    path('ann/mopcat/year/<str:year>/<str:pk>/<str:page>/', views.rPayAnnMopCatYear, name="r-pay-ann-mopcat-year"),
+    path('ann/mopcat/sum/', views.rPayAnnMopCatSum, name="r-pay-ann-mopcat-sum"),
+    path('ann/mopcat/sum/year/<str:year>/', views.rPayAnnMopCatSumYear, name="r-pay-ann-mopcat-sum-year"),
+    path('ann/mopcat/sum/year/det/<str:year>/<str:pk>/', views.rPayAnnMopCatSumYearDet, name="r-pay-ann-mopcat-sum-year-det"),
+    path('ann/mopcat/sum/month/<str:year>/<str:month>/', views.rPayAnnMopCatSumMonth, name="r-pay-ann-mopcat-sum-month"),
+    path('ann/mopcat/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayAnnMopCatSumMonthDet, name="r-pay-ann-mopcat-sum-month-det"),
+    # cat
+    path('ann/cat/all/<str:pk>/<str:page>/', views.rPayAnnCatAll, name="r-pay-ann-cat-all"),
+    path('ann/cat/year/<str:year>/<str:pk>/<str:page>/', views.rPayAnnCatYear, name="r-pay-ann-cat-year"),
+    path('ann/cat/sum/', views.rPayAnnCatSum, name="r-pay-ann-cat-sum"),
+    path('ann/cat/sum/year/<str:year>/', views.rPayAnnCatSumYear, name="r-pay-ann-cat-sum-year"),
+    path('ann/cat/sum/year/det/<str:year>/<str:pk>/', views.rPayAnnCatSumYearDet, name="r-pay-ann-cat-sum-year-det"),
+    path('ann/cat/sum/month/<str:year>/<str:month>/', views.rPayAnnCatSumMonth, name="r-pay-ann-cat-sum-month"),
+    path('ann/cat/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayAnnCatSumMonthDet, name="r-pay-ann-cat-sum-month-det"),
+    # sec
+    path('ann/sec/all/<str:pk>/<str:page>/', views.rPayAnnSecAll, name="r-pay-ann-sec-all"),
+    path('ann/sec/year/<str:year>/<str:pk>/<str:page>/', views.rPayAnnSecYear, name="r-pay-ann-sec-year"),
+    path('ann/sec/sum/', views.rPayAnnSecSum, name="r-pay-ann-sec-sum"),
+    path('ann/sec/sum/year/<str:year>/', views.rPayAnnSecSumYear, name="r-pay-ann-sec-sum-year"),
+    path('ann/sec/sum/year/det/<str:year>/<str:pk>/', views.rPayAnnSecSumYearDet, name="r-pay-ann-sec-sum-year-det"),
+    path('ann/sec/sum/month/<str:year>/<str:month>/', views.rPayAnnSecSumMonth, name="r-pay-ann-sec-sum-month"),
+    path('ann/sec/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayAnnSecSumMonthDet, name="r-pay-ann-sec-sum-month-det"),
+    # cap
+    path('ann/cap/all/<str:pk>/<str:page>/', views.rPayAnnCapAll, name="r-pay-ann-cap-all"),
+    path('ann/cap/year/<str:year>/<str:pk>/<str:page>/', views.rPayAnnCapYear, name="r-pay-ann-cap-year"),
+    path('ann/cap/sum/', views.rPayAnnCapSum, name="r-pay-ann-cap-sum"),
+    path('ann/cap/sum/year/<str:year>/', views.rPayAnnCapSumYear, name="r-pay-ann-cap-sum-year"),
+    path('ann/cap/sum/year/det/<str:year>/<str:pk>/', views.rPayAnnCapSumYearDet, name="r-pay-ann-cap-sum-year-det"),
+    path('ann/cap/sum/month/<str:year>/<str:month>/', views.rPayAnnCapSumMonth, name="r-pay-ann-cap-sum-month"),
+    path('ann/cap/sum/month/det/<str:year>/<str:month>/<str:pk>/', views.rPayAnnCapSumMonthDet, name="r-pay-ann-cap-sum-month-det"),
+    ### EXEC
+    path('exec/list', views.rExecList, name="r-exec-list"),
+    path('exec/<str:year>/', views.rExecYearList, name="r-exec-year-list"),
+    path('exec/pay/all/<str:month>/', views.rExecPayAllList, name="r-exec-pay-all-list"),
+    path('exec/pay/year/<str:year>/<str:month>/', views.rExecPayYearList, name="r-exec-pay-year-list"),
+    
+]

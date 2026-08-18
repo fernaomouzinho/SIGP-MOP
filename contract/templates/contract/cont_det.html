@@ -1,0 +1,114 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'cont-list' %}">Lista Kontratu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kategoria Projetu</th><th>Tinan Projetu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ proj.code }}</td>
+                            <td>{{ proj.name }}</td>
+                            <td>{{ proj.pcategory.code }}</td>
+                            <td>{{ proj.year }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">Donu Projetu</th><th>Status Projetu</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{% if proj.owner %}{{ proj.owner }}{% endif %}</td>
+                            <td>{{ proj.statusproj }}</td>
+                        </tr>
+                    </table>      
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Kontratu</th><th>Montante Kontratu</th><th>Tipu Tender</th><th>Periodu Kontratu</th><th>Kontratu Fiscal</th><th>Tinan Tender</th><th>Status Kontratu</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if not cont.number == amend.number %}
+                                <strike style="color:red;">{{ cont.number }}</strike>
+                                <strong>{{ amend.number }}</strong>
+                                {% else %}
+                                {{ cont.number }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not cont.total == amend.total %}
+                                <strike style="color:red;">${{ cont.total|intcomma }}</strike>
+                                <strong>${{ amend.total|intcomma }}</strong>
+                                {% else %}${{ cont.total|intcomma }}{% endif %}
+                            </td>
+                            <td>{{ cont.type.code }}</td>
+                            <td>{{ cont.start_date|date:"d/m/Y" }} - 
+                                {% if not cont.end_date == amend.end_date %}
+                                <strike style="color:red;">{{ cont.end_date|date:"d/m/Y" }}</strike>
+                                <strong>{{ amend.end_date|date:"d/m/Y" }}</strong>
+                                {% else %}{{ cont.end_date|date:"d/m/Y" }}{% endif %}
+                            </td>
+                            <td>{% if cont.is_fiscal == False %}Lae{% else %}Sim{% endif %}</td>
+                            <td>{{ cont.proc_year }}</td>
+                            <td>{{ cont.status }}</td>
+                        </tr>
+                    </table>
+                    <hr/>
+                    {% if cont %}
+                    <h5>Detallu Kompa&ntilde;ia</h5>
+                    <table class="table table-sm table-striped">
+                        <tr><th>Naran Kompa&ntilde;ia</th><th>Numeru Telemovel</th><th>Enderesu</th><th>Prinsipal Kompa&ntilde;ia</th>
+                        </tr>
+                        {% for comp  in comps %}
+                        <tr>
+                            <td>{{ comp.company }}</td>
+                            <td>{{ comp.company.phone }}</td>
+                            <td>{{ comp.company.address }}</td>
+                            <td>{% if comp.is_main == True %}<i class="fa fa-check"></i>{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <hr/>
+                    <h5>Anexu</h5>
+                    <table class="table table-sm table-striped">
+                        <tr><th>Deskrisaun</th><th>Aneksu</th>
+                        </tr>
+                        {% for file in files %}
+                        <tr>
+                            <td>{{ file.desc|safe }}</td>
+                            <td>
+                                <a href="{% url 'cont-pdf' file.id %}" target="_blank" title="PDF"><i class="fa fa-file-pdf-o"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% endif %}
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

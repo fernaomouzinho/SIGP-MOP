@@ -1,0 +1,92 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'cpv-list' %}">Lista CPV</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-12">
+      <h5>Informasaun Projetu</h5>
+      <table class="table table-sm">
+        <tr>
+          <th style="background-color:antiquewhite;">CPV Numeru</th>
+          <th>Kodigu Projetu </th><th>Naran Projetu</th><th>Estimasaun Kustu</th>
+        </tr>
+        <tr>
+          <td style="background-color: antiquewhite;">{{ cpv.number }}</td>
+          <td>{{ cpv.project.code }}</td>
+          <td>{{ cpv.project.name }}</td>
+          <td>${{ projest.owner|intcomma }}</td>
+        </tr>
+      </table>
+    </div><!--end col-->
+  </div><!--end row-->
+  <hr/>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Pedidu CPV</div>
+        <div class="card-body">
+          <table class="table table-sm table-bordered">
+            <tr>
+              <th>Husi</th><th>Numeru</th><th>Asuntu</th><th>Data</th><th>Dokumentu</th>
+            </tr>
+            <tr>
+              <td>{{ cpvreq.div.code }}</td>
+              <td>{{ cpvreq.number }}</td>
+              <td>{{ cpvreq.subject }}</td>
+              <td>{{ cpvreq.date }}</td>
+              <td>
+                {% if cpvreq.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-req-pdf' cpvreq.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header"><h5>Dokumentu Relevante</h5></div>
+        <div class="card-body">
+          <table class="table table-sm table-bordered">
+            <tr>
+              <th>Husi</th><th>Numeru</th><th>Asuntu</th><th>Data</th><th>Dokumentu</th>
+            </tr>
+            {% for letter in letters %}
+            <tr>
+              <td>
+                {% if letter.div %}{{ letter.div.code }}
+                {% elif letter.dg %}{{ letter.dg.code }}
+                {% elif letter.min %}{{ letter.min.code }}{% endif %}
+              </td>
+              <td>{{ letter.number }}</td>
+              <td>{{ letter.subject }}</td>
+              <td>{{ letter.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if letter.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-letter-pdf' letter.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <hr/>
+  {% include 'finance_track/cpv_track.html' %}
+  <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

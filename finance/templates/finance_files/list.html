@@ -1,0 +1,73 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if group == "dna" %}
+            <li class="breadcrumb-item"><a href="{% url 'dna-inv-det' inv.hashed %}">Detallu Resibu</a></li>
+            {% elif group == "dnof" %}
+            <li class="breadcrumb-item"><a href="{% url 'dnof-inv-det' inv.hashed %}">Detallu Resibu</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+    <div class="container-fluid py-2">
+        <h1 class="h3 fw-normal mb-0">Aneksu Dokumentus Relevantes Sira Hotu</h1>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Resibu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th>Numeru Resibu</th><th>Data</th><th>Numeru Kontratu</th></tr>
+                        <tr>
+                            <td>{{ inv.number }}</td><td>{{ inv.date|date:"d/m/Y" }}</td><td>{{ inv.cont.number }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>      
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend }}</div>
+                <div class="card-body">
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'fin-file-add' inv.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Deskrisaun</th><th>Aneksu</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ obj.desc }}</td>
+                            <td>
+                                {% if obj.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'fin-file-pdf' obj.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                                {% if obj.is_lock == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'fin-file-edit' inv.hashed obj.id %}" title="Atualiza"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{% url 'fin-file-rem' inv.hashed obj.id %}" title="Apaga"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-sm btn-warning" href="{% url 'fin-file-lock' inv.hashed obj.id %}" title="Lock"><i class="fa fa-lock"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>      
+        </div><!--end col-->
+    </div><!--end row-->
+    <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,105 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SIGP - LOGIN</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'main/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="shortcut icon" href="{% static 'main/images/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'main/vendor/font-awesome/css/font-awesome.min.css' %}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'main/css/custom.css' %}">
+
+    <style>
+        /* Full height body and html */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.full-screen {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Main content takes remaining space and centers items */
+        main.container {
+            flex: 1;
+            display: flex;
+            align-items: center; /* vertical center */
+            justify-content: center; /* horizontal center */
+        }
+
+        /* Row max width */
+        main.container .row {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Limit card width */
+        .card {
+            width: 100%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body class="full-screen">
+    <!-- Navbar -->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-navbar fixed-top">
+            <!-- Brand/logo can go here -->
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main role="main" class="container ">
+        <div class="row w-100 border border-success rounded p-4  shadow">
+            <!-- Left Column -->
+            <div class="col-md-7 d-flex flex-column align-items-center justify-content-center">
+                <h2>Sistema Informação Gestão Projetos</h2>
+                <h1>- SIGP -</h1>
+                <hr/>
+                <img src="{% static 'main/images/logo.png' %}" alt="SIGP Logo" class="img-fluid">
+            </div>
+
+            <!-- Right Column (Login Form) -->
+            <div class="col-md-5 d-flex align-items-center justify-content-center">
+                <div class="card border-success shadow-lg">
+                    <div class="card-header bg-card text-white text-center">
+                        Prense Username no Password
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <button class="btn btn-sm btn-one" type="submit">
+                                    Tama <i class="fa fa-sign-in"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div> <!-- end card-body -->
+                </div> <!-- end card -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer font-small bg-footer text-center py-3">
+        Copyright &copy; 2024 MOP<br/>
+        All rights reserved
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'main/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'main/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

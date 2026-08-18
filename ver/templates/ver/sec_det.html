@@ -1,0 +1,176 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'sec-ver-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Kapital Projetu</th><td>{{ proj.capital.name }} ({{ proj.capital.code }})</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Despaxu Kordenador UIVP</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Referensia</th><th>Asuntu</th><th>Data Hahu</th><th>Remata</th><th>Diriji ba</th><th>Aneksu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ ver.number }}</td>
+                            <td>{{ ver.subject }}</td>
+                            <td>{{ ver.start_date|date:"d/m/Y" }}</td>
+                            <td>{{ ver.end_date|date:"d/m/Y" }}</td>
+                            <td>{{ ver.sec }}</td>
+                            <td>
+                                {% if ver.file %}
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'ver-pdf' ver.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    {% if ver.is_send == True and ver.is_read == False %}
+                    <hr/>
+                    <a class="btn btn-sm btn-info" href="{% url 'sec-ver-in1' ver.hashed %}">Simu <i class="fa fa-check"></i></a>
+                    {% endif %}
+                    {% if ver.is_read == True %}
+                    {% if ver.is_end == False %}<div class="alert alert-info p-1">Simu ona</div>
+                    {% else %}<div class="alert alert-success p-2"><h4>Verifikasaun Termina <i class="fa fa-check"></i></h4></div>{% endif %}
+                    {% endif %}
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend }}</div>
+                <div class="card-body">
+                    {% if ver.is_end == False %}
+                    {% if ver.is_read == True %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'sec-ver-add' ver.hashed %}">Kria Despaxu <i class="fa fa-pencil"></i></a> 
+                    {% endif %}
+                    {% else %}
+                    <a class="btn btn-sm btn-default mb-1 disabled" href="#">Kria Despaxu <i class="fa fa-pencil"></i></a> 
+                    {% endif %}
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th>
+                                <th>Numeru Despaxu</th>
+                                <th>Asuntu</th>
+                                <th>Data</th>
+                                <th>Diriji ba</th>
+                                <th>Pojisaun</th>
+                                <th><center>Aneksu</center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}
+                                    {% if obj.is_send == False %}<i class="fa fa-refresh i_grey"></i>
+                                    {% else %}<i class="fa fa-check i_green"></i>{% endif %}
+                                </td>
+                                <td>{{ obj.number }}</td>
+                                <td>{{ obj.subject }}</td>
+                                <td>{{ obj.date|date:"d/m/Y" }}</td>
+                                <td>
+                                {% for obj1 in object1 %}
+                                {% if obj1.verseceng.id ==  obj.id %}
+                                   {{obj1.employee|linebreaks }}
+                                 {% endif %}
+                                 {% endfor %}
+                                </td>
+                                <td>
+                                {% for obj1 in object1 %}
+                                {% if obj1.verseceng.id ==  obj.id %}
+                                   {{obj1.employee.employeepos.position|linebreaks }}
+                                 {% endif %}
+                                 {% endfor %}
+                                
+                                </td>
+                                <td align="center">
+                                {% if obj.file %}
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'ver-sec-pdf' obj.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                                {% if obj.is_send == False %}
+                                    <a class="btn btn-sm btn-info" href="{% url 'sec-ver-edit' obj.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-sm btn-danger" href="{% url 'sec-ver-rem' obj.id %}" title="Apaga"><i class="fa fa-trash"></i></a>
+                                    <a class="btn btn-sm btn-success" href="{% url 'sec-ver-send' obj.id %}" title="Manda">Manda <i class="fa fa-send"></i></a>
+                                {% endif %}
+                                </td>
+                            </tr>
+                            <tr><th colspan="7">Deskrisaun</th></tr>
+                            <tr><td colspan="7">{{ obj.desc|safe }}</td></tr>
+                            {% if obj.eng_comments %}
+                            <tr><th colspan="7">Komentariu Enje&ntilde;eiru <u>{{ obj.eng.name }}</u></th></tr>
+                            <tr><td colspan="6">{{ obj.eng_comments|safe }}</td>
+                                <td align="center">
+                                {% if obj.file2 %}
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'ver-sec-pdf2' obj.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                                </td>
+                            </tr>
+                            <tr><th colspan="7">Komentariu Seksaun <u>{{ obj.sec.code }}</u></th></tr>
+                            {% if obj.is_eng_read == True %}
+                            {% if obj.is_back == False %}
+                            {% if obj.is_end == False %}
+                            <tr>
+                                <td colspan="7">
+                                    <a class="btn btn-sm btn-info" href="{% url 'sec-ver-com-edit' obj.hashed %}">Aneksu Komentariu <i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-sm btn-success" href="{% url 'sec-ver-back' obj.id %}">Manda ba Kordenador UIVP <i class="fa fa-send"></i></a>
+                                    {% comment %} <a class="btn btn-sm btn-primary" href="{% url 'sec-ver-end' obj.id %}">Termina <i class="fa fa-ban"></i></a> {% endcomment %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endif %}
+                            {% else %}
+                            <tr><td colspan="7"><a class="btn btn-sm btn-info" href="{% url 'sec-ver-in2' obj.hashed %}">Simu <i class="fa fa-check"></i></a></td></tr>
+                            {% endif %}
+                            <tr>
+                                <td colspan="6">{% if obj.sec_comments %}{{ obj.sec_comments|safe }}{% endif %}</td>
+                                <td align="center">
+                                {% if obj.file3 %}
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'ver-sec-pdf3' obj.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if verdiv.is_end == True %}
+                    <div class="alert alert-success p-2">Verifikasaun Termina</div>
+                    {% endif %}
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dnof-cpv-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0"> Detallu Pedidu CPV</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Kodigu Projetu</th><th>Naran Projetu</th><th>Estimasaun</th>
+            </tr>
+            <tr>
+              <td>{{ proj.code }}</td>
+              <td>{{ proj.name }}</td>
+              <td>${{ projest.owner|intcomma }}</td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu CPV</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru CPV</th><th>Montante CPV</th><th>Data</th><th>Aneksu</th>
+            </tr>
+            {% for obj in objects %}
+            <tr>
+              <td>{{ obj.number }}</td>
+              <td>{% if obj.amount %}${{ obj.amount|intcomma }}{% endif %}</td>
+              <td>{{ obj.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if obj.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-pdf' obj.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+                {% if obj.cpvletter.all.0.number %}
+                  <a class="btn btn-sm btn-secondary" href="{% url 'dnof-cpv-let-det' obj.cpvletter.all.0.hashed %}">Despaxu <i class="fa fa-file"></i></a>
+                {% endif %}
+                {% if obj.is_send == False %}
+                <a class="btn btn-sm btn-info" href="{% url 'dnof-cpv-edit' obj.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-danger" href="{% url 'dnof-cpv-rem' obj.id %}" title="Hamos"><i class="fa fa-trash"></i></a>
+                 {% if obj.amount < 500000 %}
+                <a class="btn btn-sm btn-info" href="{% url 'dnof-cpv-send' obj.id todgaf %}">Manda ba DGAF <i class="fa fa-send"></i></a>
+                {% else %}
+                <a class="btn btn-sm btn-primary" href="{% url 'dnof-cpv-send' obj.id togab %}">Manda ba GAB <i class="fa fa-send"></i></a>
+                {% endif %}
+
+                {% else %}
+                {% if obj.is_appr == True %}
+                <div class="alert alert-success p-1"><i class="fa fa-info"></i> Prosesu CPV termina no bele hahu prosesa lista tender foun ba aprovasaun Ministro</div>
+                {% else %}
+                {% if obj.amount < 500000 %}
+                <div class="alert alert-info p-1"><i class="fa fa-info"></i> CPV manda ona ba DGAF</div>
+                 {% else %}
+                  <div class="alert alert-info p-1"><i class="fa fa-info"></i> CPV manda ona ba GAB</div>
+                 {% endif %}
+                {% endif %}
+                {% endif %}
+              </td>
+            </tr>
+            {% if obj.comment %}
+            <tr><td colspan="5">Komentariu Fila</td></tr>
+            <tr><td colspan="5">{{ obj.comment|safe }}</td></tr>
+            {% endif %}
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

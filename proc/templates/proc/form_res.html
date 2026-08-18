@@ -1,0 +1,50 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			{% if group == "dna" %}
+			<li class="breadcrumb-item"><a href="{% url 'dna-proc-res-list' proj.hashed %}">Rezultadu Tender</a></li>
+			{% elif group == "dgaf" %}
+			<li class="breadcrumb-item"><a href="{% url 'dgaf-proc-res-det' proc.hashed let.hashed %}">Rezultadu Tender</a></li>
+			{% elif group == "min" %}
+			<li class="breadcrumb-item"><a href="{% url 'min-proc-res-det' proc.hashed let.hashed %}">Rezultadu Tender</a></li>
+			{% endif %}
+			<li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+			  <div class="card-header">Informasaun Projetu</div>
+			  <div class="card-body">
+				<table class="table table-sm table-striped">
+				  <tr><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kategoria</th></tr>
+				  <tr><td>{{ proj.code }}</td><td>{{ proj.name }}</td><td>{{ proj.pcategory.code }}</td></tr>
+				</table>
+			  </div>
+			</div>
+			<div class="card">
+				<div class="card-header">{{ legend|upper }}</div>
+				<div class="card-body">
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->  
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<style>
+	#id_project { width: 100%; }
+</style>
+<script>
+	$(document).ready(function() {
+    $('#id_project').select2();
+});
+</script>
+{% endblock %}

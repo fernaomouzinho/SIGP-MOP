@@ -1,0 +1,68 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+		{% if group == 'sup' %}
+			<li class="breadcrumb-item"><a href="{% url 'sup-inv-det' inv.hashed %}">Fila</a></li>
+		{% elif group == 'uvip' %}
+			<li class="breadcrumb-item"><a href="{% url 'uvip-inv-det' inv.hashed %}">Fila</a></li>
+		{% elif group == 'gab' %}
+			<li class="breadcrumb-item"><a href="{% url 'gab-inv-det' inv.hashed %}">Fila</a></li>
+		{% elif group == 'dgaf' %}
+			<li class="breadcrumb-item"><a href="{% url 'dgaf-inv-det' inv.hashed %}">Fila</a></li>
+		{% elif group == 'dna' %}
+			<li class="breadcrumb-item"><a href="{% url 'dna-inv-det' inv.hashed %}">Fila</a></li>
+		{% elif group == 'dnof' %}
+			<li class="breadcrumb-item"><a href="{% url 'dnof-inv-det' inv.hashed %}">Fila</a></li>
+		{% endif %}
+			<li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">Detallu Resibu</div>
+				<div class="card-body">
+					<table class="table table-sm table-striped table-bordered">
+						<tr>
+							<th class="bg-secondary">Numeru Kontratu</th><th class="bg-secondary">Montante Kontratu</th>
+							<th>Numeru Resibu</th><th>Montante Resibu</th><th>Data Hatama</th><th class="bg-secondary">Numeru Referesia MOP</th><th class="bg-secondary">Numeru Rekizasaun MOP</th><th class="bg-secondary">Montante MOP</th><th class="bg-secondary">Data Hatama</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+						</tr>
+						<tr>
+							<td>{{ inv.cont.number }}</td>
+							<td>${{ inv.cont.total|intcomma }}</td>
+							<td>{{ inv.number }}</td>
+							<td>${{ inv.total }}</td>
+							<td>{{ inv.date|date:"d/m/Y" }}</td>
+							<td>{{ certpay.0.number }}</td>
+							<td align="center">{{ certpay.0.number_req }}</td>
+							<td>{{ certpay.0.total }}</td>
+							<td>{{ certpay.0.date|date:"d/m/Y" }}</td>
+							<td>{{ inv.cont.project.code }}</td>
+							<td>{{ inv.cont.project.name }}</td>
+						</tr>
+					</table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">{{ legend|upper }}</div>
+				<div class="card-body">
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

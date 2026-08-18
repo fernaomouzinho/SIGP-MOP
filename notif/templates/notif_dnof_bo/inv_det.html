@@ -1,0 +1,109 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'notif-dnof-inv-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th>Numeru Kontratu</th><td>{{ cont.number }}</td></tr>
+                        <tr><th>Periodu Kontratu</th><td>{{ cont.start_date|date:"d/m/Y" }} - {{ cont.end_date|date:"d/m/Y" }}</td></tr>
+                        <tr><th>Montante Kontratu</th><td>${{ cont.total|intcomma }}</td></tr>
+                        <tr><th>Kompa&ntilde;ia</th><td>{{ compcont }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th width="25%">Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </tr>
+                </table>
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+</div><!--end row-->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">Detallu Resibu</div>
+            <div class="card-body">
+                <table class="table table-sm table-striped">
+                    <tr>
+                        <th>Numeru Resibu</th><th>Data</th><th>Progresu Fiziku </th><th>Montante Resibu</th>
+                    </tr>
+                    <tr>
+                        <td>{{ inv.number }}</td>
+                        <td>{{ inv.date|date:"d/m/Y" }}</td>
+                        <td>{{ inv.phys_prog }}%</td>
+                        <td>${{ inv.total|intcomma }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+</div><!--end row-->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">Karta</div>
+            <div class="card-body">
+                <table class="table table-sm table-striped">
+                    <tr>
+                        <th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Husi</th><th>Diriji ba</th>
+                    </tr>
+                    <tr>
+                        <td>{{ obj.number }}</td>
+                        <td>{{ obj.subject }}</td>
+                        <td>{{ obj.date|date:"d/m/Y" }}</td>
+                        <td>
+                            {% if obj.is_dna == True %}DNA{% endif %}
+                        </td>
+                        <td>{{ obj.to.code }}</td>
+                    </tr>
+                    <tr><th colspan="4">Deskrisaun</th><th>Aneksu</th></tr>
+                    <tr><td colspan="4">{{ obj.desc|safe }}</td>
+                        <td>
+                            {% if obj.file %}
+                            <a class="btn btn-sm btn-secondary" href="{% url 'inv-let-pdf' obj.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if obj.comment %}
+                    <tr><th colspan="5">Komentariu Fila</th></tr>
+                    <tr><td colspan="5">{{ obj.comment|safe }}</td></tr>
+                    {% endif %}
+                </table>
+                <hr/>
+                {% if obj.is_send == True and obj.is_read == False %}
+                    <a class="btn btn-sm btn-secondary" href="{% url 'dnof-inv-back' obj.hashed %}"><i class="fa fa-reply"></i> Manda Fila</a>
+                    <a class="btn btn-sm btn-info" href="{% url 'dnof-inv-in' obj.id %}">Simu <i class="fa fa-check"></i></a>
+                {% elif obj.is_read == True %}
+                <div class="alert alert-info p-2">Simu Ona <i class="fa fa-check"></i>
+                </div>
+                {% endif %}
+                <a class="btn btn-sm btn-primary" href="{% url 'dnof-inv-det' inv.hashed %}">Detallu Resibu <i class="fa fa-list"></i></a>    
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+</div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

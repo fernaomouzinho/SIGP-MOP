@@ -1,0 +1,45 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			{% if page == "add" %}
+			<li class="breadcrumb-item"><a href="{% url 'dnof-cpvreq-det' cpvreq.hashed %}">Fila</a></li>
+			{% else %}
+			{% if group == "dnof" %}
+			<li class="breadcrumb-item"><a href="{% url 'dnof-cpv-det' proj.hashed %}">Fila</a></li>
+			{% elif group == "dgaf" %}
+			<li class="breadcrumb-item"><a href="{% url 'dgaf-cpv-det' cpv.hashed %}">Fila</a></li>
+			{% endif %}
+			{% endif %}
+			<li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header bg-steel">{{ legend }}</div>
+				<div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th>Numeru CPV</th><th>Kodigu Projetu</th><th>Naran Projetu</th></tr>
+                        <tr>
+                            <td>{{ cpv.number }}</td>
+                            <td>{{ proj.code }}</td>
+                            <td>{{ proj.name }}</td>
+                        </tr>
+                    </table>
+                    <hr/>
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->  
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

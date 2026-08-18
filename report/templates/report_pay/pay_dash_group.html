@@ -1,0 +1,189 @@
+{% load humanize %}
+<!--category-->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-g-mopcat-sum' %}">MOP-Kategoria</a></h2>
+					</div>
+					<div class="card-body">						
+						<table class="table table-sm">
+							<tr><th>Kategoria</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_mopcat_a in tot_mopcats_a %}
+							<tr>
+								<td><a href="{% url 'r-pay-g-mopcat-all' tot_mopcat_a.0.id page %}">{{ tot_mopcat_a.0.name }}</a></td>
+								<td>${{ tot_mopcat_a.1|intcomma }}</td>
+								<td>${{ tot_mopcat_a.2|intcomma }}</td>
+								<td>${{ tot_mopcat_a.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-fis-mopcat-sum' %}">MOP-Kategoria - Fiskal</a></h2>
+					</div>
+					<div class="card-body">						
+						<table class="table table-sm">
+							<tr><th>Kategoria</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_mopcat_b in tot_mopcats_b %}
+							<tr>
+								<td><a href="{% url 'r-pay-fis-mopcat-all' tot_mopcat_b.0.id page %}">{{ tot_mopcat_b.0.name }}</a></td>
+								<td>${{ tot_mopcat_b.1|intcomma }}</td>
+								<td>${{ tot_mopcat_b.2|intcomma }}</td>
+								<td>${{ tot_mopcat_b.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<!--category-->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-g-cat-sum' %}">Kategoria</a></h2>
+					</div>
+					<div class="card-body">						
+						<table class="table table-sm">
+							<tr><th>Kategoria</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_cat_a in tot_cats_a %}
+							<tr>
+								<td><a href="{% url 'r-pay-g-cat-all' tot_cat_a.0.id page %}">{{ tot_cat_a.0.name }}</a></td>
+								<td>${{ tot_cat_a.1|intcomma }}</td>
+								<td>${{ tot_cat_a.2|intcomma }}</td>
+								<td>${{ tot_cat_a.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-fis-cat-sum' %}">Kategoria - Fiskal</a></h2>
+					</div>
+					<div class="card-body">						
+						<table class="table table-sm">
+							<tr><th>Kategoria</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_cat_b in tot_cats_b %}
+							<tr>
+								<td><a href="{% url 'r-pay-fis-cat-all' tot_cat_b.0.id page %}">{{ tot_cat_b.0.name }}</a></td>
+								<td>${{ tot_cat_b.1|intcomma }}</td>
+								<td>${{ tot_cat_b.2|intcomma }}</td>
+								<td>${{ tot_cat_b.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->
+<!--sector-->
+{% comment %} <section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-g-sec-sum' %}">Sector</a></h2>
+					</div>
+					<div class="card-body">
+						<table class="table table-sm">
+							<tr><th>Setor</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_sec_a in tot_secs_a %}
+							<tr>
+								<td><a href="{% url 'r-pay-g-sec-all' tot_sec_a.0.id page %}">{{ tot_sec_a.0.name }}</a></td>
+								<td>${{ tot_sec_a.1|intcomma }}</td>
+								<td>${{ tot_sec_a.2|intcomma }}</td>
+								<td>${{ tot_sec_a.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-fis-sec-sum' %}">Sector - Fiskal</a></h2>
+					</div>
+					<div class="card-body">
+						<table class="table table-sm">
+							<tr><th>Setor</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_sec_b in tot_secs_b %}
+							<tr>
+								<td><a href="{% url 'r-pay-fis-sec-all' tot_sec_b.0.id page %}">{{ tot_sec_b.0.name }}</a></td>
+								<td>${{ tot_sec_b.1|intcomma }}</td>
+								<td>${{ tot_sec_b.2|intcomma }}</td>
+								<td>${{ tot_sec_b.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section --> {% endcomment %}
+<!--capital-->
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-g-cap-sum' %}">Kapital</a></h2>
+					</div>
+					<div class="card-body">
+						<table class="table table-sm">
+							<tr><th>Kapital</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_cap_a in tot_caps_a %}
+							<tr>
+								<td><a href="{% url 'r-pay-g-cap-all' tot_cap_a.0.id page %}">{{ tot_cap_a.0.name }}</a></td>
+								<td>${{ tot_cap_a.1|intcomma }}</td>
+								<td>${{ tot_cap_a.2|intcomma }}</td>
+								<td>${{ tot_cap_a.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="h3 fw-normal"><a href="{% url 'r-pay-fis-cap-sum' %}">Kapital - Fiskal</a></h2>
+					</div>
+					<div class="card-body">
+						<table class="table table-sm">
+							<tr><th>Kapital</th><th>Kontratu</th><th>Pagamentu</th><th>Balansu</th></tr>
+							{% for tot_cap_b in tot_caps_b %}
+							<tr>
+								<td><a href="{% url 'r-pay-fis-sec-all' tot_cap_b.0.id page %}">{{ tot_cap_b.0.name }}</a></td>
+								<td>${{ tot_cap_b.1|intcomma }}</td>
+								<td>${{ tot_cap_b.2|intcomma }}</td>
+								<td>${{ tot_cap_b.3|intcomma }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div><!--end card-->
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!-- end section -->

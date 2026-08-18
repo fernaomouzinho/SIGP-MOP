@@ -1,0 +1,175 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'track-ver-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Kategoria Projetu</th><td>{{ proj.pcategory.name }} ({{ proj.pcategory.code }})</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">TRACK PROGRESU VERIFIKASAUN</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped table-bordered">
+                        <tr align="center">
+                            <th>KORDENADOR UIVP</th><th>XEFE SEKSAUN</th><th>ENJE&Ntilde;ERU</th>
+                            <th style="background-color:antiquewhite;">PROGRESU</th>
+                        </tr>
+                        <tr align="center">
+                            <!--uvip-->
+                            <td>
+                                {% if track.is_uvip_out == False %}
+                                <i class="fa fa-refresh i_grey"></i>
+                                {% elif track.is_uvip_out == True %}
+                                <i class="fa fa-arrow-right i_green"></i><br/>
+                                Sai: {{ track.date_uvip_out|date:"d/m/Y" }}                                
+                                {% endif %}
+                            </td>
+                            <!--sec-->
+                            <td>
+                                {% if track.is_uvip_out == True and track.is_sec_in_1 == False %}
+                                <i class="fa fa-refresh i_grey"></i>
+                                {% elif track.is_sec_in_1 == True and track.is_sec_out_1 == False %}
+                                <i class="fa fa-refresh i_green"></i><br/>
+                                Simu: {{ track.date_sec_in_1|date:"d/m/Y" }}
+                                {% elif track.is_sec_out_1 == True %}
+                                <i class="fa fa-arrow-right i_green"></i><br/>
+                                Tama: {{ track.date_sec_in_1|date:"d/m/Y" }}<br/>
+                                Sai: {{ track.date_sec_out_1|date:"d/m/Y" }}<br/>
+                                {% if obj_days.0.0 %}(Lrn {{ obj_days.0.0 }}){% endif %}
+                                {% endif %}
+                            </td>
+                            <!--eng-->
+                            <td rowspan="2">
+                                {% if track.is_sec_out_1 == True and track.is_eng_in == False %}
+                                <i class="fa fa-refresh i_grey"></i>
+                                {% elif track.is_eng_in == True and track.is_eng_out == False %}
+                                <i class="fa fa-refresh i_green"></i><br/>
+                                Simu: {{ track.date_eng_in|date:"d/m/Y" }}
+                                {% elif track.is_eng_out == True %}
+                                <i class="fa fa-check i_green"></i><br/>
+                                Tama: {{ track.date_eng_in|date:"d/m/Y" }}<br/>
+                                Sai: {{ track.date_eng_out|date:"d/m/Y" }}<br/>
+                                {% if obj_days.0.1 %}(Lrn {{ obj_days.0.1 }}){% endif %}<br/>
+                                <i class="fa fa-arrow-left i_green"></i>
+                                {% endif %}
+                            </td>
+                            <td rowspan="2" style="background-color:antiquewhite;" width="20%">
+                               
+                                {% for obj4 in objects4 %}
+                                {% if obj4.verseceng.id ==  obj2.id %}
+                                   {{obj4.employee|linebreaks }}
+                                 {% endif %}
+                                {% endfor %}
+
+                                {{ track.stages|upper }}
+                                <hr/><h1>{{percent}}%</h1>
+                                {% comment %} {% if limit > 0 %}<span class="badge badge-danger"><h2>+{{limit}}</h2></span>
+                                {% else %}<span class="badge badge-info"><h2>{{limit}}</h2></span>{% endif %}                    {% endcomment %}
+                            </td>
+                        </tr>
+                        <tr align="center">
+                            <!--uvip-->
+                            <td>
+                                {% if track.is_sec_out_2 == True and track.is_uvip_in == False %}
+                                <i class="fa fa-refresh i_grey"></i>
+                                {% elif track.is_uvip_in == True and track.is_end == False %}
+                                <i class="fa fa-refresh i_green"></i><br/>
+                                Simu: {{ track.date_uvip_in|date:"d/m/Y" }}
+                                {% elif track.is_end == True %}
+                                <i class="fa fa-check i_green"></i><br/>
+                                Termina: {{ track.date_end|date:"d/m/Y" }}<br/>
+                                {% if obj_days.0.3 %}(Lrn {{ obj_days.0.3 }}){% endif %}
+                                {% endif %}
+                            </td>
+                            <!--sec-->
+                            <td>
+                                {% if track.is_eng_out == True and track.is_sec_in_2 == False %}
+                                <i class="fa fa-refresh i_grey"></i>
+                                {% elif track.is_sec_in_2 == True and track.is_sec_out_2 == False %}
+                                <i class="fa fa-refresh i_green"></i><br/>
+                                Simu: {{ track.date_sec_in_2|date:"d/m/Y" }}
+                                {% elif track.is_sec_out_2 == True %}
+                                <i class="fa fa-arrow-left i_green"></i><br/>
+                                Tama: {{ track.date_sec_in_2|date:"d/m/Y" }}<br/>
+                                Sai: {{ track.date_sec_out_2|date:"d/m/Y" }}<br/>
+                                {% if obj_days.0.2 %}(Lrn {{ obj_days.0.2 }}){% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    <hr/>
+                    <div class="progress">
+                        <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: {{ percent }}%;" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">{{ percent }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+    </div><!--end row-->
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Justifikasaun</div>
+                <div class="card-body">
+                    {% if track.is_end == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'ver-justify-add' ver.hashed %}">Justifika <i class="fa fa-pencil"></i></a>
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>KORDENADOR UIVP/XEFE SEKSAUN/ENJE&Ntilde;ERU</th><th>Justifikasaun</th><th>Uzuariu</th>
+                            {% if track.is_end == False %}<th>Aneksu</th>{% endif %}
+                        </tr>
+                        {% for just in justs %}
+                        <tr>
+                            <td>
+                                {% if just.is_sec == True %}{{ just.sec.code }}
+                                {% elif just.is_eng == True %}
+                                {{ just.eng.employeediv.sec.code }}
+                                {% else %}UIVP{% endif %}
+                            </td>
+                            <td>{{ just.comment|safe }}</td>
+                            <td>{{ just.user }}<br/>{{ just.datetime|date:"d/m/Y" }}</td>
+                            {% if track.is_end == False %}
+                            <td>
+                            {% if just.user == user %}
+                                <a href="{% url 'ver-justify-edit' ver.hashed just.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'ver-justify-rem' ver.hashed just.id %}"><i class="fa fa-trash"></i></a>
+                            {% else %}
+                                <a href="#" class="disabled"><i class="fa fa-edit"></i></a>
+                                <a href="#" class="disabled"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

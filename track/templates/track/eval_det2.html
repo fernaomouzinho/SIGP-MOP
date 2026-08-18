@@ -1,0 +1,337 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'track-eval-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">  
+                <div class="card-header">Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Kodigu Projetu</th><th>Naran Projetu</th><th>Tinan Projetu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ proj.code }}</td><td>{{ proj.name }}</td><td>{{ proj.year }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+            <div class="card">
+                <div class="card-header">Avaliasaun ToR</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Referensia</th><th>Data</th><th>Liu ADN</th><th>Liu CNA</th>
+                        </tr>
+                        <tr>
+                            <td>{{ eval.number }}</td><td>{{ eval.date|date:"d/m/Y" }}</td>
+                            <td>{% if eval.is_adn == True %}SIM{% else %}LAE{% endif %}</td>
+                            <td>{% if eval.is_cna == True %}SIM{% else %}LAE{% endif %}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">TRACK Avaliasaun ToR</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                          <td align="center" style="background-color:antiquewhite;">ETAPA</td>
+                          <th style="background-color:antiquewhite;">{{ track.stages }}</th>
+                        </tr>
+                        <tr><td align="center">DIRESAUN</td>
+                          <td>
+                            {% if track.is_div_out == True %}
+                            <i class="fa fa-check i_green"></i> Sai Ba UIVP: {{ track.date_div_out|date:"d/m/y" }}
+                            {% else %}
+                            <i class="fa fa-refresh i_grey"></i>
+                            {% endif %}
+                          </td>
+                        </tr>
+                        <tr><td align="center">UIVP</td>
+                            <td>
+                            {% if track.is_div_out == True and track.is_uvip_in_1 == False %}
+                            <i class="fa fa-refresh i_grey"></i><br/>
+                            {% elif track.is_uvip_in_1 == True and track.is_uvip_out_1 == False %}
+                                <i class="fa fa-refresh i_green"></i> Tama: {{ track.date_uvip_in_1|date:"d/m/y" }}<br/>
+                            {% elif track.is_uvip_out_1 == True %}
+                                <i class="fa fa-check i_green"></i> Tama: {{ track.date_uvip_in_1|date:"d/m/y" }}<br/>
+                                <i class="fa fa-check i_green"></i> Sai ba ADN: {{ track.date_uvip_out_1|date:"d/m/y" }}
+                            {% if obj_days.0.0 %}(lrn {{ obj_days.0.0 }}){% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                       
+                        <tr><td align="center">ADN</td>
+                          <td>
+                          {% if track.is_uvip_out_1 == True and track.is_uvip_in_2 == False %}
+                          <i class="fa fa-refresh i_grey"></i> Tama ba ADN:  {{ track.date_uvip_out_1|date:"d/m/y" }}
+                          {% elif track.is_uvip_in_2 == True %}
+                          <i class="fa fa-check i_green"></i> Tama ba ADN: {{ track.date_uvip_in_1|date:"d/m/Y" }}<br/>
+                          <i class="fa fa-check i_green"></i> Sai ba UIVP: {{ track.date_uvip_in_2|date:"d/m/Y" }}
+                          {% if obj_days.0.2 %}(lrn {{ obj_days.0.2 }}){% endif %}
+                          {% endif %}
+                          </td>
+                        </tr>
+
+                         <tr><td align="center">UIVP</td>
+                          <td>
+                          {% if track.is_uvip_in_2 == True and track.is_uvip_out_2 == False %}
+                          <i class="fa fa-check i_green"></i> Tama ba UIVP:  {{ track.date_uvip_in_2|date:"d/m/y" }}<br/>
+                          <i class="fa fa-refresh i_grey"></i> Sai ba GABINETE MINISTRO
+                          {% elif track.is_uvip_out_2 == True %}
+                          <i class="fa fa-check i_green"></i> Tama ba UIVP: {{ track.date_uvip_in_2|date:"d/m/Y" }}<br/>
+                          <i class="fa fa-check i_green"></i> Sai ba GABINETE MINISTRO: {{ track.date_uvip_out_2|date:"d/m/Y" }}
+                          {% if obj_days.0.2 %}(lrn {{ obj_days.0.2 }}){% endif %}
+                          {% endif %}
+                          </td>
+                        </tr>
+                         <tr><td align="center">GABINETE MINISTRU</td>
+                          <td>
+                          {% if track.is_uvip_out_2 == True and track.is_gab_in_1 == False %}
+                          <i class="fa fa-refresh i_grey"></i>
+                          {% elif track.is_gab_in_1 == True and track.is_appr == False %}
+                          <i class="fa fa-check i_green"></i> Tama Ba GABINETE MINISTRO: {{ track.date_gab_in_1|date:"d/m/Y" }}<br/>
+                          <i class="fa fa-refresh i_green"></i> Aprova Dokumentu TOR
+                          {% elif track.is_appr == True and track.is_gab_out_1 == False %}
+                          <i class="fa fa-check i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_1|date:"d/m/Y" }}<br/>
+                          <i class="fa fa-check i_green"></i> Aprova Dokumentu TOR: {{ track.date_appr|date:"d/m/Y" }}<br/>
+                          <i class="fa fa-refresh i_green"></i> Proposta Sai ba KAFI
+                          {% elif track.is_gab_out_1 == True %}
+                          <i class="fa fa-check i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_1|date:"d/m/Y" }}<br/>
+                          <i class="fa fa-check i_green"></i> Aprova Dokumentu TOR: {{ track.date_appr|date:"d/m/Y" }}<br/>
+                          <i class="fa fa-check i_green"></i> Proposta Sai ba KAFI: {{ track.date_gab_out_1|date:"d/m/Y" }}<br/>
+                          {% if obj_days.0.1 %}(lrn {{ obj_days.0.1 }}){% endif %}
+                          {% endif %}
+                          </td>
+                        </tr> 
+                        <tr><td align="center">KAFI</td>
+                          <td>
+                          {% if track.is_gab_out_1 == True and track.is_gab_in_2 == False %}
+                          <i class="fa fa-refresh i_grey"></i> Proposta Tama ba KAFI
+                          {% elif track.is_gab_in_2 == True and track.is_gab_out_2 == False %}
+                          <i class="fa fa-check i_green"></i> Proposta Tama ba KAFI: {{ track.date_gab_in_2|date:"d/m/Y"}}<br/>
+                          <i class="fa fa-check i_green"></i> Proposta Sai Husi KAFI: {{ track.date_gab_in_2|date:"d/m/Y" }}
+                           {% elif track.is_gab_out_2 == True %}
+                          <i class="fa fa-check i_green"></i> Proposta Tama ba KAFI: {{ track.date_gab_in_2|date:"d/m/Y"}}<br/>
+                          <i class="fa fa-check i_green"></i> Proposta Tama ba KAFI: {{ track.date_gab_out_2|date:"d/m/Y" }}
+                          {% if obj_days.0.3 %}(lrn {{ obj_days.0.3 }}){% endif %}
+                          {% endif %}
+                          </td>
+                        </tr>
+
+                        <tr><td align="center">GABINETE MINISTRU</td>
+                          <td>
+                            {% if track.is_gab_in_2 == True and track.is_gab_out_2 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba GABINETE MINISTRO<br/>
+                            {% elif track.is_gab_out_2 == True  %}
+                            <i class="fa fa-check i_green"></i> Tama ba GAB: {{ track.date_gab_in_2|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Sai ba UIVP: {{ track.date_gab_out_2|date:"d/m/Y" }} 
+                            {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+                            {% endif %}
+                          </td>
+                        </tr>
+
+                    
+                        <tr><td align="center">UIVP</td>
+                          <td>
+                            {% if track.is_gab_out_2 == True and track.is_uvip_in_3 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba UIVP:  {{ track.date_gab_out_2|date:"d/m/Y" }}<br/>
+                            {% elif track.is_uvip_in_3 == True and track.is_uvip_check == False %}
+                            <i class="fa fa-refresh i_green"></i> Tama ba UIVP:  {{ track.date_gab_out_2|date:"d/m/Y" }}<br/>
+                            {% elif track.is_uvip_check == True and track.is_uvip_out_3 == False %}
+                            <i class="fa fa-check i_green"></i> Tama ba UIVP:  {{ track.date_gab_out_2|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Visto ona:  {{ track.date_uvip_check|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-refresh i_grey"></i> Sai ba GABINETE<br/>
+                            {% elif track.is_uvip_out_3 == True  %}
+                            <i class="fa fa-check i_green"></i> Tama ba UIVP:  {{ track.date_gab_out_2|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Vistu ona:  {{ track.date_uvip_check|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Sai ba GABINETE: {{ track.date_uvip_out_3|date:"d/m/Y" }}
+                            {% if obj_days.0.4 %}(lrn {{ obj_days.0.4 }}){% endif %}
+                            {% endif %} 
+                          </td>
+                        </tr>
+
+
+                         <tr><td align="center">GABINETE MINISTRU</td>
+                          <td>
+                            {% if track.is_uvip_out_3 == True and track.is_gab_in_3 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba GABINETE MINISTRO:  {{ track.date_uvip_out_3|date:"d/m/Y" }}<br/>
+                            {% elif track.is_gab_in_3 == True and track.is_let_appr == False %}
+                            <i class="fa fa-refresh i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_3|date:"d/m/Y" }}
+                            {% elif track.is_let_appr == True and  track.is_gab_out_3 == False  %}
+                            <i class="fa fa-check i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_2|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Aprovadu Husi GABINETE MINISTRO: {{ track.date_let_appr|date:"d/m/Y" }} 
+                            {% elif track.is_gab_out_3 == True  %}
+                            <i class="fa fa-check i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_2|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Aprovadu Husi GABINETE MINISTRO: {{ track.date_let_appr|date:"d/m/Y" }} <br/>
+                            <i class="fa fa-check i_green"></i> Sai ba CNA: {{ track.date_gab_out_3|date:"d/m/Y" }}
+                            {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+                            {% endif %}
+                          </td>
+                        </tr>
+
+                        
+                         <tr><td align="center">CNA</td>
+                          <td>
+                            {% if track.is_gab_out_3 == True and track.is_gab_in_4 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba CNA: {{ track.date_gab_out_3|date:"d/m/Y" }}<br/>
+                            {% elif track.is_gab_in_4 == True and track.is_gab_out_4 == False %}
+                            <i class="fa fa-check i_green"></i> Tama ba CNA: {{ track.date_gab_out_3|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Sai ba GABINETE MINISTRO: {{ track.date_gab_in_4|date:"d/m/Y" }}
+                            {% elif  track.is_gab_out_4 == True  %}
+                            <i class="fa fa-check i_green"></i> Tama ba CNA: {{ track.date_gab_out_3|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Sai ba GABINETE MINISTRO: {{ track.date_gab_out_3|date:"d/m/Y" }}
+                            
+                            {% if obj_days.0.6 %}(lrn {{ obj_days.0.6 }}){% endif %}
+                            {% endif %}
+                          </td>
+                        </tr>
+
+                         <tr><td align="center">GABINETE MINISTRU</td>
+                          <td>
+                            {% if track.is_gab_in_4 == True and  track.is_gab_out_4 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba GABINETE MINISTRO:  {{ track.date_gab_in_4|date:"d/m/Y" }}<br/>
+                            {% elif track.is_gab_out_4 == True  %}
+                            <i class="fa fa-check i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_4|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Sai ba GABINETE MINISTRO: {{ track.date_gab_out_4|date:"d/m/Y" }}
+                            {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+                            {% endif %}
+                          </td>
+                        </tr>
+
+                        <tr><td align="center">UIVP</td>
+                          <td>
+                            {% if track.is_gab_out_4 == True and track.is_uvip_in_4 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba UIVP:  {{ track.date_gab_out_4|date:"d/m/Y" }}<br/>
+                            {% elif track.is_uvip_in_4 == True and track.is_uvip_sign == False %}
+                            <i class="fa fa-refresh i_green"></i> Tama ba UIVP:  {{ track.date_gab_in_4|date:"d/m/Y" }}<br/>
+                            {% elif track.is_uvip_sign == True and track.is_uvip_out_4 == False %}
+                            <i class="fa fa-check i_green"></i> Tama ba UIVP:  {{ track.date_gab_out_2|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Asinadu:  {{ track.date_uvip_sign|date:"d/m/Y" }}<br/>
+                            {% elif track.is_uvip_out_4 == True %}
+                            <i class="fa fa-check i_green"></i> Tama ba UIVP:  {{ track.date_gab_out_2|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Asinadu:  {{ track.date_uvip_sign|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Sai ba GABINETE MINISTRO: {{ track.date_uvip_out_4|date:"d/m/Y" }}
+                            {% if obj_days.0.4 %}(lrn {{ obj_days.0.4 }}){% endif %}
+                            {% endif %} 
+                          </td>
+                        </tr>
+
+                        <tr><td align="center">GABINETE MINISTRU</td>
+                          <td>
+                            {% if track.is_uvip_out_4 == True and track.is_gab_in_5 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba GABINETE MINISTRO<br/>
+                            {% elif track.is_gab_in_5 == True and track.is_gab_sign == False %}
+                            <i class="fa fa-refresh i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_5|date:"d/m/Y" }}
+                            {% elif track.is_gab_sign == True and track.is_gab_out_5 == False %}
+                            <i class="fa fa-check i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_5|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Asinadu:  {{ track.date_gab_sign|date:"d/m/Y" }}
+                            {% elif track.is_gab_out_5 == True  %}
+                            <i class="fa fa-check i_green"></i> Tama ba GABINETE MINISTRO: {{ track.date_gab_in_5|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Asinadu:  {{ track.date_gab_sign|date:"d/m/Y" }}<br/>
+                            
+                            <i class="fa fa-check i_green"></i> Sai ba UIVP: {{ track.date_gab_out_5|date:"d/m/Y" }}
+                            {% if obj_days.0.5 %}(lrn {{ obj_days.0.5 }}){% endif %}
+                            {% endif %}
+                          </td>
+                        </tr>
+
+                       <tr><td align="center">UIVP</td>
+                          <td>
+                            {% if track.is_gab_out_5 == True and track.is_uvip_in_5 == False %}
+                            <i class="fa fa-refresh i_grey"></i> Tama ba UIVP:  {{ track.date_gab_out_5|date:"d/m/Y" }}<br/>
+                            
+                            {% elif track.is_uvip_in_5 == True and track.is_uvip_out_5 == True and track.is_end == True %}
+                            <i class="fa fa-check i_green"></i> Tama ba UIVP:  {{ track.date_gab_out_5|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Termina: {{ track.date_end|date:"d/m/Y" }}
+                            
+                            {% comment %} {% elif track.is_uvip_out_5 == True %}
+                            <i class="fa fa-check i_green"></i> Tama ba UIVP:  {{ track.date_gab_out_5|date:"d/m/Y" }}<br/>
+                            <i class="fa fa-check i_green"></i> Sai ba ADN-CNA-SGP:  {{ track.date_gab_out_5|date:"d/m/Y" }}<br/>
+                             {% endcomment %}
+                            {% if obj_days.0.4 %}(lrn {{ obj_days.0.4 }}){% endif %}
+                            {% endif %} 
+                          </td>
+                        </tr> 
+
+                         {% comment %} <tr><td align="center">ADN-CNA-SGP</td>
+                          <td>
+                          {% if  track.is_gab_out_5 == True and track.is_end == True %}
+                            <i class="fa fa-check i_green"></i> Tama ba ADN-CNA-SGP:  {{ track.date_gab_out_5|date:"d/m/Y" }}<br/>
+                            {% if obj_days.0.6 %}(lrn {{ obj_days.0.6 }}){% endif %}
+                            {% endif %}
+                          </td>
+                        </tr> {% endcomment %}
+                        {% comment %} <tr><td align="center">TERMINA</td>
+                          <td>
+                            {% if track.is_end == True %}
+                            <i class="fa fa-star i_green"></i> {{ track.date_end|date:"d/m/Y" }}
+                            {% endif %}
+                          </td>
+                        </tr> {% endcomment %}
+            
+                      </table>
+                    <hr/>
+                    <div class="progress">
+                        <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: {{ percent }}%;" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">{{ percent }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Justifikasaun</div>
+                <div class="card-body">
+                    {% if group == "uvip" or group == "gab" %}
+                    {% if track.is_end == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'eval-just-add' eval.hashed %}">Justifika <i class="fa fa-pencil"></i></a>
+                    {% endif %}
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>UVIP/GABINETE</th><th>Justifikasaun</th><th>Uzuariu</th>
+                            {% if track.is_end == False %}<th>#</th>{% endif %}
+                        </tr>
+                        {% for just in justs %}
+                        <tr>
+                            <td>{% if just.is_uvip == True%}UIVP{% else %}Gabinete Ministru{% endif %}</td>
+                            <td>{{ just.comment|safe }}</td>
+                            <td>{{ just.user }}<br/>{{ just.datetime|date:"d/m/Y" }}</td>
+                            {% if track.is_end == False %}
+                            <td>
+                            {% if just.user == user %}
+                                <a href="{% url 'eval-just-edit' eval.hashed just.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'eval-just-rem' eval.hashed just.id %}"><i class="fa fa-trash"></i></a>
+                            {% else %}
+                                <a href="#" class="disabled"><i class="fa fa-edit"></i></a>
+                                <a href="#" class="disabled"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

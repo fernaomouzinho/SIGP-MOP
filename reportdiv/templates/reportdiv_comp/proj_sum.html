@@ -1,0 +1,97 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'r-div-proj-dash' div.id %}">Painel Relatoriu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <center>
+                        <h1>{{ legend|upper }}</h1>
+                        <hr/>
+                        <a class="btn btn-sm btn-secondary mb-1" href="{% url 'r-div-comp-search' div.id %}">Buka Compania <i class="fa fa-search"></i></a>
+                    </center>
+                </div>
+            </div><!--end col-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="card">
+                <div class="card-header">Sumariu baseia ba Status</div>
+                <div class="card-body">
+                    <table id="" class="table table-sm display" style="width:100%">
+                        <thead>
+                            <tr align="center">
+                                <th>#</th>
+                                <th>Naran Compania</th>
+                                <th>Total</th>
+                                {% for status in statuss %}
+                                <th>{{ status }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr align="center">
+                                <td>{{ forloop.counter }}</td>
+                                <td align="left">{{ obj.0 }}</td>
+                                <td><a href="{% url 'r-div-comp-proj-list' div.id obj.0.id %}">{{ obj.1 }}</a></td>
+                                {% for obj1 in obj.2 %}
+                                <td><a href="{% url 'r-div-comp-proj-status-list' div.id obj.0.id obj1.0.id %}">{{ obj1.1 }}</a></td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+        <div class="col-sm-5">
+            <div class="card">
+                <div class="card-header">Sumariu baseia ba Tinan</div>
+                <div class="card-body">
+                    <table id="" class="table table-sm display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Naran Compania</th>
+                                {% for year in years %}
+                                <th>{{ year }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj2 in objects2 %}
+                            <tr align="center">
+                                <td>{{ forloop.counter }}</td>
+                                <td align="left">{{ obj2.0 }}</td>
+                                {% for obj2_1 in obj2.1 %}
+                                <td><a href="{% url 'r-div-comp-proj-year-list' div.id obj2.0.id obj2_1.0 %}">{{ obj2_1.1 }}</a></td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('table.display').DataTable(
+            {"lengthChange": false}
+        );
+    } );
+</script>
+{% endblock %}

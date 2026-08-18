@@ -1,0 +1,94 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dnof-cpv-det' proj.hashed %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">CPV Aprovadu</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu CPV</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Numeru CPV</th><td>{{ cpv.number }}</td></tr>
+            <tr><th>Montante CPV</th><td>${{ cpv.amount|intcomma }}</td></tr>
+            <tr><th>Data</th><td>{{ cpv.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Status</th><td>{% if cpv.is_appr == True %}Aprovadu{% else %}Procesa Hela{% endif %}</td></tr>
+            <tr><th>Anexu</th>
+              <td>
+                {% if cpv.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-pdf' cpv.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+            <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+            <tr><th>Kategoria Projetu</th><td>{{ proj.pcat }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Despaxu CPV</div>
+        <div class="card-body">         
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru Despaxu</th><th>Asuntu</th><th>Data</th><th>Aneksu</th>
+            </tr>
+            <tr>
+              <td>{{ cpvlet.number }}</td>
+              <td>{{ cpvlet.subject }}</td>
+              <td>{{ cpvlet.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if cpvlet.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-let-pdf' cpvlet.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+          <hr/>
+          <div class="alert alert-info">
+          {% if cpvlet.is_read == False %}
+          <a class="btn btn-sm btn-info" href="{% url 'dnof-cpv-in' cpvlet.id %}">Simu <i class="fa fa-check"></i></a>
+          {% else %}
+          <i class="fa fa-info"></i>: Simu Ona |
+          {% if track.is_dnof_in == True and track.is_end == False %}
+          <a class="btn btn-sm btn-primary" href="{% url 'dnof-cpv-end' cpv.id %}"> Termina <i class="fa fa-check"></i></a>
+          {% else %}Termina Ona
+          {% endif %}
+          {% endif %}
+          </div>
+        </div>
+      </div><!--end card-->      
+    </div><!--end col-->
+  </div><!--end row-->
+
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if page == "pall" %}
+		    <li class="breadcrumb-item"><a href="{% url 'r-exec-list' %}">SUMARIU EXECUSAUN</a></li>
+            {% elif page == "pyear" %}
+		    <li class="breadcrumb-item"><a href="{% url 'r-exec-year-list' year %}">SUMARIU EXECUSAUN {{ year }}</a></li>
+            {% endif %}
+			<li class="breadcrumb-item active">{{ legend|upper }}</li>
+        </ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header"></div>
+				<div class="card-body">
+					<center>
+						<h3>{{ legend|upper }}</h3>
+						<h1>{{ subtitle|upper }}</h1>
+					</center>
+					<hr/>
+					<table id="example" class="table table-sm table-bordered responsive" style="width:100%">
+						<thead>
+							<tr>
+								<th rowspan="2">Nu.</th>
+								<th rowspan="2">Projetu</th>
+								<th rowspan="2">Status</th>
+								<th rowspan="2">Tinan</th>
+								<th rowspan="2">Dono</th>
+								<th rowspan="2">Kat.</th>
+								<th rowspan="2">Setor</th>
+								<th rowspan="2">Capital</th>
+								<th rowspan="2">Mun.</th>
+								<th rowspan="2">Companha</th>
+								<th rowspan="2">Tot. Kontratu</th>
+								<th rowspan="2">Prog. Fiz</th>
+								<th colspan="2"><center>Net Pagamentu</center></th>
+								<th colspan="2"><center>Balansu</center></th>
+								<th rowspan="2">Obs</th>
+							</tr>
+							<tr>
+								<th>USD</th><th>%</th><th>USD</th><th>%</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for obj in objects %}
+							<tr>
+								<td>{{ forloop.counter }}</td>
+								<td><a href="{% url 'all-pay-list' obj.1.hashed %}">{{ obj.0.code }}</a></td>
+								<td>{{ obj.0.statusproj }}</td>
+								<td>{{ obj.6 }}</td>
+								<td>{{ obj.0.owner.code }}</td>
+								<td>{{ obj.0.pcategory.code }}</td>
+								<td>{{ obj.0.sector }}</td>
+								<td>{{ obj.0.capital.code }}</td>
+								<td>{{ obj.0.projectloc.all.0.municipality.code }}</td>
+								<td>{% for obj2 in obj.2 %}{{ obj2.company }}<br/>{% endfor %}</td>
+								<td>${{ obj.5|intcomma }}</td>
+								<td>{{ obj.3.phys_prog }}%</td>
+								<td>${{ obj.3.com_amount|intcomma }}</td>
+								<td>{{ obj.3.com_percent }}%</td>
+								<td>${{ obj.3.bal_amount|intcomma }}</td>
+								<td>{{ obj.3.bal_percent }}%</td>
+								<td>{{ obj.0.status }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<link href="{% static 'main/datatables/css/searchBuilder.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/searchBuilder.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/buttons.dataTables.min.css' %}" rel="stylesheet">
+<style type="text/css">
+    .dtsb-searchBuilder{
+        background: #b9c7e6 !important;
+        padding: 5px
+    }
+    .dt-button, .dtsb-add {
+        background: white !important;
+    }
+    @media print{
+        @page {
+            size: landscape;
+        }
+    }
+</style>
+<script src="{% static 'main/datatables/js/dataTables.searchBuilder.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/searchBuilder.bootstrap4.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/jszip.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/pdfmake.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/vfs_fonts.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.colVis.min.js' %}"></script>
+
+<script src="{% static 'main/js/datatables.js' %}"></script>
+<script>
+    $(document).ready( function () {
+        var table = $('#example').removeAttr('width').DataTable( {
+            "scrollY": "50vh",
+            "scrollX": true,
+            "scrollCollapse": true,
+            "paging": true,
+            searchBuilder: true,
+            buttons:[
+            {
+                extend: 'excelHtml5', autoFilter: true, sheetName: 'Exported data'
+            },
+            {
+                extend: 'print',
+                exportOptions: { columns: ':visible' },
+                title: '<img src="http://localhost:8000/static/main/images/logo.png" style="width:120;" /><hr/>\
+                <center><h4>{{ legend|upper }}</h4></center>',
+                customize: function(win)
+                {                    
+                    var last = null;
+                    var current = null;
+                    var bod = [];                    
+                    var css = '@page { size: landscape; }',
+                    head = win.document.head || win.document.getElementsByTagName('head')[0],
+                    style = win.document.createElement('style');
+                    style.type = 'text/css';
+                    style.media = 'print';                    
+                    if (style.styleSheet)
+                    {
+                        style.styleSheet.cssText = css;
+                    }
+                    else
+                    {
+                        style.appendChild(win.document.createTextNode(css));
+                    }                    
+                    head.appendChild(style);
+                }
+            },
+            'colvis',
+            ],
+            dom: 'Bfrtip',
+            "deferRender": true
+        });
+        table.searchBuilder.container().prependTo(table.table().container());
+    } );
+</script>
+{% endblock %}

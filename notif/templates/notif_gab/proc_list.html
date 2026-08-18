@@ -1,0 +1,86 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid"><br/>
+  {% if objects1 %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Lista Rekizasaun Tender Foun</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Husi</th><th>Diriji ba</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+            </tr>
+            {% for obj1 in objects1 %}
+            <tr>
+              <td rowspan="3">{{ forloop.counter }}</td>
+              <td><a href="{% url 'gab-proc-req-det' obj1.proc.hashed %}" target="_blank">{{ obj1.number }}</a></td>
+              <td>{{ obj1.date|date:"d/m/Y" }}</td>
+              <td>{% if obj1.is_dgaf == True %}DGAF{% endif %}</td>
+              <td>{{ obj1.to }}</td>
+              <td>{{ obj1.proc.proj.code }}</td>
+              <td>{{ obj1.proc.proj.name }}</td>
+            </tr>
+            <tr><th colspan="4">Asuntu</th><th>#</th></tr>
+            <tr>
+              <td colspan="4">{{ obj1.subject }}</td>
+              <td>
+                <a class="btn btn-sm btn-secondary" href="{% url 'gab-proc-req-back' obj1.hashed %}"><i class="fa fa-reply"></i> Manda Fila</a>
+                <a class="btn btn-sm btn-info" href="{% url 'gab-proc-req-in' obj1.id %}">Simu <i class="fa fa-check"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+  {% endif %}
+  {% if objects2 %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Rezultadu Tender</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Husi</th><th>Diriji ba</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+            </tr>
+            {% for obj2 in objects2 %}
+            <tr>
+              <td rowspan="3">{{ forloop.counter }}</td>
+              <td><a href="{% url 'gab-proc-res-det' obj2.proc.hashed %}" target="_blank">{{ obj2.number }}</a></td>
+              <td>{{ obj2.date|date:"d/m/Y" }}</td>
+              <td>{% if obj2.is_dgaf == True %}DGAF{% endif %}</td>
+              <td>{{ obj2.to }}</td>
+              <td>{{ obj2.proc.proj.code }}</td>
+              <td>{{ obj2.proc.proj.name }}</td>
+            </tr>
+            <tr><th colspan="4">Assuntu</th><th>#</th></tr>
+            <tr>
+              <td colspan="4">{{ obj2.subject }}</td>
+              <td>
+                <a class="btn btn-sm btn-secondary" href="{% url 'gab-proc-res-back' obj2.hashed %}"><i class="fa fa-reply"></i> Manda Fila</a>
+                <a class="btn btn-sm btn-info" href="{% url 'gab-proc-res-in' obj2.id %}">Simu <i class="fa fa-check"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+  {% endif %}
+
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+            {% if page == "inv" %}
+			<li class="breadcrumb-item"><a href="{% url 'notif-dnof-inv-det' obj.hashed %}">Fila</a></li>
+			{% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header bg-steel">{{ legend }}</div>
+				<div class="card-body">
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->  
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

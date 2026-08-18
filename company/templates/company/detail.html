@@ -1,0 +1,80 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'comp-list' %}">Lista Kompa&ntilde;ia</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">{{ legend }}</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th width="30%">Naran</th><td>{{comp.name }}</td></tr>
+            <tr><th>Numeru Rejistu</th><td>{{ comp.reg_number }}</td></tr>
+            <tr><th>Data Har&iacute;</th><td>{{ comp.start_date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Kategoria</th><td>{{ comp.type }}</td></tr>
+            <tr><th>Nasaun</th><td>{{ comp.country }}</td></tr>
+            <tr><th>Sidade</th><td>{{ comp.city }}</td></tr>
+            {% if comp.municipality %}
+            <tr><th>Munisipiu</th><td>{{ comp.municipality }}</td></tr>
+            {% endif %}
+            <tr><th>Karta Eletroniku</th><td>{{ comp.email }}</td></tr>
+            <tr><th>Numeru Telemovel</th><td>{{ comp.phone }}</td></tr>
+            <tr><th>Website</th><td>{{ comp.website }}</td></tr>
+            <tr><th>Enderesu</th><td>{{ comp.address }}</td></tr>
+          </table>
+          {% if group == "admin" or group == "dna" or group == "dna_s" or group == "op" %}
+            <a class="btn btn-info btn-sm" href="{% url 'comp-edit' comp.hashed %}" title="Altera">Hadia <i class="fa fa-edit"></i></a>
+          {% endif %}
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <div id="mapid" style="width: 100%; height: 350px;"></div>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+    
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/MarkerCluster.Default.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoukaK1udD0Z4erUsxwkYzRKTOWmJid34"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoukaK1udD0Z4erUsxwkYzRKTOWmJid34&libraries=places">
+    </script>
+    <script>
+		var mymap = L.map('mapid').setView([{{ comp.lat }}, {{ comp.lng }}], 15);
+
+		L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+        attribution: 'Google Maps',
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(mymap);
+
+		L.marker([{{ comp.lat }}, {{ comp.lng }}]).addTo(mymap)
+			.bindPopup("Company: {{ comp.name }}<br/>{{ comp.address }}").openPopup();
+
+		var popup = L.popup();
+
+	
+	</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+<div class="main-menu">
+  <h5 class="sidenav-heading">Main</h5>
+  <ul id="side-main-menu" class="side-menu list-unstyled">                  
+    <li><a href="{% url 'home' %}"><i class="icon-home"></i> Painel</a></li>
+    <li><a href="{% url 'proj-list' %}"><i class="icon-list"></i> Lista Projetu</a></li>
+    <li><a href="{% url 'div-eval-list' %}"><i class="icon-list"></i> Kria ToR</a></li>
+    <li><a href="{% url 'cont-list' %}"><i class="icon-list"></i> Lista Kontratu</a></li>
+    <li><a href="#trackDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-search"></i> Track</a>
+      <ul id="trackDropdown" class="collapse list-unstyled ">
+        <li><a href="{% url 'track-div-eval-list' %}">Avaliasaun ToR</a></li>
+        <li><a href="{% url 'track-inv-list' %}">Lista Resibu</a></li>
+        <li><a href="{% url 'track-insp-list' %}">Inpeksaun</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<div class="admin-menu">
+  <h5 class="sidenav-heading">Perfil & Konta</h5>
+  <ul id="side-main-menu" class="side-menu list-unstyled">                  
+    <li><a href="{% url 'user-profile' %}"> <i class="icon-user"></i>Perfil</a></li>
+    {% comment %} <li><a href="{% url 'user-account' %}"> <i class="icon-user"></i>Konta</a></li> {% endcomment %}
+  </ul>
+</div>

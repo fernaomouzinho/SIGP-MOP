@@ -1,0 +1,78 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'emp-list' %}">Utilizador</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-header">{{ legend }}</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th width="30%">Naran</th><td>{{ emp.name }}</td></tr>
+            <tr><th>Sexu</th><td>{{ emp.sex }}</td></tr>
+            <tr><th>Karta Eletroniku</th><td>{{ emp.email }}</td></tr>
+            <tr><th>Numeru Telemovel</th><td>{{ emp.phone }}</td></tr>
+            <tr><th>Ativu</th><td>{{ emp.is_active }}</td></tr>
+          </table>
+          <hr/>
+        {% if group == "admin" %}
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
+              <a class="btn btn-primary btn-sm" href="{% url 'emp-edit' emp.hashed %}" class="twitter" title="Update"><i class="fa fa-edit"></i> Atualiza </a>
+            </div>
+          </div>
+        {% endif %}
+        </div>
+      </div>
+    </div><!--end col-->
+    <div class="col">
+      <div class="card">
+        <div class="card-header">Pozisaun</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr>
+              <th>{{ emppos.position }}</th>
+              <td>
+                <a href="{% url 'emp-pos-edit' emp.hashed emppos.id %}"><i class="fa fa-edit"></i></a>
+                <a href="{% url 'emp-pos-rem' emp.hashed emppos.id %}"><i class="fa fa-trash"></i></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+      <div class="card">
+        <div class="card-header">Kolokasaun</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr>
+              <th>
+                {% if empdiv.dg %}{{ empdiv.dg }}
+                {% elif empdiv.div %}{{ empdiv.div }}
+                {% elif empdiv.dep %}{{ empdiv.dep }}
+                {% elif empdiv.sec %}{{ empdiv.sec }}
+                {% elif empdiv.mun %}{{ empdiv.mun }}
+                {% endif %}
+              </th>
+              <td>
+                <a href="{% url 'emp-div-edit' emp.hashed empdiv.id %}"><i class="fa fa-edit"></i></a>
+                <a href="{% url 'emp-div-rem' emp.hashed empdiv.id %}"><i class="fa fa-trash"></i></a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

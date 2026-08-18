@@ -1,0 +1,45 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Despaxu Foun</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Husi</th><th>Diriji ba</th>
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td><a href="{% url 'div-inv-disp-det' obj.id %}">{{ obj.number }}</a></td>
+                            <td>{{ obj.subject }}</td>
+                            <td>{{ obj.date|date:"d/m/Y" }}</td>
+                            <td>{{ obj.dg.code }}</td><td>{{ obj.to.code }}</td>
+                        </tr>
+                        <tr><th colspan="5">Deskrisaun</th></tr>
+                        <tr><td colspan="5">{{ obj.desc|safe }}</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

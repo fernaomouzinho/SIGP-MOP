@@ -1,0 +1,48 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Kodigu Projetu</th>
+                            <th>Naran Projetu</th>
+                            <th>Donu Projetu</th>
+                            <th>Tinan Projetu</th>
+                            <th>Kategoria Projetu</th>
+                            
+                        </tr>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            {% if group == "div" or group == "div_s" %}
+                            <td><a href="{% url 'div-proj-det' obj.hashed %}">{{ obj.code }}</a></td>
+                            {% else %}
+                            <td><a href="{% url 'proj-det' obj.hashed %}">{{ obj.code }}</a></td>
+                            {% endif %}
+                            <td>{{ obj.name }}</td>
+                            <td>{{ obj.owner.code }}</td>
+                            <td>{{ obj.year }}</td>
+                            <td>{{ obj.pcat }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

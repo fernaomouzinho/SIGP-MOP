@@ -1,0 +1,70 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            {% if group == "dna" %}
+            <li class="breadcrumb-item"><a href="{% url 'dna-cont-list' %}">Lista Kontratu</a></li>
+            {% else %}
+            <li class="breadcrumb-item"><a href="{% url 'cont-list' %}">Lista Kontratu</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Numeru</th>
+                                <th>Montante</th>
+                                <th>Data Hah&uacute;</th>
+                                <th>Data Remata</th>
+                                <th>Loron</th>
+                                <th>Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            {% if obj.4 == False %}
+                            {% if obj.2 < 15 %}
+                            <tr style="background-color:antiquewhite;">
+                            {% else %}<tr>{% endif %}
+                            {% else %}
+                            <tr style="color:white; background-color: rgb(127, 25, 25);">
+                            {% endif %}
+                                <td>{{ forloop.counter }}</td>
+                                {% if group == "dna" %}
+                                <td><a href="{% url 'dna-cont-det' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                                {% else %}
+                                <td><a href="{% url 'cont-det' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                                {% endif %}
+                                <td>${{ obj.0.total|intcomma }}</td>
+                                <td>{{ obj.0.start_date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.1.end_date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.3 }} {{ obj.2 }}</td>
+                                <td>{{ obj.0.project.code }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

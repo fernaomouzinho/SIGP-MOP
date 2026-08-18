@@ -1,0 +1,171 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dgaf-proc-res-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">Rezultadu Tender</div>
+            <div class="card-body">
+                <table class="table table-sm table-striped">
+                    <tr><th>Numeru Referensia</th><td><a href="{% url 'dgaf-proc-det' proc.hashed %}">{{ proc.number }}</a></td></tr>
+                    <tr><th>Data Kria</th><td>{{ proc.date|date:"d/m/Y" }}</td></tr>
+                    <tr><th>Deskrisaun</th><td>{{ proc.desc|safe }}</td></tr>
+                </table>
+                <hr/>
+                <table class="table table-sm table-striped">
+                    <tr><th>Kompa&ntilde;ia</th><th>Melhor</th><th>Rezultadu</th></tr>
+                    {% for comp in comps %}
+                    <tr>
+                        <td>{{ comp.company }}</td>
+                        <td>{{ comp.best }}</td>
+                        <td>{% if comp.is_win == True %}<i class="fa fa-star i_green"></i> Manan Nain{% else %}<i class="fa fa-close i_red"></i>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">Detallu Projetu</div>
+            <div class="card-body">
+              <table class="table table-sm table-striped">
+                <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                <tr><th>Donu Projetu</th><td>{{ proj.owner.code }}</td></tr>
+                <tr><th>Tinan</th><td>{{ proj.year }}</td></tr>
+            </table>
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          {% if track.is_start == True %}
+          <div class="alert alert-info p-1 mb-1">PROSESU HAHU ONA <i class="fa fa-star"></i></div>
+          {% endif %}
+          {% if track.is_dna_out == True %}
+          <div class="alert alert-secondary p-1 mb-1">DNA BA DGAF <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if track.is_dgaf_out_1 == True %}
+          <div class="alert alert-secondary p-1 mb-1">DGAF BA GABINETE MINISTRU <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if proc.is_res_appr == True %}
+          <div class="alert alert-success p-1 mb-1">RESULTADU TENDER APROVADO! <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if track.is_gab_out == True %}
+          <div class="alert alert-secondary p-1 mb-1">GABINETE MINISTRU BA DGAF <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if track.is_dgaf_out_2 == True %}
+          <div class="alert alert-secondary p-1 mb-1">DGAF BA DNA <i class="fa fa-check"></i></div>
+          {% endif %}
+          {% if track.is_end == True %}
+          <div class="alert alert-info p-1 mb-1">PROSESU TENDER TERMINA ONA <i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          {% endif %}
+          <a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-det' proc.hashed %}">Detallu Tender <i class="fa fa-list"></i></a>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--enc row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Akompa&ntilde;amentu & Despaxu</div>
+        <div class="card-body">
+          {% if track.is_dgaf_in_1 == True and track.is_dgaf_out_1 == False %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'proc-let-add' proc.hashed page %}">Kria Karta <i class="fa fa-pencil"></i></a>
+          {% endif %}
+          {% if track.is_dgaf_in_2 == True and track.is_dgaf_out_2 == False %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'proc-let-add' proc.hashed page %}">Kria Karta <i class="fa fa-pencil"></i></a>
+          {% endif %}
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Diriji ba</th><th>Aneksu</th>
+            </tr>
+            {% for let1 in lets1 %}
+            <tr>
+              {% if let1.is_back == True %}
+              <td rowspan="7">{{ forloop.counter }}</td>
+              {% else %}
+              <td rowspan="5">{{ forloop.counter }}</td>
+              {% endif %}
+              <td>{{ let1.number }}</td>
+              <td>{{ let1.date|date:"d/m/Y" }}</td>
+              <td>{{ let1.to }}</td>
+              <td>
+                {% if let1.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'proc-let-pdf' let1.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+                {% if let1.is_send == False %}
+                  <a class="btn btn-sm btn-info" href="{% url 'proc-let-edit' let1.hashed page %}" title="Altera"><i class="fa fa-edit"></i></a>
+                  <a class="btn btn-sm btn-danger" href="{% url 'proc-let-rem' let1.id page %}" title="Apaga"><i class="fa fa-trash"></i></a>
+                  {% if let1.to_id == 1 %}
+                  <a class="btn btn-sm btn-primary" href="{% url 'dgaf-proc-res-next1' let1.id %}" title="Manda ba Gabinete">Manda ba Gabinete <i class="fa fa-send"></i></a>
+                  {% elif let1.to_id == 3 %}
+                  <a class="btn btn-sm btn-primary" href="{% url 'dgaf-proc-res-next2' let1.id %}" title="Manda ba DNA">Manda ba DNA <i class="fa fa-send"></i></a>
+                  {% endif %}
+                  {% else %}
+                  <div class="alert alert-info p-1"><i class="fa fa-info"></i> {{ let1.status }}</div>
+                  {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="5">Asuntu</th></tr>
+            <tr><td colspan="5">{{ let1.subject }}</td></tr>
+            <tr><th colspan="5">Deskrisaun</th></tr>
+            <tr><td colspan="5">{{ let1.desc|safe }}</td></tr>
+            {% if let1.is_back == True %}
+            <tr class="bg-warning"><th colspan="5">Komentariu Fila</th></tr>
+            <tr><td colspan="5">{{ let1.comment|safe }}</td></tr>
+            {% endif %}
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">DESPAXU MINISTRU</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Nu.</th><th>Numeru Despaxu</th><th>Data</th><th>Diriji ba</th><th>Aneksu</th>
+            </tr>
+            {% for let2 in lets2 %}
+            <tr>
+              <td rowspan="5">{{ forloop.counter }}</td>
+              <td>{{ let2.number }}</td>
+              <td>{{ let2.date|date:"d/m/Y" }}</td>
+              <td>{{ let2.to }}</td>
+              <td>
+                {% if let2.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'proc-let-pdf' let2.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="5">Asuntu</th></tr>
+            <tr><td colspan="5">{{ let2.subject }}</td></tr>
+            <tr><th colspan="5">Deskrisaun</th></tr>
+            <tr><td colspan="5">{{ let2.desc|safe }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

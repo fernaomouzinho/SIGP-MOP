@@ -1,0 +1,98 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'r-dgaf-proc-let-list' %}">Lista Karta</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Tender</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kategoria</th></tr>
+            <tr><td>{{ proj.code }}</td><td>{{ proj.name }}</td><td>{{ proj.pcategory.code }}</td></tr>
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ legend }}</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru Referensia</th><th>Asuntu</th><th>Data</th><th>Husi</th><th>Diriji ba</th>
+            </tr>
+            <tr>
+              <td>{{ letdgaf.number }}</td>
+              <td>{{ letdgaf.subject }}</td>
+              <td>{{ letdgaf.date|date:"d/m/Y" }}</td>
+              <td>{{ letdgaf.dgaf.code }}</td>
+              <td>{{ letdgaf.to }}</td>
+            </tr>
+            <tr><th colspan="4">Deskrisaun</th><th>Aneksu</th></tr>
+            <tr><td colspan="4">{{ letdgaf.desc|safe }}</td>
+              <td>
+                {% if letdgaf.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'proc-let-pdf' letdgaf.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td></tr>
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Relevante</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>#</th><th>Numeru Referensia </th><th>Asuntu</th><th>Data</th><th>Husi</th><th>Diriji ba</th><th>Aneksu</th>
+            </tr>
+            {% for obj in objects %}
+            <tr>
+              <td rowspan="3">{{ forloop.counter }}</td>
+              <td>{{ obj.number }}</td>
+              <td>{{ obj.subject }}</td>
+              <td>{{ obj.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if obj.div %}{{ obj.div.code }}
+                {% elif obj.dg %}{{ obj.dg.code }}
+                {% elif obj.min %}{{ obj.min.code }}
+                {% endif %}
+              </td>
+              <td>{{ obj.to }}</td>
+              <td>
+                {% if obj.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'proc-let-pdf' obj.id %}" title="Anexu" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            <tr><th colspan="6">Deskrisaun</th></tr>
+            <tr><td colspan="6">{{ obj.desc|safe }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

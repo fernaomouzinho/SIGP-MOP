@@ -1,0 +1,173 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    {% if objects1 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Rekizasaun Tender Foun</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Husi</th><th> Kodigu Projetu</th><th> Naran Projetu</th>
+                        </tr>
+                        {% for obj1 in objects1 %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td><a href="{% url 'dgaf-proc-req-det' obj1.proc.hashed %}">{{ obj1.proc.number }}</a></td>
+                            <td>{{ obj1.proc.date|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if obj1.is_dna_out == True and obj1.is_gab_out == False %}DNA
+                                {% elif obj1.is_gab_out == True %}Gabinete Ministro{% endif %}
+                            </td>
+                            <td>{{ obj1.proc.proj.code }}</td>
+                             <td>{{ obj1.proc.proj.name }}</td>
+                        </tr>
+                        <tr><th colspan="3">Deskrisaun</th><th>#</th></tr>
+                        <tr>
+                            <td colspan="3">{{ obj1.proc.desc|safe }}</td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-req-in1' obj1.proc.id %}">Simu <i class="fa fa-check"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+    {% endif %}
+    {% if objects2 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Rezultadu Tender</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Husi</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+                        </tr>
+                        {% for obj2 in objects2 %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td><a href="{% url 'dgaf-proc-res-det' obj2.proc.hashed %}">{{ obj2.proc.number }}</a></td>
+                            <td>{{ obj2.proc.date|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if obj2.is_dna_out == True and obj2.is_gab_out == False %}DNA
+                                {% elif obj2.is_gab_out == True %}GABINETE MINISTRU{% endif %}
+                            </td>
+                            <td>{{ obj2.proc.proj.code }}</td>
+                            <td>{{ obj2.proc.proj.name }}</td>
+                        </tr>
+                        <tr><th colspan="3">Deskrisaun</th><th>#</th></tr>
+                        <tr>
+                            <td colspan="3">{{ obj2.proc.desc|safe }}</td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-res-in1' obj2.proc.id %}">Simu <i class="fa fa-check"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+    {% endif %}
+    {% if objects3 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Karta Rekizasaun Tender Foun</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Husi</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+                        </tr>
+                        {% for obj3 in objects3 %}
+                        <tr>
+                            {% if obj3.is_back == True %}
+                            <td rowspan="5">{{ forloop.counter }}</td>
+                            {% else %}
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            {% endif %}
+                            <td><a href="{% url 'dgaf-proc-req-det' obj3.proc.hashed %}">{{ obj3.number }}</a></td>
+                            <td>{{ obj3.date|date:"d/m/Y" }}</td>
+                            <td>GABINETE MINISTRU</td>
+                            <td>{{ obj3.proc.proj.code }}</td>
+                             <td>{{ obj3.proc.proj.name }}</td>
+                        </tr>
+                        <tr><th colspan="3">Asuntu</th><th>#</th></tr>
+                        <tr>
+                            <td colspan="3">{{ obj3.subject|safe }}</td>
+                            <td>
+                                {% if obj3.is_back == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-req-in2' obj3.id %}">Simu <i class="fa fa-check"></i></a>
+                                {% else %}
+                                <a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-req-det' obj3.proc.hashed %}">Atualiza <i class="fa fa-edit"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if obj3.is_back == True %}
+                        <tr class="bg-warning"><th colspan="4">Komentariu Fila</th></tr>
+                        <tr><td colspan="4">{{ obj3.comment|safe }}</td></tr>
+                        {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+    {% endif %}
+    {% if objects4 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Despaxu Rezultadu Tender</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th><th>Numeru Despaxu</th><th>Data</th><th>Husi</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+                        </tr>
+                        {% for obj4 in objects4 %}
+                        <tr>
+                            {% if obj4.is_back == True %}
+                            <td rowspan="5">{{ forloop.counter }}</td>
+                            {% else %}
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            {% endif %}
+                            <td><a href="{% url 'dgaf-proc-res-det' obj4.proc.hashed %}">{{ obj4.number }}</a></td>
+                            <td>{{ obj4.date|date:"d/m/Y" }}</td>
+                            <td>Gabinete Ministro</td>
+                            <td>{{ obj4.proc.proj.code }}</td>
+                            <td>{{ obj4.proc.proj.name }}</td>
+                        </tr>
+                        <tr><th colspan="3">Asuntu</th><th>#</th></tr>
+                        <tr>
+                            <td colspan="3">{{ obj4.subject|safe }}</td>
+                            <td>
+                                {% if obj4.is_back == False %}
+                                <a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-res-in2' obj4.id %}">Simu <i class="fa fa-check"></i></a>
+                                {% else %}
+                                <a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-res-det' obj4.proc.hashed %}">Atualiza <i class="fa fa-edit"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if obj4.is_back == True %}
+                        <tr class="bg-warning"><th colspan="4">Komentariu Fila</th></tr>
+                        <tr><td colspan="4">{{ obj4.comment|safe }}</td></tr>
+                        {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+    {% endif %}
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

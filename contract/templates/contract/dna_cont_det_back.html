@@ -1,0 +1,167 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dna-cont-list' %}">Lista Kontratu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>    
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kategoria Projetu</th><th>Tinan Projetu</th>
+                        </tr>
+                        <tr>
+                            <td>{{ proj.code }}</td>
+                            <td>{{ proj.name }}</td>
+                            <td>{{ proj.pcategory.code }}</td>
+                            <td>{{ proj.year }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">Donu Projetu</th><th>Status</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{% if proj.owner %}{{ proj.owner }}{% endif %}</td>
+                            <td>{{ proj.statusproj }}</td>
+                        </tr>
+                    </table>      
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    {% if cont %}
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Kontratu</th><th>Montante Kontratu</th><th>Tipu Tender</th><th>Periodu Kontratu</th><th>Status</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if not cont.number == amend.number %}
+                                <strike style="color:red;">{{ cont.number }}</strike>
+                                <strong>{{ amend.number }}</strong>
+                                {% else %}{{ cont.number }}{% endif %}
+                            </td>
+                            <td>
+                                {% if not cont.total == amend.total %}
+                                <strike style="color:red;">${{ cont.total|intcomma }}</strike>
+                                <strong>${{ amend.total|intcomma }}</strong>
+                                {% else %}${{ cont.total|intcomma }}{% endif %}
+                            </td>
+                            <td>{{ cont.type.code }}</td>
+                            <td>{{ cont.start_date|date:"d/m/Y" }} - 
+                                {% if not cont.end_date == amend.end_date %}
+                                <strike style="color:red;">{{ cont.end_date|date:"d/m/Y" }}</strike>
+                                <strong>{{ amend.end_date|date:"d/m/Y" }}</strong>
+                                {% else %}{{ cont.end_date|date:"d/m/Y" }}{% endif %}
+                            </td>
+                            <td>{{ cont.status }}
+                                {% if cont.is_complete == False %}<a href="{% url 'dna-cont-status-edit' cont.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>{% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    <hr/>
+                    {% endif %}<!--end cont-->
+                    
+                    {% if cpv %}
+                    {% if not cont %}
+                    <a class="btn btn-sm btn-info" href="{% url 'dna-cont-add' proj.hashed %}" title="Kria Kontratu">Kria Kontratu <i class="fa fa-pencil"></i></a>
+                    {% else %}
+                    {% if cont.is_ready == False %}
+                    {% if cont.is_lock == False %}
+                    <a class="btn btn-sm btn-info" href="{% url 'dna-cont-edit' cont.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'dna-cont-rem' proj.hashed cont.id %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+                    <a class="btn btn-sm btn-warning" href="{% url 'dna-cont-lock' cont.hashed %}" title="Xavi"><i class="fa fa-lock"></i></a>
+                    {% else %}
+                    <a class="btn btn-sm btn-warning" href="{% url 'dna-cont-unlock' cont.hashed %}" title="Loke"><i class="fa fa-unlock"></i></a>
+                    <a class="btn btn-sm btn-primary" href="{% url 'dna-cont-ready' cont.hashed %}" title="Pronto"><i class="fa fa-check"></i></a>
+                    {% endif %}<!--end is_lock-->
+                    {% else %}
+                    {% if cont.is_complete == False %}
+                    <a class="btn btn-sm btn-info" href="{% url 'dna-cont-status-edit' cont.hashed %}" title="Altera Status">Altera Status <i class="fa fa-edit"></i></a>
+                    {% if cont.status_id == 4 or cont.status_id == 5 %}
+                    <a class="btn btn-sm btn-success" href="{% url 'dna-cont-complete' cont.id %}" title="Projetu Termina">Projetu Termina <i class="fa fa-check"></i></a>
+                    {% endif %}<!--end status_id-->
+                    {% endif %}<!--end is_complete-->
+                    {% endif %}<!--end is_ready-->
+                    {% endif %}<!--end not cont-->
+                    {% else %}
+                    <div class="alert alert-warning p-1"><i class="fa fa-info"></i> CPV SEIDAUK KRIA!</div>
+                    {% endif %}<!--end cpv-->
+                    <hr/>
+                    {% if cont %}
+                    <h5>Kompa&ntilde;ia</h5>
+                    {% if cont.is_lock == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'dna-cont-comp-add' cont.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr><th>Naran Kompa&ntilde;ia</th><th>Numeru Telemovel</th><th>Enderesu</th><th>Prinsipal</th>
+                            {% if cont.is_lock == False %}<th>#</th>{% endif %}
+                        </tr>
+                        {% for comp  in comps %}
+                        <tr>
+                            <td>{{ comp.company }}</td>
+                            <td>{{ comp.company.phone }}</td>
+                            <td>{{ comp.company.address }}</td>
+                            <td>{% if comp.is_main == True %}<i class="fa fa-check"></i>{% endif %}</td>
+                            <td>
+                                {% if cont.is_lock == False %}
+                                <a href="{% url 'dna-cont-comp-edit' cont.hashed comp.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'dna-cont-comp-rem' cont.hashed comp.id %}"><i class="fa fa-trash"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <hr/>
+                    <h5>Anexu</h5>
+                    {% if cont.is_lock == False %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'dna-cont-file-add' cont.hashed %}">Aumenta <i class="fa fa-plus"></i></a>
+                    {% endif %}
+                    <table class="table table-sm table-striped">
+                        <tr><th>Deskrisaun</th><th>#</th>
+                        </tr>
+                        {% for file in files %}
+                        <tr>
+                            <td>{{ file.desc|safe }}</td>
+                            <td>
+                                <a href="{% url 'cont-pdf' file.id %}" target="_blank" title="PDF"><i class="fa fa-file-pdf-o"></i></a>
+                                {% if cont.is_lock == False %}
+                                <a href="{% url 'dna-cont-file-edit' cont.hashed file.id %}"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'dna-cont-file-rem' cont.hashed file.id %}"><i class="fa fa-trash"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% endif %}
+                </div>
+            </div><!--end card-->
+            <div class="card">
+                <div class="card-header">Amenda</div>
+                <div class="card-body">
+                {% if cont %}
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'amend-per-det' cont.hashed %}"> Tempu <i class="fa fa-calendar"></i></a>
+                    <a class="btn btn-sm btn-info mb-1" href="{% url 'amend-am-det' cont.hashed %}"> VO <i class="fa fa-dollar"></i></a>
+                {% endif %}
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

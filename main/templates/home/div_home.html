@@ -1,0 +1,77 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend|upper }}</li>
+        </ul>
+    </div>
+</div>
+<!-- Counts Section -->
+{% include 'home/div_home_count.html' %}
+<!-- end Counts Section -->
+<!-- Header Section-->
+<section class="bg-white py-5">
+    <div class="container-fluid">
+        <div class="row d-flex align-items-md-stretch">
+            <div class="col-lg-4 col-md-6">
+                <div class="card shadow-0">
+                    <h2 class="h3 fw-normal">Kategoria</h2>
+                    <div id="container" style="width: 100%; height: 300px;">
+                        <canvas id="projcat_data"></canvas>
+                    </div>
+                </div>
+            </div><!--end col-->
+            <div class="col-lg-4 col-md-6">
+                <div class="card shadow-0">
+                    <h2 class="h3 fw-normal">Setor</h2>
+                    <div id="container" style="width: 100%; height: 300px;">
+                        <canvas id="projsec_data"></canvas>
+                    </div>
+                </div>
+            </div><!--end col-->
+            <div class="col-lg-4 col-md-6">
+                <div class="card shadow-0">
+                    <h2 class="h3 fw-normal">Implementasaun</h2>
+                    <div id="container" style="width: 100%; height: 300px;">
+                        <canvas id="imps_data"></canvas>
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+        <div class="row d-flex align-items-md-stretch">
+            <div class="col-lg-6 col-md-6">
+                <div class="card shadow-0">
+                    <h2 class="h3 fw-normal">Tinan Projetu</h2>
+                    <div id="container" style="width: 100%; height: 300px;">
+                        <canvas id="projyear_data"></canvas>
+                    </div>
+                </div>
+            </div><!--end col-->
+            <div class="col-lg-6 col-md-12">
+                <div class="card shadow-0">
+                    <h2 class="h3 fw-normal">Munisipiu</h2>
+                    <div id="container" style="width: 100%; height: 300px;">
+                        <canvas id="projmun_data"></canvas>
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end cont-->
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'main/assets/js/jquery.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+    {% include 'chart_js/option_bar.js' %}
+    {% include 'chart_js/option_pie.js' %}
+    {% include 'chartdiv/imp_status.js' %}
+    {% include 'chartdiv/proj_cat.js' %}
+    {% include 'chartdiv/proj_sec.js' %}
+    {% include 'chartdiv/proj_year.js' %}
+    {% include 'chartdiv/proj_mun.js' %}
+</script>	
+{% endblock %}

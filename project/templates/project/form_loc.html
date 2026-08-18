@@ -1,0 +1,115 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'div-proj-det' proj.hashed %}">Detallu Projetu</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">{{ legend|upper }}</div>
+				<div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><th>Naran Projetu</th></tr>
+            <tr><td>{{ proj.code }}</td><td>{{ proj.name }}</td></tr>
+          </table>
+          <hr/>
+					<form method="POST" id="projForm" data-posts-url="{% url 'ajax_load_posts' %}"
+           data-villages-url="{% url 'ajax_load_villages' %}" data-vills-url="{% url 'ajax_load_aldeias' %}" novalidate>
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group col-md-3 mb-0">
+                {{ form.municipality|as_crispy_field }}
+              </div>
+              <div class="form-group col-md-3 mb-0">
+                {{ form.administrativepost|as_crispy_field }}
+              </div>
+              <div class="form-group col-md-3 mb-0">
+                {{ form.village|as_crispy_field }}
+              </div>
+              <div class="form-group col-md-3 mb-0">
+                {{ form.aldeia|as_crispy_field }}
+              </div>
+            </div> <!--end form-row-->
+            <div class="form-row">
+              <div class="form-group col-md-3 mb-0">
+                {{ form.start_lat|as_crispy_field }}
+              </div>
+              <div class="form-group col-md-3 mb-0">
+                {{ form.start_lng|as_crispy_field }}
+              </div>
+              <div class="form-group col-md-3 mb-0">
+                {{ form.end_lat|as_crispy_field }}
+              </div>
+              <div class="form-group col-md-3 mb-0">
+                {{ form.end_lng|as_crispy_field }}
+              </div>
+            </div> <!--end form-row-->
+            <div class="button-row d-flex">
+              <button class="btn btn-primary ml-1" type="submit" title="Save">Rai <i class="fa fa-save"></i></button>
+            </div> <!-- end button -->
+          </form>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'main/assets/js/jquery.min.js' %}"></script>
+<script>
+    $("#id_municipality").change(function () {
+      var url = $("#projForm").attr("data-posts-url");
+      var municipalityId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'municipality': municipalityId
+        },
+        success: function (data) {
+          $("#id_administrativepost").html(data);
+        }
+      });
+
+    });
+    // this one is for fetching village data
+    $("#id_administrativepost").change(function () {
+      var url = $("#projForm").attr("data-posts-url");
+      var postId = $(this).val();
+
+      $.ajax({
+        url: '{% url 'ajax_load_villages' %}',
+        data: {
+          'post': postId
+        },
+        success: function (data) {
+          $("#id_village").html(data);
+        }
+      });
+    });
+    // this one is for fetching village data
+    $("#id_village").change(function () {
+      var url = $("#projForm").attr("data-vills-url");
+      var vilId = $(this).val();
+
+      $.ajax({
+        url: '{% url 'ajax_load_aldeias' %}',
+        data: {
+          'vil': vilId
+        },
+        success: function (data) {
+          $("#id_aldeia").html(data);
+        }
+      });
+
+    });
+  </script>
+{% endblock %}

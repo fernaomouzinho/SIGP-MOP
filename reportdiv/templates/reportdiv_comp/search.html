@@ -1,0 +1,140 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'r-div-comp-proj-sum' div.id %}">Painel Compania</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow-lg border-info rounded">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <center>
+                        <h3>{{ legend|upper }}</h3>
+                        <h1>{{ subtitle|upper }}</h1>
+                    </center>
+                    <hr/>
+                    <form method="GET" action="#">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="q" value="{{ query }}" placeholder="Buka compania..." aria-label="Search" aria-describedby="basic-addon2" required />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" title="Buka"><i class="fa fa-search"></i></button>
+                                <a class="btn btn-info" href="{% url 'r-div-comp-search' div.id %}" title="Refresh"><i class="fa fa-refresh"></i></a>
+                            </div>
+                        </div>
+                    </form>
+                    <small>Total dadus <strong>{{ tot }}</strong></small>
+                    <hr/>
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr align="center">
+                                <th>#</th>
+                                <th>Naran Compania</th>
+                                <th>Total</th>
+                            {% for status in statuss %}
+                                <th>{{ status }}</th>
+                            {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr align="center">
+                                <td>{{ forloop.counter }}</td>
+                                <td align="left">{{ obj.0 }}</td>
+                                <td><a href="{% url 'r-div-comp-proj-list' div.id obj.0.id %}">{{ obj.1 }}</a></td>
+                                {% for obj1 in obj.2 %}
+                                <td><a href="{% url 'r-div-comp-proj-status-list' div.id obj.0.id obj1.0.id %}">{{ obj1.1 }}</a></td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<link href="{% static 'main/datatables/css/searchBuilder.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/searchBuilder.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/datatables/css/buttons.dataTables.min.css' %}" rel="stylesheet">
+<style type="text/css">
+    .dtsb-searchBuilder{
+        background: #b9c7e6 !important;
+        padding: 5px
+    }
+    .dt-button, .dtsb-add {
+        background: white !important;
+    }
+    @media print{
+        @page {
+            size: landscape;
+        }
+    }
+</style>
+<script src="{% static 'main/datatables/js/dataTables.searchBuilder.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/searchBuilder.bootstrap4.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/jszip.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/pdfmake.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/vfs_fonts.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.colVis.min.js' %}"></script>
+
+<script src="{% static 'main/js/datatables.js' %}"></script>
+<script>
+    $(document).ready( function () {
+        var table = $('#example').removeAttr('width').DataTable( {
+            "scrollY": "50vh",
+            "scrollX": true,
+            "scrollCollapse": true,
+            "paging": true,
+            searchBuilder: true,
+            buttons:[
+            {
+                extend: 'excelHtml5', autoFilter: true, sheetName: 'Exported data'
+            },
+            {
+                extend: 'print',
+                exportOptions: { columns: ':visible' },
+                title: '<img src="http://localhost:8000/static/main/images/logo.png" style="width:120;" /><hr/>\
+                <center><h4>{{ legend|upper }}</h4></center>',
+                customize: function(win)
+                {                    
+                    var last = null;
+                    var current = null;
+                    var bod = [];                    
+                    var css = '@page { size: landscape; }',
+                    head = win.document.head || win.document.getElementsByTagName('head')[0],
+                    style = win.document.createElement('style');
+                    style.type = 'text/css';
+                    style.media = 'print';                    
+                    if (style.styleSheet)
+                    {
+                        style.styleSheet.cssText = css;
+                    }
+                    else
+                    {
+                        style.appendChild(win.document.createTextNode(css));
+                    }                    
+                    head.appendChild(style);
+                }
+            },
+            'colvis',
+            ],
+            dom: 'Bfrtip',
+            "deferRender": true
+        });
+        table.searchBuilder.container().prependTo(table.table().container());
+    } );
+</script>
+{% endblock %}

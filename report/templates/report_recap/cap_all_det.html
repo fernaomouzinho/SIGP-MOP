@@ -1,0 +1,145 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'r-proj-dash' %}">PAINEL SUMARIU</a></li>
+			<li class="breadcrumb-item"><a href="{% url 'r-recap-dash' %}">REKAPITULASAUN</a></li>
+			<li class="breadcrumb-item active">KAPITAL SIRA</li>
+		</ul>
+	</div>
+</div>
+<section class="dashboard-counts p-4" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<center>
+					<h3>{{ legend|upper }}</h3>
+				</center>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!--end section-->
+<ul class="breadcrumb">
+	<li class="breadcrumb-item">Kapital Sira</li>
+	{% for obj in capi %}
+	<li class="breadcrumb-item"><a href="{% url 'r-recap-cap-each-det' pk=obj.code %}">{{obj.name}}</a></li>
+	{% endfor %}
+	{% comment %} {% for year in years %}
+	<li class="breadcrumb-item"><a href="{% url 'r-recap-year' year.year__year %}">{{ year.year__year }}</a></li>
+	{% endfor %} {% endcomment %}
+</ul> 
+<section class="dashboard-counts section-padding" style="background-color: white;">
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-sm table-bordered">
+                    <tr align="center">
+						<th rowspan="2">NU.</th>
+						<th rowspan="2">KATEGORIA DIRESAUN PROJETU</th>
+						<th rowspan="2">TOTAL PROJETU</th>
+						<th colspan="1">MONTANTE <br>KONTRATU</th>
+						<th colspan="2">TOTAL NET PAGAMENTU <br> KONTRATU</th>
+						<th colspan="2">BALANSU <br>KONTRATU</th>
+						<th>TOTAL NET PAGAMENTU <br> KONTRATU  {{date.year}}</th> 
+                    </tr>
+					<tr align="center">
+						<th>$</th><th>$</th><th>%</th><th>$</th><th>%</th><th>$</th>
+					</tr>
+					<tr align="center">
+						<th colspan="2" style="text-align:left">TOTAL PROJETU</th>
+						<th>{{ obj_tot.0 }}</th>
+						<th style="text-align:right">${{ obj_tot.1|intcomma  }}</th>
+						<th style="text-align:right">${{ obj_tot.2|intcomma  }}</th>
+						<th style="text-align:right">{{ obj_tot.3|intcomma }}%</th>
+						<th style="text-align:right">${{ obj_tot.4|intcomma }}</th>
+						<th style="text-align:right">{{ obj_tot.5|intcomma }}%</th>
+						<th style="text-align:right">${{ obj_tot.6|intcomma }}</th> 
+					</tr>
+					{% for obj in objects %}
+                    <tr class="bg-warning text-white">
+						{% comment %} <td>{{ forloop.counter }}</td> {% endcomment %}
+						<th colspan='2'>TOTAL PROJETU {{ obj.0.name.upper }}</th>
+						<th style="text-align:center">{{ obj.1 }}</th>
+						<th style="text-align:right">{% if obj.2 %}${{ obj.2|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if obj.3 %}${{ obj.3|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if obj.4 %}{{ obj.4}}%{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if obj.5 %}${{ obj.5|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if obj.6 %}{{ obj.6}}%{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if obj.7 %}${{ obj.7|intcomma }}{% else %}0.0{% endif %}</th> 
+                    </tr>
+					
+					{% for objs in objects1 %}
+						{% if objs.0 == obj.0 %} <!--start status-->
+							<tr align="center" class="bg-success text-white">
+							<th colspan="2" style="text-align:left">KONTRATU IHA ONA - {{objs.1.upper}}</th>
+								<th>{{ objs.2 }}</th>
+								<th style="text-align:right">{% if objs.3 %}${{ objs.3|intcomma }}{% else %}0.0{% endif %}</th>
+								<th style="text-align:right">{% if objs.4 %}${{ objs.4|intcomma }}{% else %}0.0{% endif %}</th>
+								<th style="text-align:right">{% if objs.5 %}{{ objs.5 }}%{% else %}0.0{% endif %}</th>
+								<th style="text-align:right">{% if objs.6 %}${{ objs.6|intcomma }}{% else %}0.0{% endif %}</th>
+								<th style="text-align:right">{% if objs.7 %}{{ objs.7 }}%{% else %}0.0{% endif %}</th>
+								<th style="text-align:right">{% if objs.8 %}${{ objs.8|intcomma }}{% else %}0.0{% endif %}</th> 
+							</tr>
+						{% endif %} 
+						{% if objs.0 == obj.0 %}
+						{% for objd in objects3 %}
+						{% if objd.0 == obj.0 %}
+						{% if objd.1 == objs.1 %}
+						<tr align="center" class="bg-secondary text-white">
+							<th colspan="2" style="text-align:left">{{ objd.3.upper }} ({{ objd.2.upper }})</th>
+							<th style="text-align:center">{{ objd.4 }}</th>
+							<th style="text-align:right">{% if objd.5 %}${{ objd.5|intcomma }}{% else %}0.0{% endif %}</th>
+							<th style="text-align:right">{% if objd.6 %}${{ objd.6|intcomma }}{% else %}0.0{% endif %}</th>
+							<th style="text-align:right">{% if objd.7 %}{{ objd.7 }}%{% else %}0.0{% endif %}</th>
+							<th style="text-align:right">{% if objd.8 %}${{ objd.8|intcomma }}{% else %}0.0{% endif %}</th>
+							<th style="text-align:right">{% if objd.9 %}{{ objd.9 }}%{% else %}0.0{% endif %}</th>
+							<th style="text-align:right">{% if objd.10 %}${{ objd.10|intcomma }}{% else %}0.0{% endif %}</th> 
+						</tr>
+						{% endif %}
+						{% endif %}
+
+						{% if objd.0 == obj.0 %}
+						{% if objd.1 == objs.1 %}
+						{% for objy in objects5 %}
+						{% if objy.0 == obj.0 %}
+						{% if objy.1 == objs.1 %}
+						{% if objy.2 == objd.2 %}
+					
+						<tr align="center">
+						<th colspan="2" style="text-align:left">{{ objy.5 }} {{ objy.6 }}</th>
+						<th style="text-align:center">{{ objy.7 }}</th>
+						<th style="text-align:right">{% if objy.8 %}${{ objy.8|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if objy.9 %}${{ objy.9|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if objy.10 %}{{ objy.10 }}%{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if objy.11 %}${{ objy.11|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if objy.12 %}{{ objy.12 }}%{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if objy.14 %}${{ objy.14|intcomma }}{% else %}0.0{% endif %}</th> 
+						</tr>
+						{% endif %}
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+						{% endif %}
+						{% endif %}
+						
+						
+
+					{% endfor %}
+					{% endif %} 
+					{% endfor %}
+					{% endfor %}
+					
+					
+					
+					
+                </table>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

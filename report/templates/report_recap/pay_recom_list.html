@@ -1,0 +1,46 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'uvip-inv-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">{{ title }}</div>
+                    <div class="card-body">
+                       
+                        <table class="table table-sm table-striped">
+                            <tr>
+                                <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Progresu Fiziku</th><th>Montante Pagamentu</th><th>Aneksu</th>
+                            </tr>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'uvip-cert-det' obj.hashed %}">{{ obj.number }}</a></td>
+                                <td>{{ obj.date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.phys_prog }}%</td>
+                                <td>${{ obj.amount|intcomma }}</td>
+                                 <td>
+                                    {% if obj.file %}
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'cert-pdf' obj.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div><!--end card-->
+            </div><!--end col--> 
+        </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

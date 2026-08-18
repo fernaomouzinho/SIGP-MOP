@@ -1,0 +1,70 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			{% if page == "det" %}
+			<li class="breadcrumb-item"><a href="{% url 'uvip-cert-det' certpay.hashed %}">Fila</a></li>
+			{% else %}
+			<li class="breadcrumb-item"><a href="{% url 'uvip-inv-det' inv.hashed %}">Fila</a></li>
+			{% endif %}
+			<li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">Kontratu</div>
+				<div class="card-body">
+					<table class="table table-sm table-striped">
+						<tr>
+							<th>Numeru</th><th>Montante</th><th>Periodu</th><th>Projetu</th>
+						</tr>
+						<tr>
+							<td>{{ inv.cont.number }}</td>
+							<td>${{ inv.cont.total|intcomma }}</td>
+							<td>{{ inv.cont.start_date|date:"d/m/Y" }} - {{ inv.cont.end_date|date:"d/m/Y" }}</td>
+							<td>{{ inv.cont.project.code }}</td>
+						</tr>
+					</table>
+				</div>
+			</div><!--end card-->
+		</div> <!--end col-->
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">Resibu</div>
+				<div class="card-body">
+					<table class="table table-sm table-striped">
+						<tr>
+							<th>Numeru Resibu</th><th>Data</th><th>Progresu</th><th>Total Folin</th>
+						</tr>
+						<tr>
+							<td>{{ inv.number }}</td>
+							<td>{{ inv.date|date:"d/m/Y" }}</td>
+							<td>{{ inv.phys_prog }}%</td>
+							<td>${{ inv.total|intcomma }}</td>
+						</tr>
+					</table>
+				</div>
+			</div><!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">{{ legend }}</div>
+				<div class="card-body">
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'uvip-proj-list' %}">Lista Projetu</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ legend }}</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Kodigu Projetu</th><th colspan="4">Naran Projetu</th><th>Programa</th>
+            </tr>
+            <tr>
+              <td>{{ proj.code }}</td><td colspan="4">{{ proj.name }}</td><td>{{ proj.program }}</td>
+            </tr>
+            <tr>
+              <th>Kategoria</th><th>Kapital</th><th>Set&oacute;r</th><th colspan="2">Tipu</th><th colspan="2">Fundus</th>
+            </tr>
+            <tr>
+              <td>{{ proj.pcategory.code }}/{{ proj.pcat.code }}</td><td>{{ proj.capital.code }}</td><td>{{ proj.sector }}</td><td colspan="2">{{ proj.ptype }}</td><td colspan="2">{{ proj.fund }}</td>
+            </tr>
+            <tr>
+              <th>Livru</th><th>Donu Projetu</th><th>Tinan Projetu</th><th>Status Orsamentu</th><th>Status Planu</th><th></th>
+            </tr>
+            <tr>
+              <td>{{ proj.book }}</td><td>{{ proj.owner.code }}</td><td>{{ proj.year }}</td><td>{{ proj.statusproj }}</td><td>{{ proj.status }}</td><td></td>
+            </tr>
+
+            <tr>
+              <th>Alokasaun Orsamentu</th><th colspan='5'>Tinan Alokasaun Orsamentu</th>
+            </tr>
+            <tr>
+              <td>{{ proj.alocate_bd }}</td><td>{{ proj.year_alocate_bd }}</td>
+            </tr>
+            <tr><th colspan="5">Deskrisaun</th><th>Verifika Husi ADN</th></tr>
+            <tr>
+              <td colspan="5">{{ proj.desc }}</td>
+              <td>
+              {% if proj.is_adn == True %}LOS{% else %}LAE{% endif %}
+              {% if not emppos.position.name == "Koordenador" %}
+              <a class="fa fa-edit" href="{% url 'uvip-proj-adn-edit' proj.hashed %}"></a></td>
+              {% endif %}
+            </tr>
+          </table>
+          <hr/>
+          <div class="row">
+            <div class="col-lg-12 col-md-12">
+						{% if not emppos.position.name == "Koordenador" %}
+            {% if proj.is_lock == False %}
+              <a class="btn btn-primary btn-sm" href="{% url 'uvip-proj-edit' proj.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+              <a class="btn btn-danger btn-sm" href="{% url 'uvip-proj-rem' proj.hashed %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+              <a class="btn btn-warning btn-sm" href="{% url 'uvip-proj-lock' proj.hashed %}" title="Xavi"><i class="fa fa-lock"></i></a>
+            {% else %}
+              <a class="btn btn-default btn-sm disabled" href="#"><i class="fa fa-edit"></i></a>
+              <a class="btn btn-default btn-sm disabled" href="#"><i class="fa fa-trash"></i></a>
+            {% endif %}
+						{% endif %}
+            </div>
+          </div>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Estimasaun Kustu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Donu Projetu</th><th>ADN</th><th>Balansu</th>{% if proj.is_lock == False %}<th>#</th>{% endif %}
+            </tr>
+            <tr>
+              <td>{% if est.owner %}${{ est.owner|intcomma }}{% endif %}</td>
+              <td>{% if est.adn %}${{ est.adn|intcomma }}{% endif %}</td>
+              <td>{% if est.balance %}${{ est.balance|intcomma }}{% else %}0.0{% endif %}</td>
+              {% if proj.is_lock == False %}
+              <td>
+								{% if not emppos.position.name == "Koordenador" %}
+                {% if group == "uvip" %}
+                <a href="{% url 'uvip-proj-est-edit' proj.hashed est.id %}"><i class="fa fa-edit"></i></a>
+                {% else %}
+                <a href="{% url 'op-proj-est-edit' proj.hashed est.id %}"><i class="fa fa-edit"></i></a>
+                {% endif %}
+                {% if not est.adn == None %}
+                <a href="{% url 'uvip-proj-est-rem' proj.hashed est.id %}"><i class="fa fa-trash"></i></a>
+                {% endif %}
+								{% endif %}
+              </td>
+              {% endif %}
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">Lokalizasaun</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Munisipiu</th><th>Postu</th><th>Suku</th>
+              {% if loc.end_lat %}<th>Kordenada Hahu</th><th>Kordenada Remata</th>{% else %}<th>Kordenada</th>{% endif %}
+              <th>#</th>
+            </tr>
+            <tr>
+              <td>{{ loc.municipality }}</td>
+              <td>{{ loc.administrativepost.name }}</td>
+              <td>{{ loc.village.name }}</td>
+              <td>{{ loc.start_lat }}, {{ loc.start_lng }}</td>
+              {% if loc.end_lat %}
+              <td>{{ loc.end_lat }}, {{ loc.end_lng }}</td>
+              {% endif %}
+              <td>
+								{% if not emppos.position.name == "Koordenador" %}
+                <a href="{% url 'div-proj-loc-edit' proj.hashed loc.id %}"><i class="fa fa-edit"></i></a>
+								{% endif %}
+              </td>
+            </tr>
+          </table>
+          <hr/>
+          <div id="mapid" style="width: 100%; height: 350px;"></div>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.0/MarkerCluster.Default.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoukaK1udD0Z4erUsxwkYzRKTOWmJid34"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoukaK1udD0Z4erUsxwkYzRKTOWmJid34&libraries=places">
+    </script>
+    <script>
+		var mymap = L.map('mapid').setView([{{ loc.start_lat }}, {{ loc.start_lng }}], 15);
+
+		L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+        attribution: 'Google Maps',
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(mymap);
+
+		L.marker([{{ loc.start_lat }}, {{ loc.start_lng }}]).addTo(mymap)
+			.bindPopup("{{ proj.name }}").openPopup();
+
+		var popup = L.popup();
+
+
+	</script>
+{% endblock %}

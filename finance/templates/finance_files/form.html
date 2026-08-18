@@ -1,0 +1,39 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+            {% if group == "dna" %}
+			<li class="breadcrumb-item"><a href="{% url 'dna-inv-det' inv.hashed %}">Detallu Resibu</a></li>
+			{% else %}
+            <li class="breadcrumb-item"><a href="{% url 'dnof-inv-det' inv.hashed %}">Detallu Resibu</a></li>
+            {% endif %}
+			<li class="breadcrumb-item"><a href="{% url 'fin-file-list' inv.hashed %}">Lista Anexu</a></li>
+			<li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header bg-steel">{{ legend }}</div>
+				<div class="card-body">
+					<table class="table table-sm">
+                        <tr><th>Numeru Resibu</th><th>Data</th><th>Kontratu</th></tr>
+                        <tr>
+                            <td>{{ inv.number }}</td><td>{{ inv.date|date:"d/m/Y" }}</td><td>{{ amend.number }}</td>
+                        </tr>
+                    </table>
+					<hr/>
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->  
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

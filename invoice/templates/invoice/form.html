@@ -1,0 +1,53 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+		    <li class="breadcrumb-item"><a href="{% url 'sup-inv-list' cont.hashed %}">Fila</a></li>
+		    <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+	<div class="col-sm-12">		
+		<div class="card">
+			<div class="card-header">Kontratu</div>
+			<div class="card-body">
+				<table class="table table-sm table-striped">
+					<tr>
+						<th>Numeru Kontratu</th>
+						<th>Montante Kontratu</th>
+						<th>Kodigu Projetu</th>
+						<th>Naran Projetu</th>
+						<th>Kompa&ntilde;ia</th>
+					</tr>
+					<tr>
+						<td>{{ amend.number }}</td>
+						<td>${{ amend.total|intcomma }}</td>
+						<td>{{ cont.project.code }}</td>
+						<td>{{ cont.project.name }}</td>
+						<td>{{ contcomp.company }}</td>
+					</tr>
+				</table>
+			</div>
+		  </div><!--end card-->
+	</div>
+  </div>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">{{ legend }}</div>
+				<div class="card-body">
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->  
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

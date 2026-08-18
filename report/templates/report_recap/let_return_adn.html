@@ -1,0 +1,89 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid"><br/>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">Detallu Resibu</div>
+				<div class="card-body">
+					<table class="table table-sm table-striped table-bordered">
+						<tr>
+							<th bgcolor="#F0F7ED">Numeru Kontratu</th><th bgcolor="#F0F7ED">Montante Kontratu</th>
+							<th bgcolor="#D4EACD">Numeru Resibu</th><th bgcolor="#D4EACD">Montante Resibu</th><th bgcolor="#D4EACD">Data Hatama</th><th bgcolor="#9CCE6D">Numeru Referesia MOP</th><th bgcolor="#9CCE6D">Numeru Rekizasaun MOP</th><th bgcolor="#9CCE6D">Montante MOP</th><th bgcolor="#9CCE6D">Data Hatama</th><th bgcolor="#9CCE6D">Kodigu Projetu</th>
+						</tr>
+						<tr>
+							<td>{{ inv.cont.number }}</td>
+							<td>${{ inv.cont.total|intcomma }}</td>
+							<td>{{ inv.number }}</td>
+							<td>${{ inv.total }}</td>
+							<td>{{ inv.date|date:"d/m/Y" }}</td>
+							<td>{{ certpay.0.number }}</td>
+							<td align="center">{{ certpay.0.number_req }}</td>
+							<td>{{ certpay.0.total }}</td>
+							<td>{{ certpay.0.date|date:"d/m/Y" }}</td>
+							<td>{{ inv.cont.project.code }}</td>
+							
+						</tr>
+					</table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+
+
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">Justifikasaun Devolve Husi ADN</div>
+				<div class="card-body">
+					<table class="table table-bordered">
+						<tr>
+							<th>Numeru Referesia ADN</th>
+							<td>{{ adnreturn.number}}</td>
+						</tr>
+						<tr>
+							<th>Numeru Resibu</th>
+							<td>{{ adnreturn.invlet.inv.number}}</td>
+						</tr>
+						<tr>
+							<th>Numeru Kontratu</th>
+							<td>{{ adnreturn.invlet.inv.cont.number}}</td>
+						</tr>
+						<tr>
+							<th>Kodigu Projetu</th>
+							<td>{{ adnreturn.invlet.inv.cont.project.code}}</td>
+						</tr>
+						<tr>
+							<th>Kodigu Projetu</th>
+							<td>{{ adnreturn.invlet.inv.cont.project.name}}</td>
+						</tr>
+						<tr>
+							<th>Data Devolve</th>
+							<td>{{ adnreturn.date|date:"d/m/Y"}}</td>
+						</tr>
+						<tr>
+							<th>Komentariu Devolve</th>
+							<td>{{  adnreturn.comment|safe }}</td>
+						</tr>
+
+						<tr>
+							<th>Aneksu</th>
+							
+							<td>
+								{% if adnreturn.file %}
+								<a class="btn btn-sm btn-secondary" href="{% url 'cert-pdf' adnreturn.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+								{% endif %}
+                            </td>
+						</tr>
+						
+					</table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'prt-cont-list' %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">PRT</h1>
+  </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr><th>Numeru Kontratu</th><td><a href="{% url 'dna-cont-det' cont.hashed %}">{{ cont.number }}</a></td></tr>
+                        <tr><th>Montante Kontratu</th><td>${{ cont.total|intcomma }}</td></tr>
+                        <tr><th>Periodu Kontratu</th><td>{{ cont.start_date }} - {{ cont.end_date }}</td></tr>
+                        <tr><th>kompa&ntilde;ia</th><td>{% for comp in comps %}{{ comp.company.name }}, {% endfor %}</td></tr>
+                    </table>
+                </div>
+            </div>      
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td><a href="{% url 'proj-det' proj.hashed %}">{{ proj.code }}</a></td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Kategoria Projetu</th><td>{{ proj.pcategory.code }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </table>
+                </div>
+            </div>      
+        </div><!--end col-->
+    </div><!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th><th>Numeru Resibu</th><th>Data</th><th>Numeru Kontratu</th><th>Naran Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'prt-list' obj.hashed %}">{{ obj.number }}</a></td>
+                                <td>{{ obj.date|date:"d/m/Y" }}</td>
+                                <td>{{ obj.cont.number }}</td>
+                                <td>{{ obj.cont.project.name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <hr/>
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

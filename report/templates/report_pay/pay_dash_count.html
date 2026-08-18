@@ -1,0 +1,32 @@
+{% load humanize %}
+<!-- Statistics Section-->
+<section class="py-2">
+    <div class="container-fluid">
+        <div class="row align-items-stretch gy-4">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header"><a class="btn btn-lg btn-info" href="{% url 'r-pay-g-dash' %}">Kontratu Normal</a></div>
+                    <div class="card-body">
+                        <table class="table table-sm">
+                            <tr><th><h3>Total Kontratu</h3></th><td><h3>${{ tot_cont_a|intcomma }}</h3></td></tr>
+                            <tr><th><h3>Total Pagamentu</th><td><h3>${{ tot_paid_a|intcomma }}</h3></td></tr>
+                            <tr><th><h3>Balansu</h3></th><td><h3>${{ tot_bal_a|intcomma }}</h3></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div><!--end col-->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header"><a class="btn btn-lg btn-info" href="{% url 'r-pay-fis-dash' %}">Kontratu Fiskal</a></div>
+                    <div class="card-body">
+                        <table class="table table-sm">
+                            <tr><th><h3>Total Kontratu</h3></th><td><h3>${{ tot_cont_b|intcomma }}</h3></td></tr>
+                            <tr><th><h3>Total Pagamentu</th><td><h3>${{ tot_paid_b|intcomma }}</h3></td></tr>
+                            <tr><th><h3>Balansu</h3></th><td><h3>${{ tot_bal_b|intcomma }}</h3></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end cont-->
+</section>

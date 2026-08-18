@@ -1,0 +1,52 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Lista Tender Foun Aprovadu</div>
+                <div class="card-body">
+                  <table class="table table-sm table-striped">
+                    <tr>
+                        <th>Nu.</th><th>Numeru Referensia</th><th>Data</th><th>Husi</th><th>Kodigu Projetu</th><th>Naran Projetu</th>
+                    </tr>
+                    {% for obj in objects %}
+                    <tr>
+                        <td rowspan="5">{{ forloop.counter }}</td>
+                        <td><a href="{% url 'dna-proc-req-det' obj.proc.hashed %}">{{ obj.number }}</a></td>
+                        <td>{{ obj.date|date:"d/m/Y" }}</td>
+                        <td>{% if obj.is_dgaf == True %}DGAF{% endif %}</td>
+                        <td>{{ obj.proc.proj.code }}</td>
+                        <td>{{ obj.proc.proj.name }}</td>
+                    </tr>
+                    <tr><th colspan="3">Asuntu</th><th>#</th></tr>
+                    <tr>
+                        <td colspan="3">{{ obj.subject|safe }}</td>
+                        <td>
+                        {% if obj.is_req == True %}
+                            <a class="btn btn-sm btn-info" href="{% url 'dna-proc-req-in' obj.id %}">Simu <i class="fa fa-check"></i></a>
+                        {% else %}
+                            <a class="btn btn-sm btn-info" href="{% url 'dna-proc-res-in' obj.id %}">Simu <i class="fa fa-check"></i></a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                    <tr><th colspan="4">Deskrisaun</th></tr>
+                    <tr><td colspan="4">{{ obj.desc|safe }}</td></tr>
+                    {% endfor %}
+                </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

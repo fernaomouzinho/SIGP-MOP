@@ -1,0 +1,68 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                      <thead>
+                        <tr>
+                            <th>Nu.</th><th>Numeru Resibu</th><th>Etapa Atual</th><th>Progresu</th><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Kompa&ntilde;ia</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for obj in objects %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            {% if pcat == 'cd' or pcat == 'lm' or pcat == 'fi' %}
+                              {% if stage == 'd' or stage == 'h' or stage == 'i' or stage == 'l' or stage == 'm' or stage == 'n' or stage == 'o' or stage == 'p' or stage == 'q' or stage == 'r' or stage == 's' %}
+                                <td><a href="{% url 'track-inv-det' obj.inv.hashed %}">{{ obj.inv.number }}</a></td>
+                                <td> {{ obj.stages }}</td>
+                                <td>
+                                  <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ obj.percent }}%;" aria-valuenow="{{ obj.percent }}" aria-valuemin="0" aria-valuemax="100">{{ obj.percent }}%</div>
+                                  </div>
+                                  </td>
+                                <td>{{ obj.inv.cont.project.code }}</a></td>
+                                <td>{{ obj.inv.cont.project.name }}</a></td>
+                                <td>{{ obj.inv.cont.contractcomp.all.0.company.name }}</a></td>
+                              {% endif %}
+
+                          {% else %}
+                            <td><a href="{% url 'track-inv-det' obj.0.hashed %}">{{ obj.0.number }}</a></td>
+                            </td>{{ obj.1.stages }}<td>
+                             <td>
+                                <div class="progress">
+                                   <div class="progress-bar" role="progressbar" style="width: {{ obj.1.percent }}%;" aria-valuenow="{{ obj.1.percent }}" aria-valuemin="0" aria-valuemax="100">{{ obj.1.percent }}%</div>
+                                </div>
+                            </td>
+                            <td>{{ obj.0.cont.project.code }}</td>
+                            <td>{{ obj.0.cont.project.name }}</td>
+                            <td>{{ obj.3 }}</td>
+                           {% endif %}
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

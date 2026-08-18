@@ -1,0 +1,71 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'all-pay-cont-list' %}">Pagamentu</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2 d-flex justify-content-between align-items-center">
+    <h1 class="h3 fw-normal mb-0">Pagamentu Portal</h1>
+   
+  </div>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Lista Pagamentu</div>
+                <div class="card-body">
+                 
+                  <a class="btn btn-info btn-sm mb-1" href="{% url 'pay-portal-add' %}">Aumenta <i class="fa fa-plus"></i></a>
+                    <table class="table table-sm table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th>
+                                <th>Kategoria</th>
+                                <th>Pagamentu Portal (USD)</th>
+                                <th>Pagamentu Persen Portal (%)</th>
+                                <th style="text-align:center">Tinan</th>
+                                <th style="text-align:center">Asaun</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for pay in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ pay.pcategory }}</td>
+                                <td>${{ pay.amount|intcomma }}</td>
+                                <td>{{ pay.percent }}%</td>
+                                <td style="text-align:center" >{{ pay.year }}</td>
+                                <td style="text-align:center">
+                                    <a href="{% url 'pay-portal-edit' pay.hashed %}" class="btn btn-primary btn-sm">Edit</a>
+                                    {% comment %} <a href="{% url 'pay-portal-delete' pay.hashed %}" class="btn btn-danger btn-sm">Delete</a> {% endcomment %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No payments found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.table').DataTable();  // enable datatable features
+    });
+</script>
+{% endblock %}

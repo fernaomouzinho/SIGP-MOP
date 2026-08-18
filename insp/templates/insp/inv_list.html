@@ -1,0 +1,54 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table id="example" class="table table-sm responsive" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nu.</th>
+                                <th width="15%">Numeru Resibu</th>
+                                <th width="15%">Numeru Kontratu</th>
+                                <th>Kodigu Projetu</th>
+                                <th>Naran Projetu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in objects %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                {% if group == "uivp" %}
+                                <td><a href="{% url 'uvip-insp-list' obj.hashed %}">{{ obj.number }}</a></td>
+                                {% else %}
+                                <td><a href="{% url 'all-insp-list' obj.hashed %}">{{ obj.number }}</a></td>
+                                {% endif %}
+                                <td>{{ obj.cont.number }}</td>
+                                <td>{{ obj.cont.project.code }}</td>
+                                <td>{{ obj.cont.project.name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,387 @@
+{% load humanize %}
+
+
+
+{% comment %} 
+<section class="dashboard-counts section-padding p-0" style="background-color: white;">
+	<div class="container-fluid">
+	 <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="#">SUMARIU JERAL PAGAMENTU 2025 </a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-sm table-bordered">
+                    <tr align="center">
+						<th>Nu.</th>
+						<th>Kategoria</th>
+						<th>Total Projetu</th>
+						<th>Total Montante Kontratu</th>
+						<th>Total Alokasaun</th>
+						<th colspan="4">Total Pagamentu Tinan Nee</th>
+						<th colspan="2">Total Pagamentu Komulativu</th>
+						<th colspan="2">Balansu</th>
+                    </tr>
+					<tr>
+						<th></th><th></th><th></th><th></th><th></th>
+						<th>Projetu</th><th>Total invoice</th><th>USD</th><th>%</th>
+						<th>USD</th><th>%</th><th>USD</th><th>%</th>
+					</tr>
+					
+
+                    {% for row in objects_1 %}
+                    <tr>
+						<td>{{ forloop.counter }}</td>
+						<tr>
+						<td>{{ row.0 }}</td>
+						<td>{{ row.1 }}</td>
+						<td>{{ row.2 }}</td>
+						<td>${{ row.3|floatformat:2 }}</td>
+						<td>${{ row.4|floatformat:2 }}</td>
+						<td>{{ row.5 }}</td>
+						<td>{{ row.6 }}</td>
+						<td>${{ row.7|floatformat:2 }}</td>
+						<td>{{ row.8 }}%</td>
+						<td>${{ row.9|floatformat:2 }}</td>
+						<td>{{ row.10 }}%</td>
+						<td>${{ row.11|floatformat:2 }}</td>
+						<td>{{ row.12 }}%</td>
+                    </tr>
+					{% endfor %}
+					
+                </table>
+            </div><!--end col-->
+        </div><!--end row-->
+	</div><!--end cont--> 
+</section><!--end section--> {% endcomment %}
+
+<section class="dashboard-counts section-padding pt-2" style="background-color: white;">
+	<div class="container-fluid">
+	 <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="#">SUMARIU JERAL VERIFIKASAUN 2025 </a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-sm table-bordered">
+				 <tr align="center">
+						<th colspan='12'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">VERIFIKASAUN LIU HUSI ADN </a></h2></th>
+                    </tr>
+                    <tr align="center">
+						<th rowspan='2' >Nu.</th>
+						<th rowspan='2'>Kategoria</th>
+						<th bgcolor="#F0F7ED" rowspan='2'>Total Projetu Foun Tuir Livro OGE</th>
+						<th bgcolor="#F0F7ED" rowspan='2'>Total Projetu Foun Tuir Lista KAFI</th>
+						<th bgcolor="#F0F7ED" rowspan='2'>Total Projetu </th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Dokumentu Submete ba ADN</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Dokumentu Verifikadu Husi ADN</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Dokumentu Devolve Husi ADN</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Dokumentu Nebe Sei Iha Prosesu Verifikasaun Husi ADN</th>
+						<th bgcolor="#B8DCAD" rowspan='2'>Total Dokumentu Submete ba SGP</th>
+						<th bgcolor="#9CCE8D">Total Dokumentu Submete ba CNA</th>
+						<th bgcolor="#9CCE8D">Total Dokumentu Prosesu iha CNA</th>
+						<th bgcolor="#9CCE8D">Total Dokumentu Devolve Husi CNA</th>
+						<th bgcolor="#9CCE8D">Total Dokumentu Kontratu Produs Husi CNA</th>
+						<th bgcolor="#9CCE6D">Total Dokumentu Nebe Submete ba DNA</th>
+						<th bgcolor="#9CCE6D">Total Dokumentu Prosesu Rekizasaun Iha DNA</th>
+						<th bgcolor="#9CCE6D">Total Dokumentu Rezultadu Tender Husi DNA</th>
+						<th bgcolor="#9CCE6D">Total Dokumentu Ba Kontratu Husi DNA</th>
+                    </tr>
+					<tr align="center">
+						<th bgcolor="#9CCE8D" colspan='4'>FI - Fundu Infraestrutura</th>
+						<th bgcolor="#9CCE6D" colspan='4'>LM - Linha Ministeriais</th>
+                    </tr>
+
+					<tr>
+						<th>A</th>
+						<th> Capital Dezenvolvimento (CD)</th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-proj-det' cap='cd' book_id='oge' %}">{{objects_1_tot.0}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-proj-det' cap='cd' book_id='kafi'  %}">{{objects_1_tot.1}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-proj-det' cap='cd' book_id='ogka' %}">{{objects_1_tot.2}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='submit'%}">{{objects_1_tot.3}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='verified'%}">{{objects_1_tot.4}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='giveback'%}">{{objects_1_tot.5}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='inprocess'%}">{{objects_1_tot.6}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='tosgp'%}">{{objects_1_tot.7}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='tocna'%}">{{objects_1_tot.8}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='cnaprocess'%}">{{objects_1_tot.9}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='cnareturn'%}">{{objects_1_tot.10}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='cnaresult'%}">{{objects_1_tot.11}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='todna'%}">{{objects_1_tot.12}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='reqtender'%}">{{objects_1_tot.13}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='restender'%}">{{objects_1_tot.14}}</a></th>
+						<th class ="text-md-center align-middle"><a href="{% url 'r-recap-ver-adn-det' cap='lm-fi' adn='tocontract'%}">{{objects_1_tot.15}}</a></th>
+                    </tr>
+                    {% for row in objects_1 %}
+                    <tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ row.pcat }}</td>
+
+						{% for key, value in row.stages.items %}
+						<td class="text-md-center align-middle">
+							{% if value > 0 %}
+								<a href="{% url 'stage-detail' row.pcat key %}">{{ value }}</a>
+							{% else %}
+								{{ value }}
+							{% endif %}
+						</td>
+						{% endfor %}
+
+
+						{% comment %} <td class ="text-md-center align-middle"><a href="#">{{row.1 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.2 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.3 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.4 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.5 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.6 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.7 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.8 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.9 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.10 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.11 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.12 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.13 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.14 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.15 }}</a></td>
+						<td class ="text-md-center align-middle"><a href="#">{{row.16 }}</a></td> {% endcomment %}
+                    </tr>
+					{% endfor %}
+
+					 <tr align="center">
+						<th colspan='18'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">VERIFIKASAUN IHA INTERNAL MINISTERIU </a></h2></th>
+                    </tr>
+					<tr align="center">
+						<th>Nu.</th>
+						<th>Kategoria</th>
+						<th bgcolor="#F0F7ED">Total Projetu Foun Tuir Livro OGE</th>
+						<th bgcolor="#F0F7ED">Total Projetu Foun Tuir Lista KAFI</th>
+						<th bgcolor="#F0F7ED">Total Projetu </th>
+						<th bgcolor="#D4EACD">Total Dokumentu Submete ba UIVP</th>
+						<th bgcolor="#D4EACD">Total Dokumentu Pasa Iha Verifikasaun UIVP</th>
+						<th bgcolor="#D4EACD">Total Dokumentus Devolve Husi UIVP</th>
+						<th bgcolor="#D4EACD">Total Dokumentus Nebe Sei Iha Prosesu Verifikasaun UIVP</th>
+						<th bgcolor="#B8DCAD">Total Dokumentus Submete Ba Gabinete Ministro</th>
+						<th bgcolor="#B8DCAD">Total Dokumentus Devolve Husi Gabinete Ministro</th>
+						<th bgcolor="#B8DCAD">Total Dokumentus Aprovadu Husi Gabinete Ministro</th>
+						<th bgcolor="#9CCE6D">Total Dokumentu Nebe Submete ba DNA</th>
+						<th bgcolor="#9CCE6D">Total Dokumentu Prosesu Rekizasaun Iha DNA</th>
+						<th bgcolor="#9CCE6D" colspan='2'>Total Dokumentu Rezultadu Tender Husi DNA</th>
+						<th bgcolor="#9CCE6D" colspan='2'>Total Dokumentu Ba Kontratu Husi DNA</th>
+                    </tr>
+					<tr>
+						<th>B</th>
+						<th></th>
+						<th class ="text-md-center align-middle"> {{objects_2_tot.0}}</th>
+						<th class ="text-md-center align-middle"> {{objects_2_tot.1}}</th>
+						<th class ="text-md-center align-middle"> {{objects_2_tot.2}}</th>
+						<th class ="text-md-center align-middle"> {{objects_2_tot.3}}</th>
+						<th class ="text-md-center align-middle">{{objects_2_tot.4}}</th>
+						<th class ="text-md-center align-middle"> {{objects_2_tot.5}}</th>
+						<th class ="text-md-center align-middle">{{objects_2_tot.6}}</th>
+						<th class ="text-md-center align-middle">{{objects_2_tot.7}}</th>
+						<th class ="text-md-center align-middle">{{objects_2_tot.8}}</th>
+						<th class ="text-md-center align-middle">{{objects_2_tot.9}}</th>
+						<th class ="text-md-center align-middle">{{objects_2_tot.10}}</th>
+						<th class ="text-md-center align-middle">{{objects_2_tot.11}}</th>
+						<th class ="text-md-center align-middle" colspan='2'>{{objects_2_tot.12}}</th>
+						<th class ="text-md-center align-middle" colspan='2'>{{objects_2_tot.13}}</th>
+                    </tr> 
+                    {% for row in objects_2 %}
+                    <tr>
+					<td>{{ forloop.counter }}</td>
+					<td>{{ row.0 }}</td>
+					<td class ="text-md-center align-middle">{{ row.1 }}</td>
+					<td class ="text-md-center align-middle">{{ row.2 }}</td>
+					<td class ="text-md-center align-middle">{{ row.3 }}</td>
+					<td class ="text-md-center align-middle">{{ row.4 }}</td>
+					<td class ="text-md-center align-middle">{{ row.5 }}</td>
+					<td class ="text-md-center align-middle">{{ row.6 }}</td>
+					<td class ="text-md-center align-middle">{{ row.7 }}</td>
+					<td class ="text-md-center align-middle">{{ row.8 }}</td>
+					<td class ="text-md-center align-middle">{{ row.9 }}</td>
+					<td class ="text-md-center align-middle">{{ row.10 }}</td>
+					<td class ="text-md-center align-middle">{{ row.11 }}</td>
+					<td class ="text-md-center align-middle">{{ row.12 }}</td>
+					<td class ="text-md-center align-middle" colspan='2'>{{ row.13 }}</td>
+					<td class ="text-md-center align-middle" colspan='2'>{{ row.14 }}</td>
+                    </tr>
+					{% endfor %}
+					
+					
+                </table>
+            </div><!--end col-->
+        </div><!--end row-->
+	</div><!--end cont--> 
+</section><!--end section-->
+
+<section class="dashboard-counts section-padding pt-2" style="background-color: white;">
+	<div class="container-fluid">
+	 <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="#">SUMARIU JERAL INSPEKSAUN BA PROJETU 2025 </a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-sm table-bordered">
+				 <tr align="center">
+						<th colspan='10'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">INSPEKSAUN HUSI ADN </a></h2></th>
+                    </tr>
+                    <tr align="center">
+						<th rowspan='2'>Nu.</th>
+						<th rowspan='2'>Kategoria</th>
+						<th bgcolor="#F0F7ED" >Total Projetu Foun Tuir Livro OGE</th>
+						<th bgcolor="#F0F7ED" >Total Projetu Foun Tuir Lista KAFI</th>
+						<th bgcolor="#F0F7ED" >Total Projetu </th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Projetu Husi Invoice</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Invoice Submete ba ADN</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Dokumentus Rekomenda Ona Husi ADN</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Dokumentu Devolve husi ADN</th>
+						<th bgcolor="#B8DCAD" rowspan='2'>Dokumentus Nebe Sei Iha Prosesu Inspeksaun ADN</th>
+                    </tr>
+					
+
+					<tr align="center">
+					    <th bgcolor="#9CCE8D" colspan='3'>Projetu Lao Hela</th>
+						
+                    </tr>
+
+					<tr>
+						<th>A</th>
+						<th> Capital Dezenvolvimento (CD)</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.0}}</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.1}}</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.2}}</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.3}}</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.4}}</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.5}}</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.6}}</th>
+						<th class ="text-md-center align-middle"> {{objects_3_tot.7}}</th>
+					
+						
+                    </tr>
+                    {% for row in objects_3 %}
+                    <tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ row.0 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.1 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.2 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.3 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.4 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.5 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.6 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.7 }}</td>
+						<td  class ="text-md-center align-middle">{{ row.8 }}</td>
+					
+                    </tr>
+					{% endfor %}
+
+					 <tr align="center">
+						<th colspan='7'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">INSPEKSAUN INTERNAL MINISTERIU </a></h2></th>
+                    </tr>
+
+					<tr align="center">
+						<th rowspan='2'>Nu.</th>
+						<th rowspan='2'>Kategoria</th>
+						<th bgcolor="#F0F7ED">Total Projetu Foun Tuir Livro OGE</th>
+						<th bgcolor="#F0F7ED">Total Projetu Foun Tuir Lista KAFI</th>
+						<th bgcolor="#F0F7ED">Total Projetu </th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Projetu Husi Invoice</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Total Invoice Submete ba UIVP</th>
+						<th bgcolor="#D4EACD" rowspan='2'>Dokumentus Rekomenda Ona Husi UIVP</th>
+						<th bgcolor="#9CCE6D" rowspan='2'>Dokumentus Nebe Sei Iha Prosesu Inspeksaun UIVP</th>
+                    </tr>
+					<tr align="center">
+					    <th bgcolor="#9CCE8D" colspan='3'>Projetu Lao Hela</th>
+                    </tr>
+					<tr>
+						<th>B</th>
+						<th> </th>
+						<th  class ="text-md-center align-middle"> {{objects_4_tot.0}}</th>
+						<th  class ="text-md-center align-middle"> {{objects_4_tot.1}}</th>
+						<th  class ="text-md-center align-middle"> {{objects_4_tot.2}}</th>
+						<th  class ="text-md-center align-middle"> {{objects_4_tot.3}}</th>
+						<th  class ="text-md-center align-middle">{{objects_4_tot.4}}</th>
+						<th  class ="text-md-center align-middle"> {{objects_4_tot.5}}</th>
+						<th  class ="text-md-center align-middle">{{objects_4_tot.6}}</th>
+                    </tr> 
+                    {% for row in objects_4 %}
+                    <tr>
+					<td>{{ forloop.counter }}</td>
+					<td>{{ row.0 }}</td>
+					<td  class ="text-md-center align-middle">{{ row.1 }}</td>
+					<td  class ="text-md-center align-middle">{{ row.2 }}</td>
+					<td  class ="text-md-center align-middle">{{ row.3 }}</td>
+					<td  class ="text-md-center align-middle">{{ row.4 }}</td>
+					<td  class ="text-md-center align-middle">{{ row.5 }}</td>
+					<td  class ="text-md-center align-middle">{{ row.6  }}</td>
+					<td  class ="text-md-center align-middle">{{ row.7  }}</td>
+					
+                    </tr>
+					{% endfor %}
+					
+					
+                </table>
+            </div><!--end col-->
+        </div><!--end row-->
+	</div><!--end cont--> 
+</section><!--end section-->
+
+
+
+<section class="dashboard-counts section-padding pt-2" style="background-color: white;">
+	<div class="container-fluid">
+	 <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="#">SUMARIU JERAL PAGAMENTU 2025 HO SISTEMA PORTAL</a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-sm table-bordered">
+                    <tr align="center">
+						<th>Nu.</th>
+						<th>Kategoria</th>
+						<th>Total Projetu Lao Hela</th>
+						<th>Total Alokasaun</th>
+						<th>Total Projetu Ne'ebe Halo Ona Pagamentu</th>
+						<th>Total Invoice Husi Projetu Nebe Halo Ona Pagamentu </th>
+						<th>Total Pagamentu {% now "Y" %} (UIVP Rekomenda)</th>
+						<th>Persentajem Ezekusaun {% now "Y" %} (UIVP Rekomenda)</th>
+						<th>Total Pagamentu (Atual-Portal)</th>
+						<th>Persentagem (Atual-Portal)</th>
+                    </tr>
+					
+
+                    {% for obj in objects %}
+                    <tr>
+						<td>{{ forloop.counter }}</td>
+						<td><a href="#">{{ obj.1.name }} ({{ obj.0.upper }})</a></td>
+						<td style="text-align:center">{{ obj.2 }}</td>
+						<td style="text-align:center">{% if obj.3 %}${{ obj.3|intcomma  }}{% else %}0.0{% endif %}</td>
+						<td style="text-align:center">{% if obj.4 %}{{ obj.4|intcomma }}{% else %}0.0{% endif %}</td>
+						<td style="text-align:center">{{ obj.5}}</td>
+						<td style="text-align:center">{% if obj.6 %}${{ obj.6|intcomma}}{% else %}0.0{% endif %}</td>
+						<td style="text-align:right">{% if obj.7 %}{{ obj.7|intcomma }}%{% else %}0.0%{% endif %}</td>
+						<td style="text-align:right">{% if obj.8 %}${{ obj.8|intcomma }}{% else %}0.0{% endif %}</td>
+						<td style="text-align:right">{% if obj.9 %}{{ obj.9}}%{% else %}0.0%{% endif %}</td>
+                    </tr>
+					{% endfor %}
+					<tr align="center">
+						<th colspan="2">TOTAL</th>
+						<th>{{ obj_tot.0 }}</th>
+						<th style="text-align:right">{% if obj_tot.1 %}${{ obj_tot.1|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:center">{{ obj_tot.2}}</th>
+						<th style="text-align:center">{{ obj_tot.3}}</th>
+						<th style="text-align:center">{% if obj_tot.4 %}${{ obj_tot.4|intcomma}}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if obj_tot.5%}{{ obj_tot.5|intcomma }}%{% else %}0.0%{% endif %}</th>
+						<th style="text-align:right">{% if obj_tot.6 %}${{ obj_tot.6|intcomma }}{% else %}0.0{% endif %}</th>
+						<th style="text-align:right">{% if obj_tot.7 %}{{ obj_tot.7|intcomma }}%{% else %}0.0%{% endif %}</th>
+					</tr>
+                </table>
+            </div><!--end col-->
+        </div><!--end row-->
+	</div><!--end cont--> 
+</section>

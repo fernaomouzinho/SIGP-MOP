@@ -1,0 +1,131 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dgaf-cpv-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">Pedidu Aprovasaun CPV</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Kodigu Projetu</th><th>Naran Projetu</th><th>Estimasaun kustu Donu Projetu</th>
+            </tr>
+            <tr>
+              <td>{{ proj.code }}</td>
+              <td>{{ proj.name }}</td>
+              <td>${{ projest.owner|intcomma }}</td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Detallu CPV</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru CPV</th><th>Montante CPV</th><th>Data</th><th>Status</th><th>Aneksu</th>
+            </tr>
+            <tr>
+              <td>{{ cpv.number }}</td>
+              <td>${{ cpv.amount|intcomma }}</td>
+              <td>{{ cpv.date|date:"d/m/Y" }}</td>
+              <td>{% if cpv.is_appr == True %}Aprovadu{% else %}Procesa Hela{% endif %}</td>
+              <td>
+                {% if cpv.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-pdf' cpv.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+          {% if cpv.comment %}
+          <div class="alert alert-warning">
+          <h5>Komentariu Fila</h5>
+          {{ cpv.comment|safe }}
+          </div>
+          {% endif %}
+          <hr/>
+          {% if cpv.is_send == True %}
+          <div class="alert alert-info">
+            {% if cpv.is_read == False %}
+            {% if group == cpv.group %}
+            <a class="btn btn-sm btn-secondary" href="{% url 'dgaf-cpv-back' cpv.hashed %}"><i class="fa fa-reply"></i> Manda Fila</a>
+            <a class="btn btn-sm btn-info" href="{% url 'dgaf-cpv-in' cpv.id %}">Simu <i class="fa fa-check"></i></a>
+            {% endif %}
+            {% else %}
+            <i class="fa fa-info"></i>: Simu ona <i class="fa fa-check"></i> | 
+            {% if cpv.is_appr == False %}
+            {% if group == cpv.group %}
+            <a class="btn btn-sm btn-primary" href="{% url 'dgaf-cpv-appr' cpv.id %}"> APROVA <i class="fa fa-check"></i></a>
+            {% endif %}
+            {% else %}
+            CPV Aprova ona! <i class="fa fa-check"></i>
+            {% endif %}
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  {% if cpv.is_appr == True %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Karta Despaxu ba DNOF</div>
+        <div class="card-body">         
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru Despaxu</th><th>Asuntu</th><th>Data</th><th>Aneksu</th>
+            </tr>
+            <tr>
+              <td>{{ lett.number }}</td>
+              <td>{{ lett.subject }}</td>
+              <td>{{ lett.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if lett.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-let-pdf' lett.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+                {% if lett.is_send == False %}
+                {% if group == cpv.group %}
+                <a class="btn btn-sm btn-info" href="{% url 'dgaf-cpv-let-edit' cpv.hashed lett.id %}" title="Altera"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-danger" href="{% url 'dgaf-cpv-let-rem' lett.id %}" title="Hamos"><i class="fa fa-close"></i></a>
+                {% endif %}
+                {% if lett.subject %}
+                {% if group == cpv.group %}
+                <a class="btn btn-sm btn-primary" href="{% url 'dgaf-cpv-send' lett.id %}"> MANDA BA DNOF <i class="fa fa-send"></i></a>
+                {% endif %}
+                {% endif %}
+                {% elif lett.is_send == True %}
+                <div class="alert alert-info p-1"><i class="fa fa-send"></i> Manda ona ba DNOF</div>
+                {% endif %}<!-- end is_send -->
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->      
+    </div><!--end col-->
+  </div><!--end row-->
+  {% endif %}
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

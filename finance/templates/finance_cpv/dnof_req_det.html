@@ -1,0 +1,86 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dnof-cpvreq-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0"> Rekizasaun CPV</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header"> Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr><th>Kodigu Projetu</th><th>Naran Projetu</th><th>Estimasaun</th></tr>
+            <tr><td>{{ proj.code }}</td><td>{{ proj.name }}</td><td>${{ projest.owner|intcomma }}</td></tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ legend }}</div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <tr>
+              <th>Numeru Rekizasaun CPV</th><th>Asuntu</th><th>Data</th><th>Status</th><th>Aneksu</th>
+            </tr>
+            <tr>
+              <td>{{ obj.number }}</td>
+              <td>{{ obj.subject }}</td>
+              <td>{{ obj.date|date:"d/m/Y" }}</td>
+              <td>
+                {% if obj.is_appr == True %}DGAF Aprova
+                {% else %}Procesa Hela{% endif %}
+              </td>
+              <td>
+                {% if obj.file %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'cpv-req-pdf' obj.hashed %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% endif %}
+                {% if obj.is_send == False %}
+                <a class="btn btn-sm btn-info" href="{% url 'dnof-cpvreq-edit' obj.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-danger" href="{% url 'dnof-cpvreq-rem' obj.id %}" title="Hapaga"><i class="fa fa-trash"></i></a>
+                <a class="btn btn-sm btn-primary" href="{% url 'dnof-cpvreq-send' obj.id %}">Manda ba DGAF <i class="fa fa-send"></i></a>
+                {% else %}
+                {% if obj.is_appr == True %}
+                <div class="alert alert-success p-1"><i class="fa fa-info"></i> Rekizasaun CPV aprovadu</div>
+                {% else %}
+                <div class="alert alert-info p-1"><i class="fa fa-info"></i> Rekizasaun CPV manda ona ba DGAF</div>
+                {% endif %}
+                {% endif %}
+              </td>
+            </tr>
+            {% if obj.comment %}
+            <tr><td colspan="5">Komentariu Fila</td></tr>
+            <tr><td colspan="5">{{ obj.comment|safe }}</td></tr>
+            {% endif %}
+          </table>
+          {% if obj.is_appr == True %}
+          <hr/>
+          {% if obj.is_end == False %}
+          <a class="btn btn-primary" href="{% url 'dnof-cpvreq-end' obj.pk %}">Termina Rekizasaun CPV <i class="fa fa-check"></i></a>
+          {% else %}
+          <a class="btn btn-primary" href="{% url 'dnof-cpv-add' obj.hashed %}"> KRIA CPV <i class="fa fa-pencil"></i></a>
+          {% endif %}
+          {% endif %}
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

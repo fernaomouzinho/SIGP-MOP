@@ -1,0 +1,53 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'r-pay-dash' %}">Painel Pagamentu</a></li>
+			<li class="breadcrumb-item active">{{ legend|upper }}</li>
+		</ul>
+	</div>
+</div>
+<section class="dashboard-counts p-4" style="background-color: white;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<center>
+					<h3>{{ legend|upper }}</h3>
+					<h4>{{ subtitle|upper }}</h4>
+					<a class="btn btn-sm btn-secondary" href="{% url 'r-exec-list' %}">Sumariu Tinan Pagamentu <i class="fa fa-list"></i></a>
+				</center>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section><!--end section-->
+<ul class="breadcrumb">
+	<li class="breadcrumb-item">Tinan Kontratu</li>
+	{% for year in years %}
+	<li class="breadcrumb-item"><a href="{% url 'r-pay-ann-year' year.year %}">{{ year.year }}</a></li>
+	{% endfor %}
+</ul>
+<!-- Counts Section -->
+{% include 'report_pay_ann/pay_dash_count.html' %}
+<!-- end Counts Section -->
+<!-- Counts Section -->
+{% include 'report_pay_ann/pay_dash_group_year.html' %}
+<!-- end Counts Section -->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'main/assets/js/jquery.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+	{% include 'chart_js/option_bar_cur.js' %}
+	{% include 'chart_js/option_group.js' %}
+	{% include 'chart_pay/pay_ann_dash.js' %}
+	{% include 'chart_pay/pay_ann_mopcat.js' %}
+	{% include 'chart_pay/pay_ann_cat.js' %}
+	{% include 'chart_pay/pay_ann_sec.js' %}
+	{% include 'chart_pay/pay_ann_cap.js' %}
+</script>	
+
+{% endblock %}

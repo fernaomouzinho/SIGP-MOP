@@ -1,0 +1,52 @@
+{% extends "main/layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">{{ legend|upper }}</div>
+				<div class="card-body">
+					<table class="table table-sm">
+                        <tr><th width="30%">Naran</th><td>{{comp.name }}</td></tr>
+                        <tr><th>Numeru Rejistu</th><td>{{ comp.reg_number }}</td></tr>
+                        <tr><th>Data Har&iacute;</th><td>{{ comp.start_date|date:"d/m/Y" }}</td></tr>
+                        <tr><th>Kategoria</th><td>{{ comp.type }}</td></tr>
+                        <tr><th>Nasaun</th><td>{{ comp.country }}</td></tr>
+                        <tr><th>Sidade</th><td>{{ comp.city }}</td></tr>
+                        {% if comp.municipality %}
+                        <tr><th>Munisipiu</th><td>{{ comp.municipality }}</td></tr>
+                        {% endif %}
+                        <tr><th>Karta Eletroniku</th><td>{{ comp.email }}</td></tr>
+                        <tr><th>Numeru Telemovel</th><td>{{ comp.phone }}</td></tr>
+                        <tr><th>Website</th><td>{{ comp.website }}</td></tr>
+                        <tr><th>Enderesu</th><td>{{ comp.address }}</td></tr>
+                      </table>
+				</div>
+			</div><!--end card-->
+		</div><!--end col-->
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">Atualiza Perfil</div>
+				<div class="card-body">
+					<fieldset class="form-group">
+						{% crispy form %}
+					</fieldset>
+                    <hr>
+                    <p class="small mb-1">* Prienxe Munisipiu kuandu kompañia Nasional.</p>
+                    <p class="small mb-2">* Prienxe sidade kuandu kompañia Internasional.</p>
+				</div>
+			</div><!--end card-->
+		</div><!--end col-->
+	</div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

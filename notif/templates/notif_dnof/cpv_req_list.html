@@ -1,0 +1,77 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Despaxu husi DGAF hodi kria Rekizasaun CPV</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Numeru Referensia</th>
+                            <th>Asuntu</th>
+                            <th>Data</th>
+                            <th>Husi</th>
+                            <th>Kodigu Projetu</th>
+                            <th>Naran Projetu</th>
+                            <th>#</th>
+                        </tr>
+                        {% for obj2 in objects2 %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td>{{ obj2.number }}</td>
+                            <td>{{ obj2.subject }}</td>
+                            <td>{{ obj2.date|date:"d/m/Y" }}</td>
+                            <td>DGAF</td>
+                            <td>{{ obj2.proc.proj.code }}</td>
+                            <td>{{ obj2.proc.proj.name }}</td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'dgaf-proc-req-indnof' obj2.id %}">Simu <i class="fa fa-check"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+
+            <div class="card">
+                <div class="card-header">{{ legend|upper }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Numeru Rekizasaun</th>
+                            <th>Asuntu</th>
+                            <th>Data</th>
+                            <th>Husi</th>
+                            <th>Status</th>
+                            <th>Kodigu Projetu</th>
+                        </tr>
+                        {% for obj1 in objects1 %}
+                        <tr>
+                            <td rowspan="3">{{ forloop.counter }}</td>
+                            <td><a href="{% url 'dnof-cpvreq-det' obj1.hashed %}">{{ obj1.number }}</a></td>
+                            <td>{{ obj1.subject }}</td>
+                            <td>{{ obj1.date|date:"d/m/Y" }}</td>
+                            <td>DGAF</td>
+                            <td>{% if obj1.is_appr == True %}DGAF Aprova{% else %}Prosesa hela{% endif %}</td>
+                            <td>{{ obj1.proj.code }}</td>
+                        </tr>
+                        <tr><td colspan="6">Komentariu Fila</td></tr>
+                        <tr><td colspan="6">{{ obj1.comment|safe }}</td></tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

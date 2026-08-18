@@ -1,0 +1,708 @@
+{% load humanize %}
+
+
+
+{% comment %} 
+<section class="dashboard-counts section-padding p-0" style="background-color: white;">
+	<div class="container-fluid">
+	 <div class="row">
+            <div class="col-sm-12">
+                <h2 class="h3 fw-normal mb-4"><a href="#">SUMARIU JERAL PAGAMENTU 2025 </a></h2>
+            </div><!--end col-->
+        </div><!--end row-->
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-sm table-bordered">
+                    <tr align="center">
+						<th>Nu.</th>
+						<th>Kategoria</th>
+						<th>Total Projetu</th>
+						<th>Total Montante Kontratu</th>
+						<th>Total Alokasaun</th>
+						<th colspan="4">Total Pagamentu Tinan Nee</th>
+						<th colspan="2">Total Pagamentu Komulativu</th>
+						<th colspan="2">Balansu</th>
+                    </tr>
+					<tr>
+						<th></th><th></th><th></th><th></th><th></th>
+						<th>Projetu</th><th>Total invoice</th><th>USD</th><th>%</th>
+						<th>USD</th><th>%</th><th>USD</th><th>%</th>
+					</tr>
+					
+
+                    {% for row in objects_1 %}
+                    <tr>
+						<td>{{ forloop.counter }}</td>
+						<tr>
+						<td>{{ row.0 }}</td>
+						<td>{{ row.1 }}</td>
+						<td>{{ row.2 }}</td>
+						<td>${{ row.3|floatformat:2 }}</td>
+						<td>${{ row.4|floatformat:2 }}</td>
+						<td>{{ row.5 }}</td>
+						<td>{{ row.6 }}</td>
+						<td>${{ row.7|floatformat:2 }}</td>
+						<td>{{ row.8 }}%</td>
+						<td>${{ row.9|floatformat:2 }}</td>
+						<td>{{ row.10 }}%</td>
+						<td>${{ row.11|floatformat:2 }}</td>
+						<td>{{ row.12 }}%</td>
+                    </tr>
+					{% endfor %}
+					
+                </table>
+            </div><!--end col-->
+        </div><!--end row-->
+	</div><!--end cont--> 
+</section><!--end section--> {% endcomment %}
+
+<div class="container-fluid bg-light"><br>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist" bgcolor="light">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#home">SUMARIU JERAL VERIFIKASAUN </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu1">SUMARIU JERAL INSPEKSAUN BA PROJETU</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu2">SUMARIU JERAL PAGAMENTU </a>
+    </li>
+
+	<li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu3">SUMARIU JERAL PROJETO BAZEIA BA KOMPANIA </a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container-fluid tab-pane active p-0"><br>
+
+			<section class="dashboard-counts p-2" style="background-color: white;">
+			<div class="container-fluid p-1">
+		
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="table-wrapper" id="tableWrapper">	
+							<button id="fullscreenBtn" class="btn btn-light float-right mt-2" onclick="toggleFullscreen()" title="Full Screen">
+								<i id="fullscreenIcon" class="fa fa-expand"></i>
+							</button>
+							<div id="table-container" id="tableContainer" style="background:white; padding:10px; overflow-x:auto; ">
+								<table class="table table-sm table-bordered">
+									<tr align="center">
+										<th colspan='26'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">VERIFIKASAUN LIU HUSI ADN - {% now "Y" %}</a></h2>
+										</th>
+									</tr>
+									<tr align="center">
+										<th style="background-color: #0D680F;" class="text-white" colspan="28">
+										Total Dokumentu Verifikasaun no Kontratu
+									</th></tr>
+
+									<tr align="center">
+										<th bgcolor="#9CCE8D" ></th>
+										<th bgcolor="#9CCE6D" ></th>
+										<th bgcolor="#9CCE8D" colspan='3'>Lista Projetu Foun</th>
+										<th bgcolor="#9CCE6D" colspan='3'>MOP-UIVP</th>
+										<th bgcolor="#9CCE6D" colspan='3'>ADN</th>
+										<th bgcolor="#9CCE6D" colspan='2'>MOP-UIVP</th>
+										<th bgcolor="#9CCE6D" colspan='2'>MOP-GAB.MINISTRO</th>
+										<th bgcolor="#9CCE6D" >KAFI</th>
+										
+										<th bgcolor="#9CCE6D" colspan='3'>CNA</th>
+										<th bgcolor="#9CCE6D" colspan='2'>MOP-GAB.MINISTRO</th>
+										<th bgcolor="#9CCE6D" colspan='1'>MOP-UIVP</th>
+
+										<th bgcolor="#9CCE6D" colspan='4'>MOP-DGAF</th>
+										<th bgcolor="#9CCE6D" colspan='2'>MINTANTE KONTRATU</th>
+									</tr>
+									
+									<tr align="center">
+										<th rowspan='2' >Nu.</th>
+										<th rowspan='2'>Kategoria</th>
+										<th bgcolor="#F0F7ED" rowspan='2'>Planeadu <br>(P)</th>
+										<th bgcolor="#F0F7ED" rowspan='2'>Emerjensia <br>(E)</th>
+										<th bgcolor="#F0F7ED" rowspan='2'>(P + E)</th>
+										<th bgcolor="#DDEDCA" rowspan='2'>Submete <br>Ba <br> UIVP</th>
+										<th bgcolor="#DDEDCA" rowspan='2'>Prosesu <br>Iha <br> UIVP</th>
+										{% comment %} <th bgcolor="#DDEDCA" rowspan='2'>Devolve</th> {% endcomment %}
+										<th bgcolor="#DDEDCA" rowspan='2'>Verifikadu <br>Husi <br>UIVP</th>
+
+										<th bgcolor="#D4EACD" rowspan='2'>Submete <br>Ba <br> ADN</th>
+										{% comment %} <th bgcolor="#D4EACD" rowspan='2'>Prosesu Iha <br> ADN</th> {% endcomment %}
+										<th bgcolor="#D4EACD" rowspan='2'>Devolve <br>Husi <br> ADN</th>
+										<th bgcolor="#D4EACD" rowspan='2'>Verifikadu <br>Husi <br> ADN</th>
+										<th bgcolor="#B5D6B3" rowspan='2'>Submete <br>Ba <br>UIVP</th>
+										<th bgcolor="#B5D6B3" rowspan='2'>Atualiza <br>Rezultadu <br> ADN</th>
+										<th bgcolor="#B5D6B3" rowspan='2'>Submete <br>Ba <br>GAB</th>
+										<th bgcolor="#B5D6B3" rowspan='2'>Aprovadu <br>Husi <br>GAB </th>
+
+										<th bgcolor="#9CCE8D" rowspan='1'>Submete<br> Proposta</th>
+										<th bgcolor="#9CCE8D">MOP Submete<br>Ba CNA</th>
+										
+										<th bgcolor="#9CCE8D">Devolve<br>Husi <br>CNA</th>
+										<th bgcolor="#9CCE8D">Kria <br>Kontratu </th>
+
+										<th bgcolor="#9CCE8D">Submete<br>Ba <br>GAB</th>
+										<th bgcolor="#9CCE8D">Aprovadu<br> Husi<br> GAB</th>
+										<th bgcolor="#9CCE8D">Implememta</th>
+
+
+										<th bgcolor="#9CCE6D">Submete <br> ba <br> DNA</th>
+										<th bgcolor="#9CCE6D">Prosesu <br>Rekizasaun </th>
+										<th bgcolor="#9CCE6D">Rezultadu <br>Tender</th>
+										<th bgcolor="#9CCE6D">Kria <br>Kontratu </th>
+										<th bgcolor="#9CCE6D" rowspan='2'>Kont < $ 500.000,00 </th>
+										<th bgcolor="#9CCE6D" rowspan='2'>Kont > $ 500.000,00 </th>
+									</tr>
+									<tr align="center">
+										<th bgcolor="#9CCE8D" colspan='7'>Fundu Infraestrutura (FI)</th>
+										<th bgcolor="#9CCE6D" colspan='4'>Linha Ministerio (LM)</th>
+									</tr>
+
+									<tr>
+										<th>A</th>
+										<th> Capital Dezenvolvimento (CD)</th>
+										{% for item in objects_1_tot %}
+										
+											<th class="text-md-center align-middle">
+												{% if item.value > 0 %}
+													<a href="{% url 'r-recap-ver-proj-list1' pcat='cd' stage=item.key %}">
+														{{ item.value }}
+													</a>
+												{% else %}
+													{{ item.value }}
+												{% endif %}
+											</th>
+										{% endfor %}
+									</tr>
+								{% for row in objects_1 %}
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td>{{ row.pcat }}</td>
+										{% for key, value in row.stages.items %}
+											<td class="text-md-center align-middle">
+												{% if value > 0 %}
+													{% with row.pcat.code|lower as code_lower %}
+														<a href="{% url 'r-recap-ver-proj-list1' pcat=code_lower stage=key %}">{{ value }}</a>
+													{% endwith %}
+												{% else %}
+													{{ value }}
+												{% endif %}
+											</td>
+										{% endfor %}
+									</tr>
+									{% endfor %}
+
+									<tr align="center">
+										<th colspan='28'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">VERIFIKASAUN IHA INTERNAL MINISTERIU - {% now "Y" %} </a></h2></th>
+									</tr>
+									<tr align="center">
+									<th style="background-color: #0D680F;" class="text-white" colspan="16">
+										Total Dokumentu Verifikasaun no Kontratu
+									</th></tr>
+									<tr align="center">
+										<th bgcolor="#9CCE8D" ></th>
+										<th bgcolor="#9CCE6D" ></th>
+										<th bgcolor="#9CCE8D" colspan='3'>Lista Projetu Foun</th>
+										<th bgcolor="#9CCE6D" colspan='3'>MOP-UIVP</th>
+										<th bgcolor="#9CCE6D" colspan='3'>MOP-GABINETE MINISTRO</th>
+										<th bgcolor="#9CCE6D" colspan='4'>MOP-DGAF</th>
+										<th bgcolor="#9CCE6D">MONTANTE KONTRATU</th>
+									</tr>
+
+									<tr align="center">
+										<th>Nu.</th>
+										<th>Kategoria</th>
+										<th bgcolor="#F0F7ED" rowspan='1'>Planeadu (P)</th>
+										<th bgcolor="#F0F7ED" rowspan='1'>Emerjensia (E)</th>
+										<th bgcolor="#F0F7ED" rowspan='1'>(P + E) </th>
+										<th bgcolor="#D4EACD">Submete <br>Ba <br>UIVP</th>
+										<th bgcolor="#D4EACD">Prosesu<br> Iha<br> UIVP</th>
+										{% comment %} <th bgcolor="#D4EACD">Devolve Husi UIVP</th> {% endcomment %}
+										<th bgcolor="#D4EACD">Verifikadu<br> Husi <br>UIVP</th>
+										<th bgcolor="#B8DCAD">Submete <br> Ba <br> GAB</th>
+										<th bgcolor="#B8DCAD">Devolve <br> Husi <br> GAB</th>
+										<th bgcolor="#B8DCAD">Aprovadu <br> Husi</br>GAB</th>
+										<th bgcolor="#9CCE6D">Submete ba DNA</th>
+										<th bgcolor="#9CCE6D">Prosesu Rekizasaun</th>
+										<th bgcolor="#9CCE6D">Rezultadu Tender</th>
+										<th bgcolor="#9CCE6D">Kria Kontratu</th>
+										<th bgcolor="#9CCE6D">Kont < $ 100.000,00 </th>
+										
+									</tr>
+									<tr align="center">
+										
+										<th colspan='16'>Linha Ministerio (LM)</th>
+									</tr>
+									<tr>
+										<th>B</th>
+										<th></th>
+										
+										{% for item in objects_2_tot %}
+											<th class="text-md-center align-middle">
+												{% if item.value > 0 %}
+													<a href="{% url 'r-recap-ver-proj-list2' pcat='lm' stage=item.key %}">
+														{{ item.value }}
+													</a>
+												{% else %}
+													{{ item.value }}
+												{% endif %}
+											</th>
+										{% endfor %}
+									</tr> 
+									{% for row in objects_2 %}
+									<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ row.cap }}</td>
+									{% for key, value in row.stages.items %}
+											<td class="text-md-center align-middle">
+												{% if value > 0 %}
+													{% with row.cap.code|lower as code_lower %}
+														<a href="{% url 'r-recap-ver-proj-list2' pcat=code_lower stage=key %}">{{ value }}</a>
+													{% endwith %}
+												{% else %}
+													{{ value }}
+												{% endif %}
+											</td>
+										{% endfor %}
+									{% endfor %}
+									
+									</tr> 
+
+									<tr align="center">
+										<th colspan='28'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">VERIFIKASAUN IHA INTERNAL MINISTERIU NO LIU HUSI ADN (LM) - {% now "Y" %} </a></h2></th>
+									</tr>
+									<tr align="center">
+									<th style="background-color: #0D680F;" class="text-white" colspan="17">
+										Total Dokumentu Verifikasaun no Kontratu
+									</th></tr>
+									<tr align="center">
+										<th bgcolor="#9CCE8D" ></th>
+										<th bgcolor="#9CCE6D" ></th>
+										<th bgcolor="#9CCE8D" colspan='3'>Lista Projetu Foun</th>
+										<th bgcolor="#9CCE6D" colspan='3'>MOP-UIVP</th>
+										<th bgcolor="#9CCE6D" colspan='3'>MOP-GABINETE MINISTRO</th>
+										<th bgcolor="#9CCE6D" colspan='4'>MOP-DGAF</th>
+										<th bgcolor="#9CCE6D" colspan='2'>MONTANTE KONTRATU</th>
+									</tr>
+
+									<tr align="center">
+										<th>Nu.</th>
+										<th>Kategoria</th>
+										<th bgcolor="#F0F7ED" rowspan='1'>Planeadu (P)</th>
+										<th bgcolor="#F0F7ED" rowspan='1'>Emerjensia (E)</th>
+										<th bgcolor="#F0F7ED" rowspan='1'>(P + E) </th>
+										<th bgcolor="#D4EACD">Submete <br>Ba <br>UIVP</th>
+										<th bgcolor="#D4EACD">Prosesu<br> Iha<br> UIVP</th>
+										{% comment %} <th bgcolor="#D4EACD">Devolve Husi UIVP</th> {% endcomment %}
+										<th bgcolor="#D4EACD">Verifikadu<br> Husi <br>UIVP</th>
+										<th bgcolor="#B8DCAD">Submete <br> Ba <br> GAB</th>
+										<th bgcolor="#B8DCAD">Devolve <br> Husi <br> GAB</th>
+										<th bgcolor="#B8DCAD">Aprovadu <br> Husi</br>GAB</th>
+										<th bgcolor="#9CCE6D">Submete ba DNA</th>
+										<th bgcolor="#9CCE6D">Prosesu Rekizasaun</th>
+										<th bgcolor="#9CCE6D">Rezultadu Tender</th>
+										<th bgcolor="#9CCE6D">Kria Kontratu</th>
+										<th bgcolor="#9CCE6D">Kont < $ 100.000,00 </th>
+										<th bgcolor="#9CCE6D">Kont > $ 100.000,00 </th>
+									</tr>
+									<tr align="center">
+										
+										<th colspan='17'>	A.Capital Dezenvolvimento (3)  + B.Capital Dezenvolvimento (1)</th>
+									</tr>
+									<tr>
+										<th>C</th>
+										<th>Linha Ministerio (LM)</th>
+										
+										{% for item in objects_22_tot %}
+											<th class="text-md-center align-middle">
+												{% if item.value > 0 %}
+													<a href="{% url 'r-recap-ver-proj-list3' pcat='cd' stage=item.key %}">
+														{{ item.value }}
+													</a>
+												{% else %}
+													{{ item.value }}
+												{% endif %}
+											</th>
+										{% endfor %}
+									</tr> 
+									
+									
+								</table>
+								</div>
+							</div><!--end col-->
+
+					</div>
+				</div><!--end row-->
+			</div><!--end cont--> 
+		</section><!--end section-->
+    </div>
+
+    <div id="menu1" class="container-fluid tab-pane fade p-0"><br>
+      <section class="dashboard-counts  p-2" style="background-color: white;">
+		<div class="container-fluid p-1">
+		
+			<div class="row">
+				<div class="col-sm-12">
+					<table class="table table-sm table-bordered">
+					<tr align="center">
+							<th colspan='21'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">INSPEKSAUN LIU HUSI ADN - {% now "Y" %} </a></h2></th>
+						</tr>
+						<tr align="center">
+							<th style="background-color: #0D680F;" class="text-white" colspan="21">Total Dokumentu Inspeksaun
+						</th></tr>
+						<tr align="center">
+							<th bgcolor="#9CCE8D" ></th>
+							<th bgcolor="#9CCE6D" ></th>
+							<th bgcolor="#9CCE8D" colspan='3'>Lista Projetu Lao Hela</th>
+							<th bgcolor="#9CCE6D" colspan='4'>MOP-UIVP</th>
+							<th bgcolor="#9CCE6D" colspan='4'>ADN</th>
+							<th bgcolor="#9CCE6D" colspan='2'>MOP-UIVP</th>
+							<th bgcolor="#9CCE6D" colspan='2'>MOP-GABINETE MINISTRO</th>
+							<th bgcolor="#9CCE6D" colspan='3'>MOP-DGAF</th>
+						</tr>
+						<tr align="center">
+							<th rowspan='2'>Nu.</th>
+							<th rowspan='2'>Kategoria</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>Planeadu (P)</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>Emerjensia (E)</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>(P + E) </th>
+							<th bgcolor="#D4EACD">Submete Invoice <br> Ba  UIVP</th>
+							<th bgcolor="#D4EACD">Prosesu Inspeksaun <br>Iha UIVP</th>
+							<th bgcolor="#D4EACD">Devolve <br> Husi <br>UIVP</th>
+							<th bgcolor="#D4EACD">Rekomenda <br> Husi <br>UIVP</th>
+							<th bgcolor="#D4EACD" rowspan='1'> Submete <br>Invoice <br>Ba ADN</th>
+							<th bgcolor="#D4EACD" rowspan='1'>Prosesu Inspeksaun <br> Iha ADN</th>
+							<th bgcolor="#D4EACD" rowspan='1'>Devolve <br>Husi<br> ADN</th>
+							<th bgcolor="#D4EACD" rowspan='1'>Rekomenda <br>Husi <br>ADN</th>
+							<th bgcolor="#D4EACD" rowspan='1'>Submete <br> Ba <br>UIVP</th>
+							{% comment %} <th bgcolor="#D4EACD" rowspan='1'>Prosesu </th> {% endcomment %}
+							<th bgcolor="#D4EACD" rowspan='1'>Certifika <br>Husi <br>UIVP</th>
+							<th bgcolor="#D4EACD">Submete <br>Ba<br> GAB</th>
+							<th bgcolor="#D4EACD">Aprovadu <br>Husi <br>GAB</th>
+							<th bgcolor="#D4EACD">Submete <br>Ba<br>DGAF</th>
+							<th bgcolor="#D4EACD">Prosesu <br>Iha<br>DGAF</th>
+							<th bgcolor="#D4EACD">Pagamentu <br>Final </th>
+						</tr>
+						<tr align="center">
+								<th colspan='5'>Linha Ministerio (LM)</th>
+							</tr>
+						<tr>
+						<tr>
+							<th>A</th>
+							<th> Capital Dezenvolvimento (CD)</th>
+							{% for item in objects_3_tot %}
+									<th class="text-md-center align-middle">
+										{% if item.value > 0 %}
+											<a href="{% url 'r-recap-insp-proj-list1' pcat='cd' stage=item.key %}">
+												{{ item.value }}
+											</a>
+										{% else %}
+											{{ item.value }}
+										{% endif %}
+									</th>
+							{% endfor %}
+						</tr>
+						{% for row in objects_3 %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td>{{ row.cap }}</td>
+							{% for key, value in row.stages.items %}
+									<td class="text-md-center align-middle">
+										{% if value > 0 %}
+											{% with row.cap.code|lower as code_lower %}
+												<a href="{% url 'r-recap-insp-proj-list1' pcat=code_lower stage=key %}">{{ value }}</a>
+											{% endwith %}
+										{% else %}
+											{{ value }}
+										{% endif %}
+									</td>
+								{% endfor %}
+							
+						</tr>
+						{% endfor %}
+
+						<tr align="center">
+							<th colspan='21'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">INSPEKSAUN INTERNAL MINISTERIU - {% now "Y" %} </a></h2></th>
+						</tr>
+
+						<tr align="center">
+								<th style="background-color: #0D680F;" class="text-white" colspan="14">
+								Total Dokumentu Inspeksaun
+							</th></tr>
+
+						<tr align="center">
+							<th bgcolor="#9CCE8D" ></th>
+							<th bgcolor="#9CCE6D" ></th>
+							<th bgcolor="#9CCE8D" colspan='3'>Lista Projetu Lao Hela</th>
+							<th bgcolor="#9CCE6D" colspan='4'>MOP-UIVP</th>
+							<th bgcolor="#9CCE6D" colspan='2'>MOP-GABINETE MINISTRO</th>
+							<th bgcolor="#9CCE6D" colspan='3'>MOP-DGAF</th>
+						</tr>
+
+						<tr align="center">
+							<th>Nu.</th>
+							<th>Kategoria</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>Planeadu (P)</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>Emerjensia (E)</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>(P + E) </th>
+							<th bgcolor="#D4EACD">Submete Invoice <br> Ba  UIVP</th>
+							<th bgcolor="#D4EACD">Prosesu Inspeksaun <br>Iha UIVP</th>
+							<th bgcolor="#D4EACD">Devolve <br> Husi <br>UIVP</th>
+							<th bgcolor="#D4EACD">Certifika <br> Husi <br>UIVP</th>
+							<th bgcolor="#D4EACD">Submete<br>  Ba <br> GAB</th>
+							<th bgcolor="#D4EACD">Aprovadu<br>  Husi <br> GAB</th>
+							<th bgcolor="#D4EACD">Submete <br> Ba <br> DGAF</th>
+							<th bgcolor="#D4EACD">Prosesu<br>  Iha <br> DGAF</th>
+							<th bgcolor="#D4EACD">Pagamentu <br> Final </th>
+						</tr>
+						
+						<tr align="center">
+								<th colspan='14'>Linha Ministerio (LM)</th>
+							</tr>
+						<tr>
+							<th>B</th>
+							<th> </th>
+							
+							{% for item in objects_4_tot %}
+									<th class="text-md-center align-middle">
+										{% if item.value > 0 %}
+											<a href="{% url 'r-recap-insp-proj-list2' pcat='lm' stage=item.key %}">
+												{{ item.value }}
+											</a>
+										{% else %}
+											{{ item.value }}
+										{% endif %}
+									</th>
+							{% endfor %}
+						</tr> 
+						{% for row in objects_4 %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td>{{ row.cap }}</td>
+							{% for key, value in row.stages.items %}
+									<td class="text-md-center align-middle">
+										{% if value > 0 %}
+											{% with row.cap.code|lower as code_lower %}
+												<a href="{% url 'r-recap-insp-proj-list2' pcat=code_lower stage=key %}">{{ value }}</a>
+											{% endwith %}
+										{% else %}
+											{{ value }}
+										{% endif %}
+									</td>
+								{% endfor %}
+							
+						</tr>
+						{% endfor %}
+
+
+						<tr align="center">
+							<th colspan='21'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">INSPEKSAUN INTERNAL MINISTERIU NO LIU ADN (LM) - {% now "Y" %} </a></h2></th>
+						</tr>
+
+						<tr align="center">
+								<th style="background-color: #0D680F;" class="text-white" colspan="14">
+								Total Dokumentu Inspeksaun
+							</th></tr>
+
+						<tr align="center">
+							<th bgcolor="#9CCE8D" ></th>
+							<th bgcolor="#9CCE6D" ></th>
+							<th bgcolor="#9CCE8D" colspan='3'>Lista Projetu Lao Hela</th>
+							<th bgcolor="#9CCE6D" colspan='4'>MOP-UIVP</th>
+							<th bgcolor="#9CCE6D" colspan='2'>MOP-GABINETE MINISTRO</th>
+							<th bgcolor="#9CCE6D" colspan='3'>MOP-DGAF</th>
+						</tr>
+
+						<tr align="center">
+							<th>Nu.</th>
+							<th>Kategoria</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>Planeadu (P)</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>Emerjensia (E)</th>
+							<th bgcolor="#F0F7ED" rowspan='1'>(P + E) </th>
+							<th bgcolor="#D4EACD">Submete Invoice <br> Ba  UIVP</th>
+							<th bgcolor="#D4EACD">Prosesu Inspeksaun <br>Iha UIVP</th>
+							<th bgcolor="#D4EACD">Devolve <br> Husi <br>UIVP</th>
+							<th bgcolor="#D4EACD">Certifika <br> Husi <br>UIVP</th>
+							<th bgcolor="#D4EACD">Submete<br>  Ba <br> GAB</th>
+							<th bgcolor="#D4EACD">Aprovadu<br>  Husi <br> GAB</th>
+							<th bgcolor="#D4EACD">Submete <br> Ba <br> DGAF</th>
+							<th bgcolor="#D4EACD">Prosesu<br>  Iha <br> DGAF</th>
+							<th bgcolor="#D4EACD">Pagamentu <br> Final </th>
+						</tr>
+						
+						<tr align="center">
+								<th colspan='14'>A.Capital Dezenvolvimento (3)  + B.Capital Dezenvolvimento (1)</th>
+							</tr>
+						<tr>
+							<th>C</th>
+							<th>Linha Ministerio (LM) </th>
+							
+							{% for item in objects_44_tot %}
+									<th class="text-md-center align-middle">
+										{% if item.value > 0 %}
+											<a href="{% url 'r-recap-insp-proj-list3' pcat='cd' stage=item.key %}">
+												{{ item.value }}
+											</a>
+										{% else %}
+											{{ item.value }}
+										{% endif %}
+									</th>
+							{% endfor %}
+						</tr> 
+						
+						
+						
+					</table>
+				</div><!--end col-->
+			</div><!--end row-->
+		</div><!--end cont--> 
+		</section>
+    </div>
+
+	<div id="menu2" class="container-fluid tab-pane fade p-0"><br>
+	  <section class="dashboard-counts p-2" style="background-color: white;">
+		<div class="container-fluid p-1">
+			<div class="row">
+				<div class="col-sm-12">
+					<table class="table table-sm table-bordered">
+						<tr align="center">
+							<th colspan='10'> <h2 class="h3 fw-normal pt-3 text-left"><a href="#">PAGAMENTU {% now "Y" %} HO SISTEMA PORTAL TRANSPARENSIA </a></h2></th>
+						</tr>
+
+						<tr align="center">
+							<th style="background-color: #0D680F;" class="text-white" colspan="15">Total Projetu, Invoice no Pagamentu </th></tr>
+						<tr align="center">
+							<th bgcolor="#9CCE8D" ></th>
+							<th bgcolor="#9CCE6D" ></th>
+							<th bgcolor="#9CCE8D" colspan='3'>Projetu</th>
+							<th bgcolor="#9CCE6D" colspan='1'>Invoice</th>
+							<th bgcolor="#9CCE6D" colspan='4'>Pagamentu</th>
+						</tr>
+						<tr align="center">
+							<th>Nu.</th>
+							<th>Kategoria</th>
+							<th>Projetu Lao Hela</th>
+							<th>Alokasaun Orsamentu</th>
+							<th>Projetu Ne'ebe Halo Ona Pagamentu</th>
+							<th>Invoice Husi Projetu Nebe Halo Ona Pagamentu </th>
+							<th>Pagamentu {% now "Y" %} (UIVP Rekomenda)</th>
+							<th>Persentajen Ezekusaun {% now "Y" %} (UIVP Rekomenda)</th>
+							<th>Pagamentu <br>(Atual-Portal)</th>
+							<th>Persentajen<br> (Atual-Portal)</th>
+						</tr>
+						
+						{% for obj in objects %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td><a href="{% url 'r-recap-pay-port-det' pcat=obj.code %}">{{ obj.pcate }}</a></td>
+							<td style="text-align:center">{{ obj.a }}</td>
+							<td style="text-align:center">{% if obj.b %}$ {{ obj.b|floatformat:2|intcomma  }}{% else %}0.0{% endif %}</td>
+							<td style="text-align:center">{{ obj.c }}</td>
+							<td style="text-align:center">{{ obj.d}}</td>
+							<td style="text-align:center">{% if obj.e %}$ {{ obj.e|floatformat:2|intcomma }}{% else %}0.0{% endif %}</td>
+							<td style="text-align:right">{% if obj.h %}{{ obj.h }}%{% else %}0.0%{% endif %}</td>
+							<td style="text-align:right">{% if obj.total_amount %}$ {{ obj.total_amount|floatformat:2|intcomma  }}{% else %}0.0{% endif %}</td>
+							<td style="text-align:right">{% if obj.total_percent %}{{ obj.total_percent}}%{% else %}0.0%{% endif %}</td>
+						</tr>
+						{% endfor %}
+						<tr align="center">
+							<th colspan="2">TOTAL</th>
+							<th>{{ obj_tot.a }}</th>
+							<th style="text-align:right">{% if obj_tot.b %}$ {{ obj_tot.b|floatformat:2|intcomma }}{% else %}0.0{% endif %}</th>
+							<th style="text-align:center">{{ obj_tot.c}}</th>
+							<th style="text-align:center">{{ obj_tot.d}}</th>
+							<th style="text-align:center">{% if obj_tot.e %}$ {{ obj_tot.e|floatformat:2|intcomma}}{% else %}0.0{% endif %}</th>
+							<th style="text-align:right">{% if obj_tot.h %}{{ obj_tot.h }}%{% else %}0.0%{% endif %}</th>
+							<th style="text-align:right">{% if obj_tot.total_amount %}$ {{ obj_tot.total_amount|floatformat:2|intcomma}}{% else %}0.0{% endif %}</th>
+							<th style="text-align:right">{% if obj_tot.total_percent %}{{ obj_tot.total_percent}}%{% else %}0.0%{% endif %}</th>
+						</tr>
+					</table>
+				</div><!--end col-->
+			</div><!--end row-->
+		</div><!--end cont--> 
+	</div>
+    <div id="menu3" class="container-fluid tab-pane fade p-0"><br>
+	  <section class="dashboard-counts p-2" style="background-color: white;">
+		<div class="container-fluid p-1">
+			<div class="row">
+				<div class="col-sm-12">
+					  <table id="example" class="table table-sm responsive" style="width:100%">
+					  <thead>
+						<tr align="center">
+							<th colspan='18'>
+								<h2 class="h3 fw-normal pt-3 text-left">
+									<a href="#">SUMARIU BAZEIA BA STATUS - {% now "Y" %} </a>
+								</h2>
+							</th>
+						</tr>
+						<tr align="center" style="background-color: #0D680F;" class="text-white">
+							<th>Nu.</th>
+							<th>Naran Kompania</th>
+							<th>Total</th>
+							{% for status in statuss %}
+							<th>{{ status }}</th>
+							{% endfor %}
+						</tr>
+						</thead>
+						<tbody>
+						{% for obj in objects_5 %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td align="left">{{ obj.0 }}</td>
+							<td><a href="{% url 'r-comp-proj-list' obj.0.id %}">{{ obj.1 }}</a></td>
+							{% for obj1 in obj.2 %}
+							<td><a href="{% url 'r-comp-proj-status-list' obj.0.id obj1.0.id %}">{{ obj1.1 }}</a></td>
+							{% endfor %}
+						</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div><!--end col-->
+			</div><!--end row-->
+
+
+			<div class="row pt-5 pb-5">
+				<div class="col-sm-12">
+					  <table id="examples" class="table table-sm responsive" style="width:100%">
+					  <thead>
+						<tr align="center">
+							<th colspan='18'>
+								<h2 class="h3 fw-normal pt-3 text-left">
+									<a href="#">SUMARIU BAZEIA BA TINAN </a>
+								</h2>
+							</th>
+						</tr>
+						<tr align="center" style="background-color: #0D680F;" class="text-white">
+							<th>Nu.</th>
+							<th>Naran Kompania</th>
+							{% for yr in year2 %}
+                            <th>{{ yr }}</th>
+							{% endfor %}
+						</tr>
+						</thead>
+						<tbody>
+						{% for obj2 in objects_6 %}
+                            <tr align="center">
+                                <td>{{ forloop.counter }}</td>
+                                <td align="left">{{ obj2.0 }}</td>
+                                {% for obj2_1 in obj2.1 %}
+                                <td><a href="{% url 'r-comp-proj-year-list' obj2.0.id obj2_1.0 %}">{{ obj2_1.1 }}</a></td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+				</div><!--end col-->
+			</div><!--end row-->
+		</div><!--end cont--> 
+	</section>   
+    </div> 
+  </div>
+</div>
+
+
+
+
+
+

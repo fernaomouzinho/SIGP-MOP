@@ -1,0 +1,55 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">CPV</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">{{ legend|upper }}</div>
+        <div class="card-body">
+          <table class="table datatable" id="example" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>#</th><th>Numeru</th><th>Assuntu</th><th>Data</th><th>Status</th><th>Projetu</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for obj in objects %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'gab-cpvreq-det' obj.hashed %}">{{ obj.number }}</a></td>
+                <td>{{ obj.subject }}</td>
+                <td>{{ obj.date|date:"d/m/Y" }}</td>
+                <td>
+                  {% if obj.is_appr == True %}DGAF Aprova
+                  {% else %}Procesa Hela{% endif %}
+                </td>
+                <td>{{ obj.proj.code }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

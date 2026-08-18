@@ -1,0 +1,133 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'uvip-insp-list' inv.hashed %}">Fila</a></li>
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Kontratu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Numeru Kontratu</th><td>{{ cont.number }}</td></tr>
+                        <tr><th>Periodu Kontratu</th><td>{{ cont.start_date|date:"d/m/Y" }} - {{ cont.end_date|date:"d/m/Y" }}</td></tr>
+                        <tr><th>Montante Kontratu</th><td>${{ cont.total|intcomma }}</td></tr>
+                        <tr>
+                            <th>Kompa&ntilde;ia</th>
+                            <td>{% for comp in comps %}{{ comp.company }},{% endfor %}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">Detallu Projetu</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr><th>Kodigu Projetu</th><td>{{ proj.code }}</td></tr>
+                        <tr><th>Naran Projetu</th><td>{{ proj.name }}</td></tr>
+                        <tr><th>Donu Projetu</th><td>{{ proj.owner.code }}</td></tr>
+                        <tr><th>Tinan Projetu</th><td>{{ proj.year }}</td></tr>
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">{{ legend }}</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Numeru Resibu</th><th>Numeru Inspeksaun</th><th>Asuntu</th><th>Data Hahu Inspeksaun</th>
+                            <th>Data Ikus Inspeksaun</th><th>Diriji ba</th>
+                        </tr>
+                        <tr>
+                            <td><a href="{% url 'uvip-inv-det' inv.hashed %}" target="_blank">{{ inv.number }}</a></td>
+                            <td>{{ insp.number }}</td>
+                            <td>{{ insp.subject }}</td>
+                            <td>{{ insp.start_date|date:"d/m/Y" }}</td>
+                            <td>{{ insp.end_date|date:"d/m/Y" }}</td>
+                            <td>{{ insp.sec.code }}</td>
+                        </tr>
+                        {% if insp.back_comment %}
+                        <tr class="bg-warning"><th colspan="5">Komentariu Fila</th><th>Aneksu</th></tr>
+                        <tr>
+                            <td colspan="5">{{ insp.back_comment|safe }}</td>
+                            <td>
+                                {% if insp.file %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'insp-pdf' insp.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    {% if insp.is_end == True %}
+                    <div class="alert alert-success p-2">
+                        <h4>Inspeksaun Termina <i class="fa fa-check"></i></h4>
+                    </div>
+                    {% endif %}
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Komentariu Sira</div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        {% for obj in objects %}
+                        <tr class="bg-info" style="color: white;">
+                            <th colspan="2">Komentariu Xefe Seksaun</th>
+                        </tr>
+                        <tr><th>{{ obj.sec|upper }}</th>
+                            <td>
+                                {% if obj.file3 %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'insp-sec-pdf3' obj.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td colspan="2">{{ obj.sec_comments|safe }}</td></tr>
+                        <tr class="bg-primary" style="color: white;">
+                            <th colspan="2">Komentariu Engineiru</th>
+                        </tr>
+                        <tr><th>{{ obj.to.name|upper }}</th>
+                            <td>
+                                {% if obj.file2 %}
+                                <a class="btn btn-sm btn-secondary" href="{% url 'insp-sec-pdf2' obj.id %}" title="PDF File" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr><td colspan="2">{{ obj.eng_comments|safe }}</td></tr>
+                    {% if obj.is_end == False %}
+                        <tr class="bg-secondary" style="color: white;"><th colspan="3">Komentariu Kordenador UIVP</th></tr>
+                    {% endif %}
+                        <tr>
+                            <td colspan="2">{% if insp.comments %}{{ insp.comments|safe }}{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div><!--end card-->
+        </div><!--end card-->
+    </div> <!--end row-->
+
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}

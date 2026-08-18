@@ -1,0 +1,62 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">{{ legend|upper }}</div>
+				<div class="card-body">
+          {% if group == "admin" %}
+            <a class="btn btn-primary btn-sm mb-1" href="{% url 'emp-add' %}"><i class="fa fa-plus"></i> Aumenta</a>
+          {% endif %}
+					<table id="example" class="table table-sm responsive" style="width:100%">
+						<thead>
+              <tr>
+                <th>#</th>
+                <th>Naran</th>
+                <th>Sexu</th>
+                <th>Pozisaun</th>
+                <th>Kolokasaun</th>
+                <th>Uzuariu (Grupu)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for obj in objects %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'emp-det' obj.hashed %}">{{ obj }}</a></td>
+                <td>{{ obj.sex }}</td>
+                <td>{{ obj.employeepos.position }}</td>
+                <td>
+                  {% if obj.employeediv.dg %}{{ obj.employeediv.dg.code }}
+                  {% elif obj.employeediv.div %}{{ obj.employeediv.div.code }}
+                  {% elif obj.employeediv.dep %}{{ obj.employeediv.dep.code }}
+                  {% elif obj.employeediv.sec %}{{ obj.employeediv.sec.code }}
+                  {% elif obj.employeediv.mun %}{{ obj.employeediv.mun }}
+                  {% endif %}
+                </td>
+                <td>{{ obj.employeeuser.user }} ({{ obj.employeeuser.user.groups.all.0.name }})</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

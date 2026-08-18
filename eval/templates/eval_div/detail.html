@@ -1,0 +1,118 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'div-eval-list' %}">Fila</a></li>
+      <li class="breadcrumb-item active">{{ legend }}</li>
+    </ul>
+  </div>
+</div>
+<header class="py-4">
+  <div class="container-fluid py-2">
+    <h1 class="h3 fw-normal mb-0">{{ module }}</h1>
+  </div>
+</header>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">{{ legend }}</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th width="25%">Numeru Referensia</th><td colspan="3">{{ eval.number }}</td></tr>
+            <tr><th>Data</th><td colspan="3">{{ eval.date|date:"d/m/Y" }}</td></tr>
+            <tr><th>Deskrisaun</th><td colspan="3">{{ eval.desc|safe }}</td></tr>
+          </table>
+          <hr/>
+          {% if eval.is_send == False %}
+            {% if files %}
+            <a class="btn btn-info btn-sm" href="{% url 'div-eval-edit' eval.hashed %}" title="Altera"><i class="fa fa-edit"></i></a>
+            <a class="btn btn-danger btn-sm" href="{% url 'div-eval-rem' eval.hashed %}" title="Apaga"><i class="fa fa-trash"></i></a>
+            <a class="btn btn-primary btn-sm" href="{% url 'div-eval-send' eval.hashed %}" title="Manda">Manda <i class="fa fa-send"></i></a>
+            {% endif %}
+          {% else %}
+            {% if eval.is_appr == False %}
+            <div class="alert alert-info p-2">Pedidu ToR manda sai ona ba "UIVP"</div>
+            {% else %}
+            <div class="alert alert-info p-2">Aprova Ona</div>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Detallu Projetu</div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <tr><th width="25%">Kodigu Projetu</th><td><a href="{% url 'div-proj-det' eval.proj.hashed %}">{{ eval.proj.code }}</a></td></tr>
+            <tr><th>Naran Projetu</th><td>{{ eval.proj.name }}</td></tr>
+            <tr><th>Tinan Projetu</th><td>{{ eval.proj.year }}</td></tr>
+            <tr><th>Estimasaun Projetu</th><td>${{ projest.owner|intcomma }} {% if not projest.owner %}<br><hr>
+            <div class="alert alert-danger" role="alert">
+            * Estimasaun = "$None" <br>
+            * Favor atualiza uluk estimasaun kustu, hafoin bele aneksu dokumentu TOR 
+            </div>
+            {% endif %}
+            </td>
+            </tr>
+          </table>
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  {% if projest.owner %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">Dokumentu Relevante ba ToR</div>
+        <div class="card-body">
+          {% if eval.is_send == False %}
+          <a class="btn btn-sm btn-info mb-1" href="{% url 'div-eval-file-add' eval.hashed %}">Aneksu Dokumentu <i class="fa fa-plus"></i></a>
+          {% endif %}
+          <table class="table table-sm table-striped">
+            <tr><th>Nu.</th><th class='text-center'>Deskrisaun</th><th class='text-center' >Aneksu Dokumentu</th><th class='text-center'>#</th></tr>
+          {% for file in files %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ file.desc }}</td>
+              
+              <td class='text-center'>
+                <a href="{% url 'eval-file-pdf-boq' file.id %}" target="_blank" title="ToR">BoQ</a>|
+                <a href="{% url 'eval-file-pdf-design' file.id %}" target="_blank" title="ToR">Dezenu</a> |
+                <a href="{% url 'eval-file-pdf-spec' file.id %}" target="_blank" title="ToR">Espesifikasaun</a> |
+                <a href="{% url 'eval-file-pdf-mapq' file.id %}" target="_blank" title="ToR">Mapa Quarry</a> |
+                <a href="{% url 'eval-file-pdf-other' file.id %}" target="_blank" title="ToR">Seluk</a>
+              </td>
+
+              <td class='text-center'>
+                {% if eval.is_end == False %}
+                <a class="btn btn-sm btn-info" href="{% url 'div-eval-file-edit' eval.hashed file.id %}" title="Altera"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-danger" href="{% url 'div-eval-file-rem' eval.hashed file.id %}" title="Apaga"><i class="fa fa-trash"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+            
+          </table>
+          <tr><hr> {% if not files %}* Favor aneksu uluk dokumentu molok atu manda sai ba 'UIVP'. {% endif %}</tr>
+
+        </div>
+      </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+  <div class="row">
+    <div class="col-sm-12">
+      {% if eval.is_appr == True %}
+      <div class="alert alert-success p-1"><i class="fa fa-info"></i> TOR APROVADU</div>
+      {% endif %}
+    </div><!--end col-->
+  </div><!--end row-->
+</div><!--end cont-->
+ {% endif %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

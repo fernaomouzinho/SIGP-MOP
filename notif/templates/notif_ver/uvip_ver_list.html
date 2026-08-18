@@ -1,0 +1,81 @@
+{% extends "main/layout.html" %}
+{% load humanize %}
+{% block content %}
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active">{{ legend }}</li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid"><br/>    
+    {% if objects1 %}
+    {% comment %} <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Komentariu Husi Fila</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Numeru despaxu</th>
+                            <th>Asuntu</th>
+                            <th>Data Hahu - Remata</th>
+                            <th>Husi</th>
+                            <th>Kodigu Projetu</th>
+                            <th>Naran Projetu</th>
+                        </tr>
+                        {% for obj1 in objects1 %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'uvip-ver-det' obj1.hashed %}">{{ obj1.number }}</a></td>
+                            <td>{{ obj1.subject }}</td>
+                            <td>{{ obj1.start_date|date:"d/m/Y" }} - {{ obj1.end_date|date:"d/m/Y" }}</td>
+                            <td>{{ obj1.sec.code }}</td>
+                            <td>{{ obj1.eval.proj.code }}</td>
+                            <td>{{ obj1.eval.proj.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row--> {% endcomment %}
+    {% endif %}
+    {% if objects2 %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Resultadu Verifikasaun Husi Seksaun</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th>Nu.</th>
+                            <th>Numeru Referensia</th>
+                            <th>Asuntu</th>
+                            <th>Data</th>
+                            <th>Husi</th>
+                            <th>Kodigu Projetu</th>
+                            <th>Naran Projetu</th>
+                        </tr>
+                        {% for obj2 in objects2 %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'uvip-ver-det' obj2.ver.hashed %}">{{ obj2.number }}</a></td>
+                            <td>{{ obj2.subject }}</td>
+                            <td>{{ obj2.date|date:"d/m/Y" }}</td>
+                            <td>{{ obj2.sec.code }}</td>
+                            <td>{{ obj2.ver.eval.proj.code }}</td>
+                            <td>{{ obj2.ver.eval.proj.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> <!--end card-body-->
+            </div> <!--end card-->
+        </div> <!--end col-->
+    </div> <!--end row-->
+    {% endif %}
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+{% endblock %}

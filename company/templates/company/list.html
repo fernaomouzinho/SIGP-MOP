@@ -1,0 +1,63 @@
+{% extends "main/layout.html" %}
+{% block content %}
+<div class="breadcrumb-holder">
+	<div class="container-fluid">
+		<ul class="breadcrumb">
+      <li class="breadcrumb-item active">{{ legend }}</li>
+		</ul>
+	</div>
+</div>
+<div class="container-fluid"><br/>
+  <div class="row">
+		<div class="col-sm-12">
+			<div class="card shadow-lg border-info rounded">
+				<div class="card-header">{{ legend|upper }}</div>
+				<div class="card-body">
+          {% if group == "admin" or group == "dna" or group == "dna_s" or group == "op" or group == "uivp" %}
+            <a class="btn btn-primary btn-sm mb-1" href="{% url 'comp-add' %}"><i class="fa fa-plus"></i> Aumenta</a>
+          {% endif %}
+					<table id="example" class="table table-sm responsive" style="width:100%">
+						<thead>
+              <tr>
+                <th>#</th>
+                <th>Naran</th>
+                <th>Data Har&iacute;</th>
+                <th>Endresu</th>
+                <th>Uzuariu</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for obj in objects %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'comp-det' obj.hashed %}">{{ obj.name }}</a></td>
+                <td>{{ obj.start_date|date:"d/m/Y" }}</td>
+                <td>{{ obj.address }}</td>
+                <td>{{ obj.compuser.user }}</td>
+                <td>
+                  {% if not obj.compuser.user %}
+                  <a class="btn btn-sm btn-primary" href="{% url 'comp-user-create' obj.id %}" title="Reset">Kria <i class="fa fa-pencil"></i></a>
+                  {% else %}
+                  <a class="btn btn-sm btn-info" href="{% url 'comp-user-reset' obj.id %}" title="Reset"><i class="fa fa-refresh"></i></a>
+                  <a class="btn btn-sm btn-warning" href="{% url 'comp-user-ena' obj.id %}" title="Ativa"><i class="fa fa-check"></i></a>
+                  <a class="btn btn-sm btn-danger" href="{% url 'comp-user-dis' obj.id %}" title="Desativa"><i class="fa fa-ban"></i></a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+		</div> <!--end col-->
+	</div> <!--end row-->
+</div><!--end cont-->
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable();
+  } );
+</script>
+{% endblock %}

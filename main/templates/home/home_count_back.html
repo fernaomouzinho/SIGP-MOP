@@ -1,0 +1,66 @@
+{% load humanize %}
+<section class="dashboard-counts section-padding">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="row">
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Total</strong>
+								<div class="count-number"><a href="{% url 'r-proj-list' %}">{{ t_proj|intcomma }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Foun</strong>
+								<div class="count-number"><a href="{% url 'r-proj-statusp-list' pk1 %}">{{ t_new|intcomma }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+					<!-- Count item widget-->
+					<div class="col-xl-4 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Reapro.</strong>
+								<div class="count-number"><a href="{% url 'r-proj-statusp-list' pk2 %}">{{ t_rollover|intcomma }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+				</div><!--end row-->
+			</div><!--end col-->
+			<div class="col-sm-4" style="background-color: antiquewhite;">
+				<div class="row">
+					<!-- Count item widget-->
+					<div class="col-xl-6 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Kompletu</strong>
+								<div class="count-number"><a href="{% url 'r-proj-status-list' pk4 %}">{{ t_comp|intcomma }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+					<!-- Count item widget-->
+					<div class="col-xl-6 col-md-4 col-6">
+						<div class="wrapper count-title d-flex">
+							<div class="name">
+								<p class="text-gray-500 small mb-1">Projetu</p>
+								<strong class="text-uppercase">Seidauk</strong>
+								<div class="count-number"><a href="{% url 'r-proj-status-list' pk1 %}">{{ t_notstarted|intcomma }}</a></div>
+							</div>
+						</div>
+					</div><!--end item-->
+				</div>
+			</div><!--end col-->
+		</div><!--end row-->
+	</div><!--end cont-->
+</section>
+<!-- end Counts Section -->
