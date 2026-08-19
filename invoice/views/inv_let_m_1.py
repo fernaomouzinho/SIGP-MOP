@@ -1,7 +1,6 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from conf.decorators import allowed_users
 from django.contrib import messages
 from contract.models import Amendment
 from invoice.models import Invoice, InvTrack, InvLet
@@ -10,8 +9,7 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### SUP
-@login_required
-@allowed_users(allowed_roles=['sigp_sup'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_sup'])
 def supInvLetNext(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -30,8 +28,7 @@ def supInvLetNext(request, pk):
     return redirect('sup-inv-det', hashid=inv.hashed)
 
 ### UIVP
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvBack(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)
@@ -65,8 +62,7 @@ def uvipInvBack(request, hashid):
     }
     return render(request, 'notif_uvip/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvIn(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_read = True
@@ -82,8 +78,8 @@ def uvipInvIn(request, pk):
     messages.success(request, f'UIVP simu husi Supervizaun Munisipiu.')
     return redirect('uvip-inv-det', hashid=inv.hashed)
 #
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin', 'sigp_uivp'])
 def uvipInvInspStart(request, hashid):
     inv = get_object_or_404(Invoice, hashed=hashid)
     track = InvTrack.objects.filter(inv=inv).first()
@@ -95,8 +91,8 @@ def uvipInvInspStart(request, hashid):
     messages.success(request, f'Inspeksaun hahu.')
     return redirect('uvip-insp-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvInspEnd(request, hashid):
     inv = get_object_or_404(Invoice, hashed=hashid)
     track = InvTrack.objects.filter(inv=inv).first()
@@ -108,8 +104,8 @@ def uvipInvInspEnd(request, hashid):
     messages.success(request, f'Inspeksaun remata.')
     return redirect('uvip-inv-det', hashid=hashid)
 #
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvNext1(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -128,8 +124,8 @@ def uvipInvNext1(request, pk):
     messages.success(request, f'UIVP manda ona ba ADN.')
     return redirect('uvip-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvADNIn(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_read = True
@@ -146,8 +142,8 @@ def uvipInvADNIn(request, pk):
     messages.success(request, f'ADN manda mai UIVP.')
     return redirect('uvip-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvNext2(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -165,8 +161,7 @@ def uvipInvNext2(request, pk):
     messages.success(request, f'UIVP manda ba Gabinete Ministru.')
     return redirect('uvip-inv-det', hashid=inv.hashed)
 ### GAB
-@login_required
-@allowed_users(allowed_roles=['gab'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_gabm'])
 def gabInvBack(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)
@@ -198,8 +193,8 @@ def gabInvBack(request, hashid):
     }
     return render(request, 'notif_gab/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['sigpp_gabm'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_gabm'])
 def gabInvIn(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_read = True
@@ -215,8 +210,8 @@ def gabInvIn(request, pk):
     messages.success(request, f'Husi UIVP manda mai Gabinete Ministru.')
     return redirect('gab-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_gabm'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_gabm'])
 def gabInvNext1(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -233,8 +228,8 @@ def gabInvNext1(request, pk):
     messages.success(request, f'Gabinete Ministru manda ba DGAF.')
     return redirect('gab-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_gabm'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_gabm'])
 def gabInvNext2(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -254,8 +249,7 @@ def gabInvNext2(request, pk):
     return redirect('gab-inv-det', hashid=inv.hashed)
 
 ### DGAF
-@login_required
-@allowed_users(allowed_roles=['sigp_dgaf'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafInvBack(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)
@@ -287,8 +281,8 @@ def dgafInvBack(request, hashid):
     }
     return render(request, 'inv_let/form_let.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_dgaf'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafInvIn(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_read = True
@@ -304,8 +298,7 @@ def dgafInvIn(request, pk):
     messages.success(request, f'Husi Gabinete Ministru manda mai DGAF.')
     return redirect('dgaf-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_dgaf'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafInvNext(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -323,8 +316,8 @@ def dgafInvNext(request, pk):
     messages.success(request, f'Husi DGAF manda ba DNA.')
     return redirect('dgaf-inv-det', hashid=inv.hashed)
 ### DGAF
-@login_required
-@allowed_users(allowed_roles=['sigp_dna'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def dnaInvBack(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)
@@ -354,8 +347,8 @@ def dnaInvBack(request, hashid):
     }
     return render(request, 'inv_let/form_let.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_dna'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def dnaInvIn(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_read = True
@@ -371,8 +364,8 @@ def dnaInvIn(request, pk):
     messages.success(request, f'Husi DGAF manda mai DNA.')
     return redirect('dna-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_dna'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def dnaInvNext(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -390,8 +383,8 @@ def dnaInvNext(request, pk):
     messages.success(request, f'Husi DNA manda ba DNOF.')
     return redirect('dna-inv-det', hashid=inv.hashed)
 # DNOF
-@login_required
-@allowed_users(allowed_roles=['sigp_dnof'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofInvBack(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)
@@ -423,8 +416,8 @@ def dnofInvBack(request, hashid):
     }
     return render(request, 'notif_dnof/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_dnof'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofInvIn(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_read = True
@@ -440,8 +433,8 @@ def dnofInvIn(request, pk):
     messages.success(request, f'Husi DNA manda mai DNOF.')
     return redirect('dnof-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_dnof'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofInvNext(request, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.is_send = True
@@ -457,8 +450,8 @@ def dnofInvNext(request, pk):
     messages.success(request, f'DNOF ba MF.')
     return redirect('dnof-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_dnof'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofInvEnd(request, pk):
     obj = get_object_or_404(Invoice, pk=pk)
     obj.is_paid = True

@@ -8,7 +8,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
 def trackProcList(request):
 	group = get_roles(request)
 	procs = Proc.objects.filter().all().order_by('-date')
@@ -28,7 +27,7 @@ def trackProcList(request):
 	}
 	return render(request, 'track/proc_list.html', context)
 
-@login_required
+
 def trackProcDet(request, hashid):
 	group = get_roles(request)
 	proc = get_object_or_404(Proc, hashed=hashid)

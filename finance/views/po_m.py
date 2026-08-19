@@ -2,17 +2,18 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from contract.models import Contract
 from invoice.models import Invoice
 from finance.models import PO, POTrack, POLetter, CPV
 from finance.forms import POForm, POForm2, POForm3, POLetterForm
 from conf.utils import getnewid,write_roman
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOAdd(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     cont = get_object_or_404(Contract, hashed=hashid)
     proj = cont.project
     cpv = CPV.objects.filter(proj=proj).last()
@@ -40,10 +41,9 @@ def dnaPOAdd(request, hashid):
     }
     return render(request, 'finance_po/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOEdit(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     obj = get_object_or_404(PO, hashed=hashid)
     cont = obj.cont
     proj = cont.project
@@ -63,10 +63,9 @@ def dnaPOEdit(request, hashid):
     }
     return render(request, 'finance_po/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOEdit2(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     obj = get_object_or_404(PO, hashed=hashid)
     cont = obj.cont
     proj = cont.project
@@ -86,8 +85,7 @@ def dnaPOEdit2(request, hashid):
     }
     return render(request, 'finance_po/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPORef(request, pk, pk2):
     obj = get_object_or_404(PO, hashed=pk)
     inv = get_object_or_404(Invoice, hashed=pk2)
@@ -96,8 +94,7 @@ def dnaPORef(request, pk, pk2):
     messages.success(request, f'Altera ona.')
     return redirect('dna-inv-det', hashid=inv.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPORem(request, pk):
     po = get_object_or_404(PO, pk=pk)
     cont = po.cont
@@ -105,8 +102,7 @@ def dnaPORem(request, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('dna-po-list', hashid=cont.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOSend(request, pk):
     obj = get_object_or_404(PO, pk=pk)
     obj.is_send = True
@@ -124,10 +120,9 @@ def dnaPOSend(request, pk):
     messages.success(request, f'DNA ba DGAF.')
     return redirect('dna-po-list', hashid=cont.hashed)
 # dgaf
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOBack(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     po = get_object_or_404(PO, hashed=hashid)
     track = POTrack.objects.filter(po=po).first()
     if request.method == 'POST':
@@ -157,8 +152,7 @@ def dgafPOBack(request, hashid):
     }
     return render(request, 'finance_po/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOIn(request, pk):
     obj = get_object_or_404(PO, pk=pk)
     obj.is_read = True
@@ -173,8 +167,7 @@ def dgafPOIn(request, pk):
     messages.success(request, f'DGAF Simu.')
     return redirect('dgaf-po-det', hashid=obj.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOAppr(request, pk):
     obj = get_object_or_404(PO, pk=pk)
     obj.is_appr = True
@@ -189,10 +182,9 @@ def dgafPOAppr(request, pk):
     messages.success(request, f'DGAF Aprova.')
     return redirect('dgaf-po-det', hashid=obj.hashed)
 #
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOLetEdit(request, hashid, pk):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     po = get_object_or_404(PO, hashed=hashid)
     obj = get_object_or_404(POLetter, pk=pk)
     if request.method == 'POST':
@@ -217,8 +209,7 @@ def dgafPOLetEdit(request, hashid, pk):
     }
     return render(request, 'finance_po/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOLetRem(request, pk):
     obj = get_object_or_404(POLetter, pk=pk)
     obj.number = None
@@ -229,8 +220,7 @@ def dgafPOLetRem(request, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('notif-dgaf-po-det', hashid=obj.po.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOSend(request, pk):
     obj = get_object_or_404(POLetter, pk=pk)
     obj.is_send = True
@@ -247,8 +237,7 @@ def dgafPOSend(request, pk):
     messages.success(request, f'Manda ba DNA.')
     return redirect('dgaf-po-det', hashid=obj.po.hashed)
 # dna
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOIn(request, pk):
     obj = get_object_or_404(POLetter, pk=pk)
     obj.is_read = True
@@ -265,8 +254,7 @@ def dnaPOIn(request, pk):
     messages.success(request, f'DNA Simu.')
     return redirect('dna-po-det', hashid=obj.po.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOEnd(request, pk):
     obj = get_object_or_404(POLetter, pk=pk)
     po = obj.po

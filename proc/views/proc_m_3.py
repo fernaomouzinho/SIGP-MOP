@@ -9,7 +9,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### dna
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcResNext(request, pk):
 	proc = get_object_or_404(Proc, pk=pk)
@@ -22,7 +21,6 @@ def dnaProcResNext(request, pk):
 	messages.success(request, f'DNA ba DGAF.')
 	return redirect('dna-proc-res-det', hashid=proc.hashed)
 ### dgaf
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcResIn1(request, pk):
 	proc = get_object_or_404(Proc, pk=pk)
@@ -35,7 +33,7 @@ def dgafProcResIn1(request, pk):
 	messages.success(request, f'DGAF simu husi DNA.')
 	return redirect('dgaf-proc-res-det', hashid=proc.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcResNext1(request, pk):
 	obj = get_object_or_404(ProcLet, pk=pk)
@@ -55,7 +53,7 @@ def dgafProcResNext1(request, pk):
 	messages.success(request, f'DGAF ba Gabinete Ministru.')
 	return redirect('dgaf-proc-res-det', hashid=proc.hashed)
 ### gab
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabProcResBack(request, hashid):
 	group = get_roles(request)
@@ -88,7 +86,6 @@ def gabProcResBack(request, hashid):
 	}
 	return render(request, 'proc_gab/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabProcResIn(request, pk):
 	obj = get_object_or_404(ProcLet, pk=pk)
@@ -104,7 +101,6 @@ def gabProcResIn(request, pk):
 	messages.success(request, f'DGAF mai Gabinete.')
 	return redirect('gab-proc-res-det', hashid=proc.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabProcResNext(request, pk):
 	obj = get_object_or_404(ProcLet, pk=pk)
@@ -124,7 +120,7 @@ def gabProcResNext(request, pk):
 	messages.success(request, f'Gabinete ba DGAF.')
 	return redirect('gab-proc-res-det', hashid=proc.hashed)
 ### dgaf
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcResIn2(request, pk):
 	obj = get_object_or_404(ProcLet, pk=pk)
@@ -140,7 +136,7 @@ def dgafProcResIn2(request, pk):
 	messages.success(request, f'Gabinete mai DGAF.')
 	return redirect('dgaf-proc-res-det', hashid=proc.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcResNext2(request, pk):
 	obj = get_object_or_404(ProcLet, pk=pk)
@@ -160,7 +156,6 @@ def dgafProcResNext2(request, pk):
 	messages.success(request, f'DGAF ba DNA.')
 	return redirect('dgaf-proc-res-det', hashid=proc.hashed)
 ### dna
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcResIn(request, pk):
 	obj = get_object_or_404(ProcLet, pk=pk)

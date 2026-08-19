@@ -9,7 +9,7 @@ from conf.user_utils import c_user_div, c_user_dna, c_user_dnof
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def rdivDash(request):
 	group = get_roles(request)
 	div = []
@@ -28,7 +28,7 @@ def rdivDash(request):
 	}
 	return render(request, 'reportdiv_t/dash_div.html', context)
 
-@login_required
+
 def rdivProjDash(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -74,7 +74,7 @@ def rdivProjDash(request, pk):
 	}
 	return render(request, 'reportdiv_t/dash.html', context)
 
-@login_required
+
 def rdivProjYearDash(request, pk, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -118,7 +118,7 @@ def rdivProjYearDash(request, pk, year):
 	}
 	return render(request, 'reportdiv_t/dash_year.html', context)
 ### PROJ
-@login_required
+
 def rdivProjList(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -131,7 +131,7 @@ def rdivProjList(request, pk):
 	}
 	return render(request, 'reportdiv_t/proj_list.html', context)
 
-@login_required
+
 def rdivProjYearList(request, pk, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -144,7 +144,7 @@ def rdivProjYearList(request, pk, year):
 	}
 	return render(request, 'reportdiv_t/proj_list.html', context)
 #
-@login_required
+
 def rdivProjStatusPList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -158,7 +158,7 @@ def rdivProjStatusPList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/proj_statusp_list.html', context)
 
-@login_required
+
 def rdivProjStatusPYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -172,7 +172,7 @@ def rdivProjStatusPYearList(request, pk, pk2, year):
 	}
 	return render(request, 'reportdiv_t/proj_statusp_list.html', context)
 #
-@login_required
+
 def rdivProjStatusList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -186,7 +186,7 @@ def rdivProjStatusList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/proj_status_list.html', context)
 
-@login_required
+
 def rdivProjStatusYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -200,7 +200,7 @@ def rdivProjStatusYearList(request, pk, pk2, year):
 	}
 	return render(request, 'reportdiv_t/proj_status_list.html', context)
 ### CATEGORY
-@login_required
+
 def rdivPCatList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -216,7 +216,7 @@ def rdivPCatList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/r_pcat_list.html', context)
 
-@login_required
+
 def rdivPCatYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -232,7 +232,7 @@ def rdivPCatYearList(request, pk, pk2, year):
 	}
 	return render(request, 'reportdiv_t/r_pcat_list.html', context)
 ### CAPITAL
-@login_required
+
 def rdivPCapList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -246,7 +246,7 @@ def rdivPCapList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/r_pcap_list.html', context)
 
-@login_required
+
 def rdivPCapYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -260,7 +260,7 @@ def rdivPCapYearList(request, pk, pk2, year):
 	}
 	return render(request, 'reportdiv_t/r_pcap_list.html', context)
 ### SECTOR
-@login_required
+
 def rdivPSecList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -274,7 +274,7 @@ def rdivPSecList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/r_psec_list.html', context)
 
-@login_required
+
 def rdivPSecYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -288,7 +288,7 @@ def rdivPSecYearList(request, pk, pk2, year):
 	}
 	return render(request, 'reportdiv_t/r_psec_list.html', context)
 ###
-@login_required
+
 def rdivImpList(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -302,7 +302,7 @@ def rdivImpList(request, pk):
 	}
 	return render(request, 'reportdiv_t/imp_list.html', context)
 
-@login_required
+
 def rdivImpYearList(request, pk, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -318,7 +318,7 @@ def rdivImpYearList(request, pk, year):
 	}
 	return render(request, 'reportdiv_t/imp_list.html', context)
 #
-@login_required
+
 def rdivImpStatusList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -335,7 +335,7 @@ def rdivImpStatusList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/imp_status_list.html', context)
 
-@login_required
+
 def rdivImpStatusYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)

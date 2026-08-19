@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-
 from project.models import ProjectEst
 from eval.models import Eval, EvalFile, EvalLet, EvalTrack
 from proc.models import Proc, ProcComp
@@ -9,7 +8,7 @@ from conf.user_utils import c_user_div, c_user_dna, c_user_dnof
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_div_s','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_admin'])
 def divEvalLetADNList(request, hashid):
 	group = get_roles(request)
@@ -25,7 +24,7 @@ def divEvalLetADNList(request, hashid):
 	}
 	return render(request, 'eval_adn/adn_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_div_s','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_admin'])
 def EvalLetADNList(request):
 	group = get_roles(request)
@@ -37,7 +36,7 @@ def EvalLetADNList(request):
 	}
 	return render(request, 'eval_adn/eval_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_div_s','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_admin'])
 def EvalLetADNYear(request, year):
 	group = get_roles(request)
@@ -49,7 +48,7 @@ def EvalLetADNYear(request, year):
 	}
 	return render(request, 'eval_adn/eval_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_div_s','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_admin'])
 def EvalLetADNDet(request, hashid):
 	group = get_roles(request)

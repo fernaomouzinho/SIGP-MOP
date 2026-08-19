@@ -6,7 +6,7 @@ from invoice.models import Invoice, CertPay, PayRecom, InvLet
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf', 'sigp_admin'])
 def InvPDF(request, hashid):
 	group = get_roles(request)
@@ -17,7 +17,7 @@ def InvPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf', 'sigp_admin'])
 def CertPDF(request, hashid):
 	group = get_roles(request)
@@ -28,7 +28,7 @@ def CertPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf', 'sigp_admin'])
 def RecomPDF(request, hashid):
 	group = get_roles(request)
@@ -39,7 +39,7 @@ def RecomPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf', 'sigp_admin'])
 def InvLetPDF(request, hashid):
 	group = get_roles(request)

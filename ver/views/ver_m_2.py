@@ -10,7 +10,6 @@ from conf.user_utils import c_user_sec, c_user_eng
 from conf.utils import getnewid
 
 ### SEC
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerIn2(request, hashid):
     versec = get_object_or_404(VerSecEng, hashed=hashid)
@@ -29,7 +28,7 @@ def secVerIn2(request, hashid):
     messages.success(request, f'Husi {versec.to} mai {versec.sec.code}.')
     return redirect('sec-ver-det', hashid=ver.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerCommEdit(request, hashid):
     group = get_roles(request)
@@ -52,7 +51,6 @@ def secVerCommEdit(request, hashid):
     }
     return render(request, 'ver/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerEnd(request, pk):
     obj = get_object_or_404(VerSecEng, pk=pk)
@@ -61,7 +59,6 @@ def secVerEnd(request, pk):
     messages.success(request, f'Despaxu Seksaun Termina.')
     return redirect('sec-ver-det', hashid=obj.ver.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerBack(request, pk):
     obj = get_object_or_404(VerSecEng, pk=pk)
@@ -77,7 +74,7 @@ def secVerBack(request, pk):
     messages.success(request, f'Husi {obj.sec.code} ba UIVP.')
     return redirect('sec-ver-det', hashid=ver.hashed)
 ### UIVP
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerIn(request, hashid):
     versec = get_object_or_404(VerSecEng, hashed=hashid)
@@ -98,7 +95,6 @@ def uvipVerIn(request, hashid):
     messages.success(request, f'Husi {versec.sec.code} mai UIVP.')
     return redirect('uvip-ver-det', hashid=ver.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerCommEdit(request, hashid):
     group = get_roles(request)
@@ -119,7 +115,6 @@ def uvipVerCommEdit(request, hashid):
     }
     return render(request, 'ver/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerEnd(request, hashid):
     ver = get_object_or_404(Ver, hashed=hashid)

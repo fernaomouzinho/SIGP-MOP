@@ -10,7 +10,6 @@ from payment.models import PaymentPortal
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def payPortalList(request):
     payments = PaymentPortal.objects.all().order_by('-year')  # latest first
@@ -23,7 +22,6 @@ def payPortalList(request):
     return render(request, "payment/port_pay_list.html", context)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def payPortalAdd(request, hashid=None):
    
@@ -48,7 +46,6 @@ def payPortalAdd(request, hashid=None):
     return render(request, "payment/portal_form.html", context)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def payPortalEdit(request, hashid):
     pay = get_object_or_404(PaymentPortal, hashed=hashid)
@@ -66,7 +63,6 @@ def payPortalEdit(request, hashid):
     }
     return render(request, "payment/portal_form.html", context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def payPortalDelete(request, hashid):
     pay = get_object_or_404(PaymentPortal, hashed=hashid)

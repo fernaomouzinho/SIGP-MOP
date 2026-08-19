@@ -9,7 +9,7 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### MIN
-@login_required
+
 @allowed_users(allowed_roles=['sigp_min','sigp_admin'])
 def rMINProcLetDet(request, hashid):
 	group = get_roles(request)
@@ -28,7 +28,6 @@ def rMINProcLetDet(request, hashid):
 	}
 	return render(request, 'proc_r/min_det.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_min','sigp_admin'])
 def rMINProcLetList(request):
 	group = get_roles(request)
@@ -41,7 +40,6 @@ def rMINProcLetList(request):
 	}
 	return render(request, 'proc_r/min_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_min','sigp_admin'])
 def rMINProcLetYear(request, year):
 	group = get_roles(request)
@@ -54,7 +52,6 @@ def rMINProcLetYear(request, year):
 	}
 	return render(request, 'proc_r/min_list.html', context)
 ### DGAF
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def rDGAFProcLetDet(request, hashid):
 	group = get_roles(request)
@@ -73,7 +70,6 @@ def rDGAFProcLetDet(request, hashid):
 	}
 	return render(request, 'proc_r/dgaf_det.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def rDGAFProcLetList(request):
 	group = get_roles(request)
@@ -86,7 +82,6 @@ def rDGAFProcLetList(request):
 	}
 	return render(request, 'proc_r/dgaf_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def rDGAFProcLetYear(request, year):
 	group = get_roles(request)
@@ -99,7 +94,6 @@ def rDGAFProcLetYear(request, year):
 	}
 	return render(request, 'proc_r/dgaf_list.html', context)
 ### DG
-@login_required
 @allowed_users(allowed_roles=['sigp_dg,sigp_admin'])
 def rDGProcList(request):
 	group = get_roles(request)
@@ -112,7 +106,6 @@ def rDGProcList(request):
 	}
 	return render(request, 'proc_r/dg_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dg,sigp_admin'])
 def rDGProcYear(request, year):
 	group = get_roles(request)
@@ -125,7 +118,6 @@ def rDGProcYear(request, year):
 	}
 	return render(request, 'proc_r/dg_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dg,sigp_admin'])
 def rDGProcDet(request, hashid):
 	group = get_roles(request)
@@ -140,7 +132,6 @@ def rDGProcDet(request, hashid):
 	}
 	return render(request, 'proc_r/dg_det.html', context)
 ### DNA
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def rDNAProcLetDet(request, hashid):
 	group = get_roles(request)
@@ -159,7 +150,6 @@ def rDNAProcLetDet(request, hashid):
 	}
 	return render(request, 'proc_r/dna_det.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def rDNAProcLetList(request):
 	group = get_roles(request)
@@ -172,7 +162,6 @@ def rDNAProcLetList(request):
 	}
 	return render(request, 'proc_r/dna_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def rDNAProcLetYear(request, year):
 	group = get_roles(request)

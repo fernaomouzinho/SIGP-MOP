@@ -2,7 +2,8 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from contract.models import Contract
 from project.models import Project, ProjectEst
 from finance.models import CPV, EV, PO, PRT, TPO
@@ -10,10 +11,9 @@ from finance.forms import CPVForm, EVForm, POForm, opPOForm, PRTForm, TPOForm
 from conf.utils import getnewid
 
 # CPV
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opCPVAdd(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	proj = get_object_or_404(Project, hashed=hashid)
 	if request.method == 'POST':
 		newid, new_hashid = getnewid(CPV)
@@ -38,10 +38,9 @@ def opCPVAdd(request, hashid):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opCPVEdit(request, hashid, hashid2):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	proj = get_object_or_404(Project, hashed=hashid)
 	cpv = get_object_or_404(CPV, hashed=hashid2)
 	if request.method == 'POST':
@@ -57,16 +56,14 @@ def opCPVEdit(request, hashid, hashid2):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opCPVRem(request, hashid, pk):
 	obj = get_object_or_404(CPV, pk=pk)
 	obj.delete()
 	messages.success(request, f'Hapaga ona.')
 	return redirect('op-cpv-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opCPVLock(request, hashid, pk):
 	obj = get_object_or_404(CPV, pk=pk)
 	obj.is_commit = True
@@ -74,10 +71,9 @@ def opCPVLock(request, hashid, pk):
 	messages.success(request, f'Xavi.')
 	return redirect('op-cpv-list', hashid=hashid)
 # PO
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPOAdd(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	proj = cont.project
 	if request.method == 'POST':
@@ -101,10 +97,9 @@ def opPOAdd(request, hashid):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPOEdit(request, hashid, hashid2):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	proj = cont.project
 	po = get_object_or_404(PO, hashed=hashid2)
@@ -121,16 +116,14 @@ def opPOEdit(request, hashid, hashid2):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPORem(request, hashid, pk):
 	obj = get_object_or_404(PO, pk=pk)
 	obj.delete()
 	messages.success(request, f'Apaga ona.')
 	return redirect('op-po-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPOLock(request, hashid, pk):
 	obj = get_object_or_404(PO, pk=pk)
 	obj.is_lock = True
@@ -138,10 +131,9 @@ def opPOLock(request, hashid, pk):
 	messages.success(request, f'Xavi.')
 	return redirect('op-po-list', hashid=hashid)
 # PRT
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPRTAdd(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	if request.method == 'POST':
 		newid, new_hashid = getnewid(PRT)
@@ -163,10 +155,9 @@ def opPRTAdd(request, hashid):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPRTEdit(request, hashid, hashid2):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	prt = get_object_or_404(PRT, hashed=hashid2)
 	if request.method == 'POST':
@@ -182,16 +173,14 @@ def opPRTEdit(request, hashid, hashid2):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPRTRem(request, hashid, pk):
 	obj = get_object_or_404(PRT, pk=pk)
 	obj.delete()
 	messages.success(request, f'Hapaga ona.')
 	return redirect('op-prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opPRTLock(request, hashid, pk):
 	obj = get_object_or_404(PRT, pk=pk)
 	obj.is_ready = True
@@ -199,10 +188,9 @@ def opPRTLock(request, hashid, pk):
 	messages.success(request, f'Xavi.')
 	return redirect('op-prt-list', hashid=hashid)
 # EV
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opEVEdit(request, hashid, hashid2):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	ev = get_object_or_404(EV, hashed=hashid2)
 	if request.method == 'POST':
@@ -218,16 +206,15 @@ def opEVEdit(request, hashid, hashid2):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opEVRem(request, hashid, pk):
 	obj = get_object_or_404(EV, pk=pk)
 	obj.delete()
 	messages.success(request, f'Hapaga ona.')
 	return redirect('op-ev-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opEVLock(request, hashid, pk):
 	obj = get_object_or_404(EV, pk=pk)
 	obj.is_ready = True
@@ -235,10 +222,9 @@ def opEVLock(request, hashid, pk):
 	messages.success(request, f'Xavi.')
 	return redirect('op-ev-list', hashid=hashid)
 # TPO
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opTPOAdd(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	if request.method == 'POST':
 		newid, new_hashid = getnewid(TPO)
@@ -261,10 +247,9 @@ def opTPOAdd(request, hashid):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opTPOEdit(request, hashid, hashid2):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	tpo = get_object_or_404(TPO, hashed=hashid2)
 	if request.method == 'POST':
@@ -280,16 +265,14 @@ def opTPOEdit(request, hashid, hashid2):
 	}
 	return render(request, 'finance_op/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opTPORem(request, hashid, pk):
 	obj = get_object_or_404(TPO, pk=pk)
 	obj.delete()
 	messages.success(request, f'Hapaga ona.')
 	return redirect('op-tpo-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dna','dna_s','op'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opTPOLock(request, hashid, pk):
 	obj = get_object_or_404(TPO, pk=pk)
 	obj.is_ready = True

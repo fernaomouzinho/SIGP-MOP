@@ -8,7 +8,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### TYPE
-@login_required
 def rdivPTypeSum(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -29,7 +28,6 @@ def rdivPTypeSum(request, pk):
 	}
 	return render(request, 'reportdiv_t/r_ptype_sum.html', context)
 
-@login_required
 def rdivPTypeList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -49,7 +47,6 @@ def rdivPTypeList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/r_ptype_list.html', context)
 
-@login_required
 def rdivPTypeYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)

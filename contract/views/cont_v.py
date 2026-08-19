@@ -9,7 +9,7 @@ from conf.user_utils import c_user_div, c_user_sup
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op','sigp_gab','sigp_uivp'])
 def dnaContList(request):
     group = get_roles(request)
@@ -25,7 +25,7 @@ def dnaContList(request):
     }
     return render(request, 'contract/dna_cont_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op','sigp_gab','sigp_uivp'])
 def dnaContDet(request, hashid):
     group = get_roles(request)
@@ -44,7 +44,7 @@ def dnaContDet(request, hashid):
     }
     return render(request, 'contract/dna_cont_det.html', context)
 ### ALL
-@login_required
+
 def ContList(request):
     group = get_roles(request)
     div = c_user_div(request.user)
@@ -64,7 +64,7 @@ def ContList(request):
     }
     return render(request, 'contract/cont_list.html', context)
 
-@login_required
+
 def ContDet(request, hashid):
     group = get_roles(request)
     cont = get_object_or_404(Contract, hashed=hashid)
@@ -80,7 +80,7 @@ def ContDet(request, hashid):
     }
     return render(request, 'contract/cont_det.html', context)
 ###
-@login_required
+
 def ContPDF(request, pk):
     group = get_roles(request)
     objects = get_object_or_404(ContractFiles, pk=pk)
@@ -90,7 +90,7 @@ def ContPDF(request, pk):
         else: return FileResponse(open(file, 'rb'))
     except FileNotFoundError: raise Http404('not found')
 #
-@login_required
+
 def ContMonitorList(request):
     group = get_roles(request)
     div = c_user_div(request.user)
@@ -117,7 +117,7 @@ def ContMonitorList(request):
     }
     return render(request, 'contract/monitor_list.html', context)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sup'])
 def supContList(request):
     group = get_roles(request)

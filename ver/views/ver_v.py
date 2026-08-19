@@ -7,7 +7,6 @@ from eval.models import Eval
 from ver.models import Ver, VerSecEng,VerSecEngEmployee
 from conf.user_utils import c_user_sec, c_user_eng
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_uivp','sigp_gabm','sigp_min','sigp_dgaf'])
 def VerList(request):
     group = get_roles(request)
@@ -18,7 +17,6 @@ def VerList(request):
     }
     return render(request, 'ver/ver_list.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp'])
 def uvipVerList(request, hashid):
     group = get_roles(request)
@@ -31,7 +29,6 @@ def uvipVerList(request, hashid):
     }
     return render(request, 'ver/uvip_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp'])
 def uvipVerDet(request, hashid):
     group = get_roles(request)
@@ -48,7 +45,6 @@ def uvipVerDet(request, hashid):
     return render(request, 'ver/uvip_det.html', context)
 
 # sec
-@login_required
 def secVerList(request):
     group = get_roles(request)
     sec = c_user_sec(request.user)
@@ -60,7 +56,6 @@ def secVerList(request):
     }
     return render(request, 'ver/sec_list.html', context)
 
-@login_required
 def secVerYear(request, year):
     group = get_roles(request)
     sec = c_user_sec(request.user)
@@ -72,7 +67,6 @@ def secVerYear(request, year):
     }
     return render(request, 'ver/sec_list.html', context)
 
-@login_required
 def secVerDet(request, hashid):
     group = get_roles(request)
     sec = c_user_sec(request.user)
@@ -94,7 +88,6 @@ def secVerDet(request, hashid):
     }
     return render(request, 'ver/sec_det.html', context)
 # eng
-@login_required
 def engVerList(request):
     group = get_roles(request)
     eng = c_user_eng(request.user)
@@ -107,7 +100,6 @@ def engVerList(request):
     }
     return render(request, 'ver/eng_list.html', context)
 
-@login_required
 def engVerYear(request, year):
     group = get_roles(request)
     eng = c_user_eng(request.user)
@@ -119,7 +111,6 @@ def engVerYear(request, year):
     }
     return render(request, 'ver/eng_list.html', context)
 
-@login_required
 def engVerDet(request, hashid):
     group = get_roles(request)
     sec = c_user_sec(request.user)
@@ -135,7 +126,7 @@ def engVerDet(request, hashid):
     }
     return render(request, 'ver/eng_det.html', context)
 # all
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_gabm','sigp_dna','sigp_dnof','sigp_min','sigp_dgaf','sigp_uivp'])
 def allVerList(request, hashid):
     group = get_roles(request)
@@ -150,7 +141,7 @@ def allVerList(request, hashid):
     }
     return render(request, 'ver/all_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_gabm','sigp_dna','sigp_dnof','sigp_min','sigp_dgaf'])
 def allVerDet(request, hashid):
     group = get_roles(request)

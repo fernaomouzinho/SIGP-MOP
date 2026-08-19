@@ -2,17 +2,17 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from invoice.models import Invoice, InvTrack
 from finance.models import PRT, EV
 from finance.forms import PRTForm, PRTForm2, EVForm
 from conf.user_utils import c_user_dna
 from conf.utils import getnewid
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPRTAdd(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     inv = get_object_or_404(Invoice, hashed=hashid)
     cont = inv.cont
     proj = cont.project
@@ -37,10 +37,9 @@ def dnaPRTAdd(request, hashid):
     }
     return render(request, 'finance_prt/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPRTEdit(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     obj = get_object_or_404(PRT, hashed=hashid)
     inv = obj.inv
     cont = inv.cont
@@ -61,16 +60,14 @@ def dnaPRTEdit(request, hashid):
     }
     return render(request, 'finance_prt/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPRTRem(request, hashid, pk):
     prt = get_object_or_404(PRT, pk=pk)
     prt.delete()
     messages.success(request, f'Apaga ona.')
     return redirect('dna-prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPRTReady(request, hashid, pk):
     prt = get_object_or_404(PRT, pk=pk)
     prt.is_ready = True
@@ -78,10 +75,9 @@ def dnaPRTReady(request, hashid, pk):
     messages.success(request, f'PRT pronto ona.')
     return redirect('prt-list', hashid=hashid)
 ###
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnofEVEdit(request, hashid, pk):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     inv = get_object_or_404(Invoice, hashed=hashid)
     cont = inv.cont
     proj = cont.project
@@ -102,8 +98,7 @@ def dnofEVEdit(request, hashid, pk):
     }
     return render(request, 'finance_prt/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dnof-bo'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof','sigp_dnof_bo'])
 def dnofEVReady(request, hashid, pk):
     ev = get_object_or_404(EV, pk=pk)
     ev.is_ready = True
@@ -111,8 +106,7 @@ def dnofEVReady(request, hashid, pk):
     messages.success(request, f'EV pronto ona.')
     return redirect('prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dnof-bo'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof','sigp_dnof_bo'])
 def dnofEVSend(request, hashid, pk):
     ev = get_object_or_404(EV, pk=pk)
     ev.is_send= True
@@ -129,8 +123,7 @@ def dnofEVSend(request, hashid, pk):
     messages.success(request, f'EV manda ona.')
     return redirect('prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dnof-bo'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof','sigp_dnof_bo'])
 def dnofboEVReceive(request, hashid, pk):
     ev = get_object_or_404(EV, pk=pk)
     ev.is_receive = True
@@ -145,8 +138,7 @@ def dnofboEVReceive(request, hashid, pk):
     messages.success(request, f'EV Simu ona.')
     return redirect('prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dnof-bo'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof','sigp_dnof_bo'])
 def dnofboEVVerify(request, hashid, pk):
     ev = get_object_or_404(EV, pk=pk)
     invtrack = InvTrack.objects.get(inv=ev.inv)
@@ -159,8 +151,7 @@ def dnofboEVVerify(request, hashid, pk):
     messages.success(request, f'PEP Verifika ona.')
     return redirect('prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dnof-bo'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof','sigp_dnof_bo'])
 def dnofboEVCreate(request, hashid, pk):
     ev = get_object_or_404(EV, pk=pk)
     invtrack = InvTrack.objects.get(inv=ev.inv)
@@ -173,8 +164,7 @@ def dnofboEVCreate(request, hashid, pk):
     messages.success(request, f'PEP Kria ona.')
     return redirect('prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dnof-bo'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof','sigp_dnof_bo'])
 def dnofboEVAprove(request, hashid, pk):
     ev = get_object_or_404(EV, pk=pk)
     invtrack = InvTrack.objects.get(inv=ev.inv)
@@ -185,8 +175,7 @@ def dnofboEVAprove(request, hashid, pk):
     messages.success(request, f'PEP Kria ona.')
     return redirect('prt-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dnof-bo'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof','sigp_dnof_bo'])
 def dnofboEVTerminate(request, hashid, pk):
     ev = get_object_or_404(EV, pk=pk)
     ev.is_read= True

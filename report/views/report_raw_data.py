@@ -10,7 +10,7 @@ from contract.models import Amendment, ContractComp
 from proc.models import Proc
 from finance.models import CPV, PRT, TPO
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rRawData(request):
 	group = get_roles(request)
@@ -35,7 +35,7 @@ def rRawData(request):
 	}
 	return render(request, 'report_raw_data/raw_data.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rRawDataCPV(request, hashid):
 	group = get_roles(request)
@@ -47,7 +47,7 @@ def rRawDataCPV(request, hashid):
 	}
 	return render(request, 'report_raw_data/cpv_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rRawDataPRT(request, hashid):
 	group = get_roles(request)
@@ -62,7 +62,7 @@ def rRawDataPRT(request, hashid):
 	}
 	return render(request, 'report_raw_data/prt_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rRawDataRecom(request, hashid):
 	group = get_roles(request)
@@ -77,7 +77,7 @@ def rRawDataRecom(request, hashid):
 	}
 	return render(request, 'report_raw_data/recom_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rRawDataTPO(request, hashid):
 	group = get_roles(request)

@@ -13,7 +13,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### DGAF
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_dgaf_s','sigp_admin'])
 def dgafEvalDispList(request):
 	group = get_roles(request)
@@ -26,7 +25,7 @@ def dgafEvalDispList(request):
 	}
 	return render(request, 'eval_disp/dgaf_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_dgaf_s','sigp_admin'])
 def dgafEvalDispYear(request, year):
 	group = get_roles(request)
@@ -39,7 +38,7 @@ def dgafEvalDispYear(request, year):
 	}
 	return render(request, 'eval_disp/dgaf_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_dgaf_s','sigp_admin'])
 def dgafEvalDispDet(request, hashid):
 	group = get_roles(request)
@@ -53,7 +52,7 @@ def dgafEvalDispDet(request, hashid):
 	}
 	return render(request, 'eval_disp/dgaf_detail.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_dgaf_s','sigp_admin'])
 def dgafEvalDispADNLet(request, hashid, pk):
 	group = get_roles(request)
@@ -68,7 +67,7 @@ def dgafEvalDispADNLet(request, hashid, pk):
 	}
 	return render(request, 'eval_disp/dgaf_detail.html', context)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf_s','sigp_admin'])
 def EvalDispAdd(request, hashid):
 	group = get_roles(request)
@@ -98,7 +97,7 @@ def EvalDispAdd(request, hashid):
 	}
 	return render(request, 'eval_disp/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf_s','sigp_admin'])
 def EvalDispEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -122,7 +121,7 @@ def EvalDispEdit(request, hashid, pk):
 	}
 	return render(request, 'eval_disp/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf_s','sigp_admin'])
 def EvalDispRem(request, hashid, pk):
 	group = get_roles(request)
@@ -133,7 +132,7 @@ def EvalDispRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('dgaf-eval-disp-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf_s','sigp_admin'])
 def EvalDispSend(request, hashid, pk):
 	group = get_roles(request)
@@ -153,7 +152,7 @@ def EvalDispSend(request, hashid, pk):
 	messages.success(request, f'Manda ona.')
 	return redirect('dgaf-eval-disp-det', hashid=hashid)
 ### DNA
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_div','sigp_div_s', 'sigp_admin'])
 def divEvalDispList(request):
 	group = get_roles(request)
@@ -169,7 +168,7 @@ def divEvalDispList(request):
 	}
 	return render(request, 'eval_disp/div_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_div','sigp_div_s', 'sigp_admin'])
 def divEvalDispYear(request, year):
 	group = get_roles(request)
@@ -183,7 +182,7 @@ def divEvalDispYear(request, year):
 	}
 	return render(request, 'eval_disp/div_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_div','sigp_div_s', 'sigp_admin'])
 def divEvalDispDet(request, hashid):
 	group = get_roles(request)
@@ -196,7 +195,7 @@ def divEvalDispDet(request, hashid):
 	}
 	return render(request, 'eval_disp/div_detail.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_div','sigp_div_s', 'sigp_admin'])
 def EvalDispRead(request, hashid):
 	group = get_roles(request)

@@ -6,8 +6,6 @@ from track.models import POJustify
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-@login_required
 def trackPOList(request):
 	group = get_roles(request)
 	objs = PO.objects.filter(cont__project__is_end=False).all().order_by('id')
@@ -21,7 +19,6 @@ def trackPOList(request):
 	}
 	return render(request, 'track/po_list.html', context)
 
-@login_required
 def trackPODet(request, hashid):
 	group = get_roles(request)
 	po = get_object_or_404(PO, hashed=hashid)

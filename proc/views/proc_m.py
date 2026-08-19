@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcAdd(request):
     group = get_roles(request)
@@ -54,7 +54,6 @@ def dnaProcAdd(request):
     }
     return render(request, 'proc_dna/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcEdit(request, hashid):
     group = get_roles(request)
@@ -75,7 +74,6 @@ def dnaProcEdit(request, hashid):
     }
     return render(request, 'proc_dna/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcRem(request, hashid):
     obj = get_object_or_404(Proc, hashed=hashid)
@@ -83,7 +81,6 @@ def dnaProcRem(request, hashid):
     messages.success(request, f'Hapaga ona.')
     return redirect('dna-proc-list')
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcLock(request, hashid):
     obj = get_object_or_404(Proc, hashed=hashid)
@@ -92,7 +89,6 @@ def dnaProcLock(request, hashid):
     messages.success(request, f'Xavi ona.')
     return redirect('dna-proc-det', hashid=hashid)
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcCompAdd(request, hashid):
     group = request.user.groups.all()[0].name
@@ -118,7 +114,6 @@ def dnaProcCompAdd(request, hashid):
     }
     return render(request, 'proc_dna/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcCompEdit(request, hashid):
     group = get_roles(request)
@@ -138,7 +133,6 @@ def dnaProcCompEdit(request, hashid):
     }
     return render(request, 'proc_dna/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcCompRem(request, hashid):
     obj = get_object_or_404(ProcComp, hashed=hashid)
@@ -147,7 +141,6 @@ def dnaProcCompRem(request, hashid):
     messages.success(request, f'Hapaga succesu.')
     return redirect('dna-proc-det', hashid=proc.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcCompWin(request, hashid):
     obj = get_object_or_404(ProcComp, hashed=hashid)
@@ -161,7 +154,6 @@ def dnaProcCompWin(request, hashid):
     messages.success(request, f'Altera succesu.')
     return redirect('dna-proc-det', hashid=proc.hashed)
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcTrackEdit(request, hashid, pk):
     group = get_roles(request)
@@ -193,7 +185,6 @@ def dnaProcTrackEdit(request, hashid, pk):
     }
     return render(request, 'track/form.html', context)
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcReqStart(request, pk):
     proc = get_object_or_404(Proc, pk=pk)
@@ -209,7 +200,6 @@ def dnaProcReqStart(request, pk):
     messages.success(request, f'Pedidu Tender Hahu.')
     return redirect('dna-proc-req-det', hashid=proc.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabProcReqAppr(request, pk):
     proc = get_object_or_404(Proc, pk=pk)
@@ -218,7 +208,6 @@ def gabProcReqAppr(request, pk):
     messages.success(request, f'Pedidu Tender Aprovadu.')
     return redirect('gab-proc-req-det', hashid=proc.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcReqEnd(request, pk):
     proc = get_object_or_404(Proc, pk=pk)
@@ -233,7 +222,6 @@ def dnaProcReqEnd(request, pk):
     messages.success(request, f'Pedidu Tender Termina.')
     return redirect('dna-proc-req-det', hashid=proc.hashed)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcResStart(request, pk):
     proc = get_object_or_404(Proc, pk=pk)
@@ -248,7 +236,6 @@ def dnaProcResStart(request, pk):
     messages.success(request, f'Procesu Tender Hahu.')
     return redirect('dna-proc-det', hashid=proc.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabProcResAppr(request, pk):
     proc = get_object_or_404(Proc, pk=pk)
@@ -257,7 +244,6 @@ def gabProcResAppr(request, pk):
     messages.success(request, f'Resultadu Tender Aprovadu.')
     return redirect('gab-proc-res-det', hashid=proc.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcResEnd(request, pk):
     proc = get_object_or_404(Proc, pk=pk)
@@ -272,7 +258,6 @@ def dnaProcResEnd(request, pk):
     messages.success(request, f'Procesu Tender Termina.')
     return redirect('dna-proc-res-det', hashid=proc.hashed)
 ### Let
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_gabm','sigp_admin'])
 def ProcLetAdd(request, hashid, page):
     group = get_roles(request)
@@ -321,7 +306,6 @@ def ProcLetAdd(request, hashid, page):
     }
     return render(request, 'proc/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_gabm','sigp_admin'])
 def ProcLetEdit(request, hashid, page):
     group = get_roles(request)
@@ -346,7 +330,6 @@ def ProcLetEdit(request, hashid, page):
     }
     return render(request, 'proc/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_gabm','sigp_admin'])
 def ProcLetRem(request, pk, page):
     group = get_roles(request)

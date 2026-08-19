@@ -7,7 +7,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
 def trackVerList(request):
 	group = get_roles(request)
 	objs = Ver.objects.filter().all().order_by('-start_date')
@@ -30,7 +29,7 @@ def trackVerList(request):
 	}
 	return render(request, 'track/ver_list.html', context)
 
-@login_required
+
 def trackVerDet(request, hashid):
 	group = get_roles(request)
 	ver = get_object_or_404(Ver, hashed=hashid)

@@ -7,8 +7,6 @@ from conf.user_utils import c_user_dna
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_uivp'])
 def dnaPayInvList(request):
     group = get_roles(request)
@@ -20,7 +18,6 @@ def dnaPayInvList(request):
     }
     return render(request, 'payment/dna_inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_uivp'])
 def dnaPayInvDet(request, hashid):
     group = get_roles(request)
@@ -34,7 +31,7 @@ def dnaPayInvDet(request, hashid):
     }
     return render(request, 'payment/dna_inv_det.html', context)
 ### CUSTOM
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op', 'sigp_uivp'])
 def customPayContList(request):
     group = get_roles(request)
@@ -46,7 +43,7 @@ def customPayContList(request):
     }
     return render(request, 'payment/custom_cont_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def customPayList(request, hashid):
     group = get_roles(request)
@@ -70,7 +67,6 @@ def customPayList(request, hashid):
     return render(request, 'payment/custom_pay_list.html', context)
 ### FISCAL
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op', 'sigp_uivp'])
 def fiscalPayContList(request):
     group = get_roles(request)
@@ -82,7 +78,6 @@ def fiscalPayContList(request):
     }
     return render(request, 'payment/fiscal_cont_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def fiscalYearList(request, hashid):
     group = get_roles(request)
@@ -102,7 +97,7 @@ def fiscalYearList(request, hashid):
     }
     return render(request, 'payment/fiscal_year_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op'])
 def fiscalPayList(request, hashid, year):
     group = get_roles(request)
@@ -119,7 +114,7 @@ def fiscalPayList(request, hashid, year):
     }
     return render(request, 'payment/fiscal_pay_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def fiscalPayAll(request, hashid):
     group = get_roles(request)
@@ -132,7 +127,7 @@ def fiscalPayAll(request, hashid):
     }
     return render(request, 'payment/fiscal_pay_all.html', context)
 ### ALL
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op'])
 def allPayContList(request):
     group = get_roles(request)
@@ -144,7 +139,7 @@ def allPayContList(request):
     }
     return render(request, 'payment/all_cont_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op'])
 def allPayList(request, hashid):
     group = get_roles(request)

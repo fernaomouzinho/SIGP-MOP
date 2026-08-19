@@ -10,7 +10,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### SECTOR
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisSecAll(request, pk, page):
 	group = get_roles(request)
@@ -23,7 +22,6 @@ def rPayFisSecAll(request, pk, page):
 	}
 	return render(request, 'report_pay_fis/pay_all_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisSecYear(request, year, pk, page):
 	group = get_roles(request)
@@ -36,7 +34,6 @@ def rPayFisSecYear(request, year, pk, page):
 	}
 	return render(request, 'report_pay_fis/pay_all_list.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisSecSum(request):
 	group = get_roles(request)
@@ -56,7 +53,6 @@ def rPayFisSecSum(request):
 	}
 	return render(request, 'report_pay_fis/pay_sec_sum.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisSecSumYear(request, year):
 	group = get_roles(request)
@@ -75,7 +71,6 @@ def rPayFisSecSumYear(request, year):
 	}
 	return render(request, 'report_pay_fis/pay_sec_year.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisSecSumMonth(request, year, month):
 	group = get_roles(request)
@@ -96,7 +91,6 @@ def rPayFisSecSumMonth(request, year, month):
 	}
 	return render(request, 'report_pay_g/pay_sec_month.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisSecSumYearDet(request, year, pk):
 	group = get_roles(request)
@@ -109,7 +103,6 @@ def rPayFisSecSumYearDet(request, year, pk):
 	}
 	return render(request, 'report_pay_g/pay_sec_det.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisSecSumMonthDet(request, year, month, pk):
 	group = get_roles(request)
@@ -127,7 +120,6 @@ def rPayFisSecSumMonthDet(request, year, month, pk):
 from report.utils_pay_cap import f_cap_all, f_cap_year, f_cap_sum, f_cap_sum_tot, f_cap_sum_y, f_cap_sum_tot_y,\
 	f_cap_sum_m, f_cap_sum_tot_m, f_cap_sum_y_det, f_cap_sum_m_det
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisCapAll(request, pk, page):
 	group = get_roles(request)
@@ -140,7 +132,7 @@ def rPayFisCapAll(request, pk, page):
 	}
 	return render(request, 'report_pay_fis/pay_all_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisCapYear(request, year, pk, page):
 	group = get_roles(request)
@@ -153,7 +145,7 @@ def rPayFisCapYear(request, year, pk, page):
 	}
 	return render(request, 'report_pay_fis/pay_all_list.html', context)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisCapSum(request):
 	group = get_roles(request)
@@ -173,7 +165,6 @@ def rPayFisCapSum(request):
 	}
 	return render(request, 'report_pay_fis/pay_cap_sum.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisCapSumYear(request, year):
 	group = get_roles(request)
@@ -192,7 +183,6 @@ def rPayFisCapSumYear(request, year):
 	}
 	return render(request, 'report_pay_fis/pay_cap_year.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisCapSumMonth(request, year, month):
 	group = get_roles(request)
@@ -213,7 +203,6 @@ def rPayFisCapSumMonth(request, year, month):
 	}
 	return render(request, 'report_pay_g/pay_cap_month.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisCapSumYearDet(request, year, pk):
 	group = get_roles(request)
@@ -226,7 +215,6 @@ def rPayFisCapSumYearDet(request, year, pk):
 	}
 	return render(request, 'report_pay_g/pay_cap_det.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayFisCapSumMonthDet(request, year, month, pk):
 	group = get_roles(request)

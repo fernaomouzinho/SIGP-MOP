@@ -11,7 +11,7 @@ from conf.utils import getnewid
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendPerAdd(request, hashid):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -36,7 +36,7 @@ def AmendPerAdd(request, hashid):
 	}
 	return render(request, 'amendment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendPerEdit(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -56,7 +56,7 @@ def AmendPerEdit(request, hashid, pk):
 	}
 	return render(request, 'amendment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendPerRem(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -69,7 +69,7 @@ def AmendPerRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('amend-per-det', hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendPerConf(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -88,7 +88,7 @@ def AmendPerConf(request, hashid, pk):
 	messages.success(request, f'Konfirma ona.')
 	return redirect('amend-per-det', hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendAmAdd(request, hashid):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -126,7 +126,7 @@ def AmendAmAdd(request, hashid):
 	}
 	return render(request, 'amendment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendAmEdit(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -146,7 +146,7 @@ def AmendAmEdit(request, hashid, pk):
 	}
 	return render(request, 'amendment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendAmRem(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -159,7 +159,7 @@ def AmendAmRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('amend-am-det', hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def AmendAmConf(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -178,7 +178,7 @@ def AmendAmConf(request, hashid, pk):
 	messages.success(request, f'Konfirma ona.')
 	return redirect('amend-am-det', hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def DeducAdd(request, hashid):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -202,7 +202,7 @@ def DeducAdd(request, hashid):
 	}
 	return render(request, 'amendment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def DeducEdit(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -222,7 +222,7 @@ def DeducEdit(request, hashid, pk):
 	}
 	return render(request, 'amendment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def DeducRem(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -235,7 +235,7 @@ def DeducRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('deduc-det', hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_op'])
 def DeducConf(request, hashid, pk):
 	cont = get_object_or_404(Contract, hashed=hashid)

@@ -2,7 +2,8 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from finance.models import CPVReq, CPVReqTrack
 from finance.forms import CPVReqForm, CPVReqForm2
 from conf.user_utils import c_user_div, c_user_dna, c_user_dnof
@@ -10,11 +11,10 @@ from conf.utils import getnewid, write_roman
 from django.core.exceptions import ObjectDoesNotExist
 
 #dnof
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofCPVReqAdd(request):
-    group = request.user.groups.all()[0].name
-    if group == "dnof": div = c_user_dnof(request.user)
+    group = get_roles(request)
+    if 'sigp_dnof' in group: div = c_user_dnof(request.user)
     
     if request.method == 'POST':
         newid, new_hashid = getnewid(CPVReq)
@@ -52,10 +52,9 @@ def dnofCPVReqAdd(request):
     }
     return render(request, 'finance_cpv/form_req.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofCPVReqEdit(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     obj = get_object_or_404(CPVReq, hashed=hashid)
     if request.method == 'POST':
         form = CPVReqForm(request.POST, request.FILES, instance=obj)
@@ -73,16 +72,14 @@ def dnofCPVReqEdit(request, hashid):
     }
     return render(request, 'finance_cpv/form_req.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofCPVReqRem(request, pk):
     obj = get_object_or_404(CPVReq, pk=pk)
     obj.delete()
     messages.success(request, f'Hapaga susesu.')
     return redirect('dnof-cpvreq-list')
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofCPVReqSend(request, pk):
     obj = get_object_or_404(CPVReq, pk=pk)
     obj.is_send = True
@@ -99,10 +96,10 @@ def dnofCPVReqSend(request, pk):
     messages.success(request, f'DNOF ba DGAF.')
     return redirect('dnof-cpvreq-det', hashid=obj.hashed)
 # dgaf
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafCPVReqBack(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     obj = get_object_or_404(CPVReq, hashed=hashid)
     track = CPVReqTrack.objects.filter(cpvreq=obj).first()
     if request.method == 'POST':
@@ -131,8 +128,7 @@ def dgafCPVReqBack(request, hashid):
     }
     return render(request, 'finance_cpv/form_req.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafCPVReqIn(request, pk):
     obj = get_object_or_404(CPVReq, pk=pk)
     obj.is_read = True
@@ -147,8 +143,7 @@ def dgafCPVReqIn(request, pk):
     messages.success(request, f'DGAF Simu.')
     return redirect('dgaf-cpvreq-det', hashid=obj.hashed)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafCPVReqAppr(request, pk):
     obj = get_object_or_404(CPVReq, pk=pk)
     obj.is_appr = True
@@ -163,8 +158,7 @@ def dgafCPVReqAppr(request, pk):
     messages.success(request, f'DGAF Aprova.')
     return redirect('dgaf-cpvreq-det', hashid=track.cpvreq.hashed)
 # dnof
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofCPVReqEnd(request, pk):
     obj = get_object_or_404(CPVReq, pk=pk)
     obj.is_end = True

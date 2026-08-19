@@ -2,7 +2,6 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
 from django.db import IntegrityError
 from custom.models import DG,Division
 from project.models import Project
@@ -13,7 +12,6 @@ from conf.utils import getnewid, split_string, write_roman
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalAdd(request):
     group = get_roles(request)
@@ -65,7 +63,6 @@ def divEvalAdd(request):
     }
     return render(request, 'eval_div/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalEdit(request, hashid):
     group = get_roles(request)
@@ -105,7 +102,6 @@ def divEvalEdit(request, hashid):
     }
     return render(request, 'eval_div/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalRem(request, hashid):
     objects = get_object_or_404(Eval, hashed=hashid)
@@ -113,7 +109,6 @@ def divEvalRem(request, hashid):
     messages.success(request, f'Hapaga ona.')
     return redirect('div-eval-list')
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalFileAdd(request, hashid):
     group = get_roles(request)
@@ -135,7 +130,6 @@ def divEvalFileAdd(request, hashid):
     }
     return render(request, 'eval_div/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalFileEdit(request, hashid, pk):
     group = get_roles(request)
@@ -154,7 +148,6 @@ def divEvalFileEdit(request, hashid, pk):
     }
     return render(request, 'eval_div/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalFileRem(request, hashid, pk):
     obj = get_object_or_404(EvalFile, pk=pk)
@@ -162,7 +155,6 @@ def divEvalFileRem(request, hashid, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('div-eval-det', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalADN(request, pk, page):
     obj = get_object_or_404(Eval, pk=pk)
@@ -180,7 +172,6 @@ def uvipEvalADN(request, pk, page):
     return redirect('uvip-eval-det', hashid=obj.hashed)
 
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalAppr(request, pk):
     eval = get_object_or_404(Eval, pk=pk)
@@ -203,7 +194,7 @@ def gabEvalAppr(request, pk):
     messages.success(request, f'ToR Aprovadu')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalLetAppr(request, pk):
     eval = get_object_or_404(Eval, pk=pk)
@@ -218,7 +209,6 @@ def gabEvalLetAppr(request, pk):
     messages.success(request, f'Karta Aprovadu')
     return redirect('gab-eval-det', hashid=eval.hashed)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalEnd(request, pk):
     group = get_roles(request)
@@ -240,7 +230,6 @@ def gabEvalEnd(request, pk):
     else: return redirect('uvip-eval-det', hashid=eval.hashed)
     
     
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalReturnAdd(request, hashid):
     group = get_roles(request)
@@ -265,7 +254,6 @@ def gabEvalReturnAdd(request, hashid):
     }
     return render(request, 'eval_div/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFIReturnAdd(request, hashid):
     group = get_roles(request)
@@ -297,7 +285,6 @@ def gabEvalFIReturnAdd(request, hashid):
     }
     return render(request, 'eval_div/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFIResultAdd(request, hashid):
     group = get_roles(request)

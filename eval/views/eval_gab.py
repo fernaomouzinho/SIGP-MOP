@@ -2,7 +2,6 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
 from django.db import IntegrityError
 from project.models import ProjectEst
 from eval.models import Eval, EvalFile, EvalLet, EvalTrack
@@ -77,7 +76,7 @@ from sigp.utils import get_roles
 #     return render(request, 'eval_gab/form.html', context)
 
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalLetAdd(request, hashid):
     group = get_roles(request)
@@ -121,7 +120,7 @@ def gabEvalLetAdd(request, hashid):
     return render(request, 'eval_gab/form.html', context)
 
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalLetEdit(request, hashid):
     group = get_roles(request)
@@ -188,7 +187,7 @@ def gabEvalLetEdit(request, hashid):
 # 	return redirect('gab-eval-det', hashid=hashid)
 
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalLetRem(request, pk):
     obj = get_object_or_404(EvalLet, pk=pk)

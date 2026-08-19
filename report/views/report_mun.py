@@ -8,9 +8,6 @@ from payment.models import Payment
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPMunSum(request):
 	group = get_roles(request)
@@ -29,7 +26,7 @@ def rPMunSum(request):
 	}
 	return render(request, 'report_t/r_mun_sum.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPMunList(request, pk):
 	group = get_roles(request)
@@ -49,7 +46,7 @@ def rPMunList(request, pk):
 	}
 	return render(request, 'report_t/r_mun_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPMunYearList(request, pk, year):
 	group = get_roles(request)

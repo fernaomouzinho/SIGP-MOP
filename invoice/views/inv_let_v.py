@@ -7,7 +7,7 @@ from invoice.models import Invoice, InvLet, InvTrack
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def letContList(request):
 	group = get_roles(request)
@@ -18,7 +18,7 @@ def letContList(request):
 	}
 	return render(request, 'inv_let/cont_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def letInvList(request, hashid):
 	group = get_roles(request)
@@ -30,7 +30,6 @@ def letInvList(request, hashid):
 	}
 	return render(request, 'inv_let/inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def letInvLetList(request, hashid):
 	group = get_roles(request)

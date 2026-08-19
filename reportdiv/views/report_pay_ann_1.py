@@ -9,7 +9,7 @@ from reportdiv.utils_pay import f_pay_ann_cat, f_pay_ann_sec, f_pay_ann_cap
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def rdivPayAnnDash(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -31,7 +31,7 @@ def rdivPayAnnDash(request, pk):
 	}
 	return render(request, 'reportdiv_pay_ann/pay_dash.html', context)
 
-@login_required
+
 def rdivPayAnnYear(request, pk, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -59,7 +59,7 @@ from conf.utils import f_monthname_tet
 from reportdiv.utils_pay_cat import f_cat_all, f_cat_year, f_cat_sum, f_cat_sum_tot, f_cat_sum_y, f_cat_sum_tot_y,\
 	f_cat_sum_m, f_cat_sum_tot_m, f_cat_sum_y_det, f_cat_sum_m_det
 
-@login_required
+
 def rdivPayAnnCatAll(request, pk, pk2, page):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -72,7 +72,7 @@ def rdivPayAnnCatAll(request, pk, pk2, page):
 	}
 	return render(request, 'reportdiv_pay_ann/pay_all_list.html', context)
 
-@login_required
+
 def rdivPayAnnCatYear(request, pk, year, pk2, page):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -85,7 +85,7 @@ def rdivPayAnnCatYear(request, pk, year, pk2, page):
 	}
 	return render(request, 'reportdiv_pay_ann/pay_all_list.html', context)
 #
-@login_required
+
 def rdivPayAnnCatSum(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -105,7 +105,7 @@ def rdivPayAnnCatSum(request, pk):
 	}
 	return render(request, 'reportdiv_pay_ann/pay_cat_sum.html', context)
 
-@login_required
+
 def rdivPayAnnCatSumYear(request, pk, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -124,7 +124,7 @@ def rdivPayAnnCatSumYear(request, pk, year):
 	}
 	return render(request, 'reportdiv_pay_ann/pay_cat_year.html', context)
 
-@login_required
+
 def rdivPayAnnCatSumMonth(request, pk, year, month):
 	group = get_roles(request)
 	monthname = f_monthname_tet(int(month))
@@ -145,7 +145,7 @@ def rdivPayAnnCatSumMonth(request, pk, year, month):
 	}
 	return render(request, 'reportdiv_pay_g/pay_cat_month.html', context)
 #
-@login_required
+
 def rdivPayAnnCatSumYearDet(request, pk, year, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -158,7 +158,7 @@ def rdivPayAnnCatSumYearDet(request, pk, year, pk2):
 	}
 	return render(request, 'reportdiv_pay_g/pay_cat_det.html', context)
 
-@login_required
+
 def rdivPayAnnCatSumMonthDet(request, pk, year, month, pk2):
 	group = get_roles(request)
 	monthname = f_monthname_tet(int(month))

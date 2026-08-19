@@ -6,8 +6,6 @@ from insp.models import Insp, InspTracks
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-@login_required
 def trackInspList(request):
 	group = get_roles(request)
 	objs = Insp.objects.filter().all().order_by('-start_date')
@@ -30,7 +28,6 @@ def trackInspList(request):
 	}
 	return render(request, 'track/insp_list.html', context)
 
-@login_required
 def trackInspDet(request, hashid):
 	group = get_roles(request)
 	insp = get_object_or_404(Insp, hashed=hashid)

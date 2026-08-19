@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContAdd(request):
     group = get_roles(request)
@@ -61,7 +61,7 @@ def dnaContAdd(request):
     }
     return render(request, 'contract/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContEdit(request, hashid):
     group = get_roles(request)
@@ -107,7 +107,7 @@ def dnaContEdit(request, hashid):
     }
     return render(request, 'contract/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContStatusEdit(request, hashid):
     group = get_roles(request)
@@ -139,7 +139,6 @@ def dnaContStatusEdit(request, hashid):
     }
     return render(request, 'contract/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContRem(request, pk):
     objects = get_object_or_404(Contract, pk=pk)
@@ -147,7 +146,7 @@ def dnaContRem(request, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('dna-cont-list')
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_admin'])
 def dnaContLock(request, hashid):
     objects = get_object_or_404(Contract, hashed=hashid)
@@ -157,7 +156,7 @@ def dnaContLock(request, hashid):
     messages.success(request, f'Xavi ona.')
     return redirect('dna-cont-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContUnLock(request, hashid):
     objects = get_object_or_404(Contract, hashed=hashid)
@@ -167,7 +166,7 @@ def dnaContUnLock(request, hashid):
     messages.success(request, f'Loke fali ona.')
     return redirect('dna-cont-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContReady(request, hashid):
     obj = get_object_or_404(Contract, hashed=hashid)
@@ -179,7 +178,7 @@ def dnaContReady(request, hashid):
     messages.success(request, f'Kontratu pronto ona.')
     return redirect('dna-cont-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContComplete(request, hashid):
     obj = get_object_or_404(Contract, hashed=hashid)
@@ -191,7 +190,7 @@ def dnaContComplete(request, hashid):
     messages.success(request, f'Altera ona.')
     return redirect('dna-cont-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['admin','sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContYearEdit(request, pk):
     group = get_roles(request.user)
@@ -210,7 +209,7 @@ def dnaContYearEdit(request, pk):
     }
     return render(request, 'contract/form.html', context)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContCompAdd(request, hashid):
     group = get_roles(request.user)
@@ -236,7 +235,7 @@ def dnaContCompAdd(request, hashid):
     }
     return render(request, 'contract/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContCompEdit(request, hashid, pk):
     group = get_roles(request.user)
@@ -259,7 +258,7 @@ def dnaContCompEdit(request, hashid, pk):
     }
     return render(request, 'contract/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContCompRem(request, hashid, pk):
     group = get_roles(request)
@@ -270,7 +269,7 @@ def dnaContCompRem(request, hashid, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('dna-cont-det', hashid=hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_op','sigp_uivp','sigp_admin'])
 def dnaContFileAdd(request, hashid):
     group = get_roles(request)

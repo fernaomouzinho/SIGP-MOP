@@ -6,7 +6,7 @@ from conf.user_utils import c_user_comp
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_comp','sigp_admin'])
 def compContList(request):
 	group = get_roles(request.user)
@@ -22,7 +22,7 @@ def compContList(request):
 	}
 	return render(request, 'contract_c/list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_comp','sigp_admin'])
 def compContDet(request, hashid):
 	group = get_roles(request.user)

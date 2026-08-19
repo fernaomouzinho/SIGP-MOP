@@ -10,7 +10,7 @@ from custom.models import StatusPlan, StatusImp
 from django.db.models import Count
 from eval.models import EvalFITrack
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjDash(request):
     group = get_roles(request)
@@ -60,7 +60,7 @@ def rProjDash(request):
     }
     return render(request, 'report_t/dash.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjYearDash(request, year):
     group = get_roles(request)
@@ -106,7 +106,7 @@ def rProjYearDash(request, year):
     }
     return render(request, 'report_t/dash_year.html', context)
 ### PROJ
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjList(request):
     group = get_roles(request)
@@ -118,7 +118,7 @@ def rProjList(request):
     }
     return render(request, 'report_t/proj_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjYearList(request, year):
     group = get_roles(request)
@@ -130,7 +130,7 @@ def rProjYearList(request, year):
     }
     return render(request, 'report_t/proj_list.html', context)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjStatusPList(request, pk):
     group = get_roles(request)
@@ -143,7 +143,7 @@ def rProjStatusPList(request, pk):
     }
     return render(request, 'report_t/proj_statusp_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjStatusPYearList(request, pk, year):
     group = get_roles(request)
@@ -156,7 +156,7 @@ def rProjStatusPYearList(request, pk, year):
     }
     return render(request, 'report_t/proj_statusp_list.html', context)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjStatusList(request, pk):
     group = get_roles(request)
@@ -169,7 +169,7 @@ def rProjStatusList(request, pk):
     }
     return render(request, 'report_t/proj_status_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rProjStatusYearList(request, pk, year):
     group = get_roles(request)
@@ -182,7 +182,7 @@ def rProjStatusYearList(request, pk, year):
     }
     return render(request, 'report_t/proj_status_list.html', context)
 ### MOPCATEGORY
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPMopCatList(request, pk):
     group = get_roles(request)
@@ -195,7 +195,7 @@ def rPMopCatList(request, pk):
     }
     return render(request, 'report_t/r_pmopcat_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPMopCatYearList(request, pk, year):
     group = get_roles(request)
@@ -208,7 +208,7 @@ def rPMopCatYearList(request, pk, year):
     }
     return render(request, 'report_t/r_pmopcat_list.html', context)
 ### CATEGORY
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPCatList(request, pk):
     group = get_roles(request)
@@ -222,7 +222,7 @@ def rPCatList(request, pk):
     }
     return render(request, 'report_t/r_pcat_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPCatYearList(request, pk, year):
     group = get_roles(request)
@@ -235,7 +235,7 @@ def rPCatYearList(request, pk, year):
     }
     return render(request, 'report_t/r_pcat_list.html', context)
 ### CAPITAL
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPCapList(request, pk):
     group = get_roles(request)
@@ -248,7 +248,7 @@ def rPCapList(request, pk):
     }
     return render(request, 'report_t/r_pcap_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPCapYearList(request, pk, year):
     group = get_roles(request)
@@ -261,7 +261,7 @@ def rPCapYearList(request, pk, year):
     }
     return render(request, 'report_t/r_pcap_list.html', context)
 ### SECTOR
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPSecList(request, pk):
     group = get_roles(request)
@@ -274,7 +274,7 @@ def rPSecList(request, pk):
     }
     return render(request, 'report_t/r_psec_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPSecYearList(request, pk, year):
     group = get_roles(request)
@@ -287,7 +287,7 @@ def rPSecYearList(request, pk, year):
     }
     return render(request, 'report_t/r_psec_list.html', context)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rImpList(request):
     group = get_roles(request)
@@ -300,7 +300,7 @@ def rImpList(request):
     }
     return render(request, 'report_t/imp_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rImpYearList(request, year):
     group = get_roles(request)
@@ -313,7 +313,6 @@ def rImpYearList(request, year):
     }
     return render(request, 'report_t/imp_list.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rImpStatusList(request, pk):
     group = get_roles(request)
@@ -327,7 +326,7 @@ def rImpStatusList(request, pk):
     }
     return render(request, 'report_t/imp_status_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rImpStatusYearList(request, pk, year):
     group = get_roles(request)
@@ -341,7 +340,7 @@ def rImpStatusYearList(request, pk, year):
     }
     return render(request, 'report_t/imp_status_list.html', context)
 ###
-@login_required
+
 def rDivList(request):
     group = get_roles(request)
     divs = Division.objects.all()

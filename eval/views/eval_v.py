@@ -8,7 +8,7 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### DIV
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalList(request):
     group = get_roles(request)
@@ -20,7 +20,6 @@ def divEvalList(request):
     }
     return render(request, 'eval_div/list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof'])
 def divEvalDetail(request, hashid):
     group = get_roles(request)
@@ -37,7 +36,6 @@ def divEvalDetail(request, hashid):
     }
     return render(request, 'eval_div/detail.html', context)
 ### UIVP
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalList(request):
     group = get_roles(request)
@@ -48,7 +46,6 @@ def uvipEvalList(request):
     }
     return render(request, 'eval_uvip/list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalList2(request, hashid):
     group = get_roles(request)
@@ -69,7 +66,6 @@ def uvipEvalList2(request, hashid):
     }
     return render(request, 'eval_uvip/list_2.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalDetail(request, hashid):
     group = get_roles(request)
@@ -97,7 +93,6 @@ def uvipEvalDetail(request, hashid):
     }
     return render(request, 'eval_uvip/detail.html', context)
 ### Gab
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalList(request):
     group = get_roles(request)
@@ -108,7 +103,6 @@ def gabEvalList(request):
     }
     return render(request, 'eval_gab/list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalDetail(request, hashid):
     group = get_roles(request)
@@ -138,7 +132,6 @@ def gabEvalDetail(request, hashid):
     return render(request, 'eval_gab/detail.html', context)
 
 ### DNA
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def dnaEvalList(request):
     group = get_roles(request)
@@ -149,7 +142,6 @@ def dnaEvalList(request):
     }
     return render(request, 'eval_dna/list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def dnaEvalDetail(request, hashid):
     group = get_roles(request)

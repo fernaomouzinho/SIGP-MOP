@@ -7,7 +7,7 @@ from track.models import CPVJustify, CPVReqJustify
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def trackCPVReqList(request):
 	group = get_roles(request)
 	objs = CPVReq.objects.filter(proj__is_end=False).all().order_by('id')
@@ -21,7 +21,7 @@ def trackCPVReqList(request):
 	}
 	return render(request, 'track/cpvreq_list.html', context)
 
-@login_required
+
 def trackCPVReqDet(request, hashid):
 	group = get_roles(request)
 	cpvreq = get_object_or_404(CPVReq, hashed=hashid)
@@ -47,7 +47,7 @@ def trackCPVReqDet(request, hashid):
 	}
 	return render(request, 'track/cpvreq_det.html', context)
 #
-@login_required
+
 def trackCPVList(request):
 	group = get_roles(request)
 	objs = CPV.objects.filter(proj__is_end=False).all().order_by('id')
@@ -61,7 +61,7 @@ def trackCPVList(request):
 	}
 	return render(request, 'track/cpv_list.html', context)
 
-@login_required
+
 def trackCPVDet(request, hashid):
 	group = get_roles(request)
 	cpv = get_object_or_404(CPV, hashed=hashid)

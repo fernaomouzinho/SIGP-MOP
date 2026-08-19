@@ -5,7 +5,7 @@ from django.http import FileResponse, Http404
 from proc.models import ProcLet, ProcFiles
 
 
-@login_required
+
 def ProcLetPDF(request, pk):
 	obj = get_object_or_404(ProcLet, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -14,7 +14,7 @@ def ProcLetPDF(request, pk):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def ProcFilePDF(request, pk):
 	obj = get_object_or_404(ProcFiles, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file.url)

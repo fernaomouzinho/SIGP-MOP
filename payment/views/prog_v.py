@@ -7,7 +7,6 @@ from conf.user_utils import c_user_dna
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_uivp'])
 def ProgList(request):
     group = get_roles(request)
@@ -26,7 +25,6 @@ def ProgList(request):
     }
     return render(request, 'progress/list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_uivp'])
 def ProgYearList(request, year):
     group = get_roles(request)
@@ -44,7 +42,6 @@ def ProgYearList(request, year):
     return render(request, 'progress/list.html', context)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_uivp'])
 def PhysicalProgList(request, hashid):
     group = get_roles(request)

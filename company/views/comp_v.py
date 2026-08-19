@@ -8,8 +8,6 @@ from sigp.utils import get_roles
 from conf.user_utils import c_user_comp
 
 
-
-@login_required
 def CompanyList(request):
 	group = get_roles(request)
 	objects = Company.objects.all().prefetch_related('compuser').order_by("name")
@@ -19,7 +17,6 @@ def CompanyList(request):
 	}
 	return render(request, 'company/list.html', context)
 
-@login_required
 def CompanyDetail(request, hashid):
 	group = get_roles(request)
 	comp = get_object_or_404(Company, hashed=hashid)
@@ -29,7 +26,6 @@ def CompanyDetail(request, hashid):
 	}
 	return render(request, 'company/detail.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin'])
 def CompUserList(request):
 	group = get_roles(request)
@@ -40,7 +36,6 @@ def CompUserList(request):
 	}
 	return render(request, 'lec/user_list.html', context)
 #
-@login_required
 def uCompDet(request):
 	group = get_roles(request)
 	comp = c_user_comp(request.user)

@@ -2,7 +2,6 @@ import datetime
 import numpy as np
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from conf.decorators import allowed_users
 from django.contrib import messages
 from contract.models import ContPay, Contract, Amendment, ContractYear
 from payment.models import Payment, PaymentFiscal
@@ -12,7 +11,7 @@ from conf.utils import getnewid
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def customPayAdd(request, hashid):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -51,7 +50,7 @@ def customPayAdd(request, hashid):
 	}
 	return render(request, 'payment/custom_form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def customPayEdit(request, hashid, hashid2):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -74,7 +73,7 @@ def customPayEdit(request, hashid, hashid2):
 	}
 	return render(request, 'payment/custom_form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def customPayRem(request, hashid, pk):
 	objects = get_object_or_404(Payment, pk=pk)
@@ -82,7 +81,7 @@ def customPayRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona!')
 	return redirect('custom-pay-list', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def customPayReady(request, hashid, pk):
 	objects = get_object_or_404(Payment, pk=pk)
@@ -91,7 +90,7 @@ def customPayReady(request, hashid, pk):
 	messages.success(request, f'Pronto!')
 	return redirect('custom-pay-list', hashid=hashid)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def ContPayUpdate(request, hashid):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -106,7 +105,7 @@ def ContPayUpdate(request, hashid):
 	messages.success(request, f'Atualiza ona.')
 	return redirect('custom-pay-list', hashid=hashid)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def customPayRefresh(request, hashid):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -137,7 +136,7 @@ def customPayRefresh(request, hashid):
 	messages.success(request, f'Altera ona.')
 	return redirect('custom-pay-list', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def customPayDeducRefresh(request, hashid):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -167,7 +166,7 @@ def customPayDeducRefresh(request, hashid):
 	messages.success(request, f'Altera ona.')
 	return redirect('custom-pay-list', hashid=hashid)
 ### FISCAL
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def fiscalPayAdd(request, hashid, year):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -213,7 +212,7 @@ def fiscalPayAdd(request, hashid, year):
 	}
 	return render(request, 'payment/custom_form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def fiscalPayEdit(request, hashid, hashid2, year):
 	cont = get_object_or_404(Contract, hashed=hashid)
@@ -236,7 +235,7 @@ def fiscalPayEdit(request, hashid, hashid2, year):
 	}
 	return render(request, 'payment/custom_form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def fiscalPayRem(request, hashid, pk, year):
 	objects = get_object_or_404(Payment, pk=pk)
@@ -244,7 +243,7 @@ def fiscalPayRem(request, hashid, pk, year):
 	messages.success(request, f'Hapaga ona!')
 	return redirect('fiscal-pay-list', hashid=hashid, year=year)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def fiscalPayReady(request, hashid, pk, year):
 	objects = get_object_or_404(Payment, pk=pk)
@@ -253,7 +252,7 @@ def fiscalPayReady(request, hashid, pk, year):
 	messages.success(request, f'Pronto!')
 	return redirect('fiscal-pay-list', hashid=hashid, year=year)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def PayFiscalUpdate(request, pk, year):
 	contyear = get_object_or_404(ContractYear, pk=pk)
@@ -269,7 +268,7 @@ def PayFiscalUpdate(request, pk, year):
 	messages.success(request, f'Altera ona.')
 	return redirect('fiscal-pay-list', hashid=cont.hashed, year=year)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def PayFiscalEna(request, hashid, pk):
 	objects = get_object_or_404(PaymentFiscal, pk=pk)
@@ -282,7 +281,7 @@ def PayFiscalEna(request, hashid, pk):
 	messages.success(request, f'Ativa!')
 	return redirect('fiscal-year-list', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def PayFiscalEnd(request, hashid, year, pk):
 	objects = get_object_or_404(ContractYear, pk=pk)

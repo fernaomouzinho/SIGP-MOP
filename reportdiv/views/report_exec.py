@@ -8,7 +8,7 @@ from conf.utils import f_monthname_tet
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def rdivExecList(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -27,7 +27,7 @@ def rdivExecList(request, pk):
 	}
 	return render(request, 'reportdiv_pay/exec_list.html', context)
 
-@login_required
+
 def rdivExecYearList(request, pk, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -46,7 +46,7 @@ def rdivExecYearList(request, pk, year):
 	}
 	return render(request, 'reportdiv_pay/exec_year_list.html', context)
 #
-@login_required
+
 def rdivExecPayAllList(request, pk, month):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -68,7 +68,7 @@ def rdivExecPayAllList(request, pk, month):
 	}
 	return render(request, 'reportdiv_pay/exec_pay_list.html', context)
 
-@login_required
+
 def rdivExecPayYearList(request, pk, year, month):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)

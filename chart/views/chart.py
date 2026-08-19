@@ -7,7 +7,6 @@ from project.models import Project, ProjectLoc
 from contract.models import Contract, ContractComp
 from custom.models import StatusPlan, StatusImp
 
-@login_required
 def ChartDash(request):	
 	group = request.user.groups.all()[0].name
 	years = Project.objects.filter().distinct().values('year__year').all().order_by('-year__year')
@@ -17,7 +16,7 @@ def ChartDash(request):
 	}
 	return render(request, 'chart/dash.html', context)
 
-@login_required
+
 def ChartDashYear(request, year):	
 	group = request.user.groups.all()[0].name
 	years = Project.objects.filter().distinct().values('year__year').all().order_by('-year__year')
@@ -27,7 +26,7 @@ def ChartDashYear(request, year):
 	}
 	return render(request, 'chart/dash_year.html', context)
 ###
-@login_required
+
 def divChartDash(request, pk):	
 	group = request.user.groups.all()[0].name
 	div = get_object_or_404(Division, pk=pk)
@@ -38,7 +37,7 @@ def divChartDash(request, pk):
 	}
 	return render(request, 'chartdiv/dash.html', context)
 
-@login_required
+
 def divChartDashYear(request, pk, year):	
 	group = request.user.groups.all()[0].name
 	div = get_object_or_404(Division, pk=pk)

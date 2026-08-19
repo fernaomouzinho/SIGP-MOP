@@ -12,7 +12,7 @@ from ver.forms import VerForm, VerForm2, VerForm3, VerSecForm, VerSecForm2, VerE
 from conf.user_utils import c_user_sec, c_user_eng
 from conf.utils import getnewid, write_roman
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerAdd(request, hashid):
     group = get_roles(request)
@@ -61,7 +61,7 @@ def uvipVerAdd(request, hashid):
     }
     return render(request, 'ver/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerEdit(request, hashid):
     group = get_roles(request)
@@ -83,7 +83,7 @@ def uvipVerEdit(request, hashid):
     }
     return render(request, 'ver/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerEdit2(request, hashid):
     group = get_roles(request)
@@ -102,7 +102,7 @@ def uvipVerEdit2(request, hashid):
     }
     return render(request, 'verletter/form2.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerRem(request, pk):
     obj = get_object_or_404(Ver, pk=pk)
@@ -111,7 +111,7 @@ def uvipVerRem(request, pk):
     messages.success(request, f'Hamos ona.')
     return redirect('uvip-eval-list2', hashid=eval.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipVerSend(request, hashid):
     ver = get_object_or_404(Ver, hashed=hashid)
@@ -128,7 +128,7 @@ def uvipVerSend(request, hashid):
     messages.success(request, f'UIVP ba {ver.sec.code}.')
     return redirect('uvip-ver-det', hashid=hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerBack1(request, hashid):
     group = get_roles(request)
@@ -158,7 +158,7 @@ def secVerBack1(request, hashid):
     }
     return render(request, 'verletter/form4.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerIn1(request, hashid):
     ver = get_object_or_404(Ver, hashed=hashid)
@@ -173,7 +173,7 @@ def secVerIn1(request, hashid):
     messages.success(request, f'Husi UIVP mai {ver.sec.code}.')
     return redirect('sec-ver-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerAdd(request, hashid):
     group = get_roles(request)
@@ -204,7 +204,6 @@ def secVerAdd(request, hashid):
     }
     return render(request, 'ver/form2.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerEdit(request, hashid):
     group = get_roles(request)
@@ -232,7 +231,7 @@ def secVerEdit(request, hashid):
     }
     return render(request, 'ver/form2.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerRem(request, pk):
     obj = get_object_or_404(VerSecEng, pk=pk)
@@ -241,7 +240,7 @@ def secVerRem(request, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('sec-ver-let-det', hashid=ver.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secVerSend(request, pk):
     sec = c_user_sec(request.user)
@@ -266,7 +265,7 @@ def secVerSend(request, pk):
     return redirect('sec-ver-det', hashid=ver.hashed)
 
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engVerIn(request, hashid):
     versec = get_object_or_404(VerSecEng, hashed=hashid)
@@ -285,7 +284,7 @@ def engVerIn(request, hashid):
     messages.success(request, f'Husi {versec.sec.code} mai Enjineiru {employee_names[0]}.')
     return redirect('eng-ver-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engVerEdit(request, hashid):
     group = get_roles(request)
@@ -307,7 +306,7 @@ def engVerEdit(request, hashid):
     }
     return render(request, 'ver/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engVerSend(request, hashid):
     eng = c_user_eng(request.user)

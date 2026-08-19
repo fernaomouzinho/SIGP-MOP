@@ -7,8 +7,6 @@ from conf.user_utils import c_user_comp
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-@login_required
 def trackInvList(request):
     group = get_roles(request)
     invs = Invoice.objects.filter().all().order_by('-date')
@@ -26,7 +24,7 @@ def trackInvList(request):
     }
     return render(request, 'track/inv_list.html', context)
 
-@login_required
+
 def trackInvDet(request, hashid):
     group = get_roles(request)
     inv = get_object_or_404(Invoice, hashed=hashid)
@@ -98,7 +96,6 @@ def trackInvDet(request, hashid):
     return render(request, 'track/inv_det.html', context)
 ###
 
-@login_required
 def compTrackInvList(request):
     group = get_roles(request)
     comp = c_user_comp(request.user)
@@ -116,7 +113,7 @@ def compTrackInvList(request):
     }
     return render(request, 'track/inv_c_list.html', context)
 
-@login_required
+
 def compTrackInvDet(request, hashid):
     group = get_roles(request)
     inv = get_object_or_404(Invoice, hashed=hashid)

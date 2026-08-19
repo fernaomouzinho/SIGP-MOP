@@ -2,14 +2,12 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
 from eval.models import Eval, EvalLet, EvalTrack, EvalFITrack
 from eval.forms import EvalLetForm2
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### div
-@login_required
 @allowed_users(allowed_roles=['sigp_sdiv','sigp_dna','sigp_dnof'])
 def divEvalSend(request, hashid):
     eval = get_object_or_404(Eval, hashed=hashid)
@@ -35,7 +33,6 @@ def divEvalSend(request, hashid):
     messages.success(request, f'DIV ba UIVP.')
     return redirect('div-eval-det', hashid=hashid)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalIn(request, pk):
     eval = get_object_or_404(Eval, pk=pk)
@@ -60,7 +57,6 @@ def uvipEvalIn(request, pk):
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalVerStart(request, hashid):
     eval = get_object_or_404(Eval, hashed=hashid)
@@ -84,7 +80,6 @@ def uvipEvalVerStart(request, hashid):
     return redirect('uvip-eval-list2', hashid=hashid)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalVerEnd(request, hashid):
     eval = get_object_or_404(Eval, hashed=hashid)
@@ -108,7 +103,6 @@ def uvipEvalVerEnd(request, hashid):
     return redirect('uvip-eval-det', hashid=hashid)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalNext1(request, pk):
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -129,7 +123,6 @@ def uvipEvalNext1(request, pk):
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalADNIn(request, pk):
     eval = get_object_or_404(Eval, pk=pk)
@@ -144,7 +137,6 @@ def uvipEvalADNIn(request, pk):
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalNext2(request, pk):
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -163,7 +155,6 @@ def uvipEvalNext2(request, pk):
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
 ### gab
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm'])
 def gabEvalBack(request, hashid):
     group = get_roles(request)
@@ -205,7 +196,6 @@ def gabEvalBack(request, hashid):
     }
     return render(request, 'eval_gab/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm'])
 def gabEvalIn(request, pk):
     obj = get_object_or_404(EvalLet, pk=pk)

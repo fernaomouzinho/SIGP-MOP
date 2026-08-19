@@ -8,8 +8,6 @@ from conf.utils import f_monthname_tet
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rExecList(request):
 	group = get_roles(request)
@@ -27,7 +25,6 @@ def rExecList(request):
 	}
 	return render(request, 'report_pay/exec_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rExecYearList(request, year):
 	group = get_roles(request)
@@ -45,7 +42,7 @@ def rExecYearList(request, year):
 	}
 	return render(request, 'report_pay/exec_year_list.html', context)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_uivp'])
 def rExecPayAllList(request, month):
 	group = get_roles(request)
@@ -66,7 +63,7 @@ def rExecPayAllList(request, month):
 	}
 	return render(request, 'report_pay/exec_pay_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gab','sigp_uivp'])
 def rExecPayYearList(request, year, month):
 	group = get_roles(request)

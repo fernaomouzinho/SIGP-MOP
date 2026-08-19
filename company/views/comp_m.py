@@ -10,7 +10,7 @@ from company.models import Company, CompUser
 from company.forms import CompanyForm
 from conf.utils import getnewid, split_string
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def CompanyAdd(request):
     if request.method == 'POST':
@@ -31,7 +31,7 @@ def CompanyAdd(request):
     }
     return render(request, 'company/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_op','sigp_uivp'])
 def CompanyEdit(request, hashid):
     objects = get_object_or_404(Company, hashed=hashid)
@@ -48,7 +48,7 @@ def CompanyEdit(request, hashid):
     }
     return render(request, 'company/form.html', context)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin'])
 def CompUserCreate(request, pk):
     group = Group.objects.get(name='comp')
@@ -65,7 +65,7 @@ def CompUserCreate(request, pk):
     messages.success(request, f'Kria ona.')
     return redirect('comp-list')
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin'])
 def CompPassReset(request, pk):
     obj = get_object_or_404(CompUser, comp_id=pk)
@@ -76,7 +76,7 @@ def CompPassReset(request, pk):
     messages.success(request, f'Konta reset ona.')
     return redirect('comp-list')
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin'])
 def CompPassEna(request, pk):
     obj = get_object_or_404(CompUser, comp_id=pk)
@@ -86,7 +86,7 @@ def CompPassEna(request, pk):
     messages.success(request, f'Ativa ona.')
     return redirect('comp-list')
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin'])
 def CompPassDis(request, pk):
     obj = get_object_or_404(CompUser, comp_id=pk)

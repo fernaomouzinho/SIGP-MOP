@@ -3,7 +3,6 @@ import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
 from django.db import IntegrityError
 from custom.models import DG,Division
 from eval.models import Eval, EvalLet, EvalTrack, EvalFITrack, EvalLetAdnBack
@@ -13,11 +12,11 @@ from conf.utils import getnewid,write_roman
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalLetAdd(request, hashid):
     group = get_roles(request)
-    if group == "uivp": div = c_user_uvip(request.user)
+    if 'sigp_uivp' in group: div = c_user_uvip(request.user)
     eval = get_object_or_404(Eval, hashed=hashid)
     
     if request.method == 'POST':
@@ -58,11 +57,10 @@ def uvipEvalLetAdd(request, hashid):
     }
     return render(request, 'eval_uvip/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalLetEdit(request, hashid):
     group = get_roles(request)
-    if group == "uivp": div = c_user_uvip(request.user)
+    if 'sigp_uivp' in group: div = c_user_uvip(request.user)
     obj = get_object_or_404(EvalLet, hashed=hashid)
     eval = obj.eval
     
@@ -92,7 +90,6 @@ def uvipEvalLetEdit(request, hashid):
     }
     return render(request, 'eval_uvip/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalLetADNBackDev(request, hashid):
     group = get_roles(request)
@@ -126,11 +123,10 @@ def uvipEvalLetADNBackDev(request, hashid):
     return render(request, 'eval_uvip/form.html', context)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalLetADNBackDevEdit(request, hashid):
     group = get_roles(request)
-    if group == "uivp": div = c_user_uvip(request.user)
+    if 'sigp_uivp' in group: div = c_user_uvip(request.user)
     obj = get_object_or_404(EvalLetAdnBack, hashed=hashid)
     eval = obj.evallet.eval
    
@@ -152,7 +148,6 @@ def uvipEvalLetADNBackDevEdit(request, hashid):
     return render(request, 'eval_uvip/form.html', context)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalLetADNBackRes(request, hashid):
     group = get_roles(request)
@@ -192,7 +187,6 @@ def uvipEvalLetADNBackRes(request, hashid):
     }
     return render(request, 'eval_uvip/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalLetADNBackResEdit(request, hashid):
     group = get_roles(request)
@@ -224,7 +218,6 @@ def uvipEvalLetADNBackResEdit(request, hashid):
     }
     return render(request, 'eval_uvip/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalLetRem(request, pk):
     obj = get_object_or_404(EvalLet, pk=pk)

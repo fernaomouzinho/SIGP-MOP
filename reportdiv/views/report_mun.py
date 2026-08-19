@@ -7,7 +7,7 @@ from payment.models import Payment
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def rdivPMunSum(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -27,7 +27,7 @@ def rdivPMunSum(request, pk):
 	}
 	return render(request, 'reportdiv_t/r_mun_sum.html', context)
 
-@login_required
+
 def rdivPMunList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -47,7 +47,7 @@ def rdivPMunList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_t/r_mun_list.html', context)
 
-@login_required
+
 def rdivPMunYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)

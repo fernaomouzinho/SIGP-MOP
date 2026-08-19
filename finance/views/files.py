@@ -2,22 +2,21 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from contract.models import Amendment
 from invoice.models import Invoice, InvTrack
 from finance.models import FinFiles
 from finance.forms import FinFilesForm
 from conf.utils import getnewid
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_admin'])
 def FinFileList(request, hashid):
-	group = request.user.groups.all()[0].name
-	inv = get_object_or_404(Invoice, hashed=hashid)
+	group = get_roles(request)
 	track = InvTrack.objects.filter(inv=inv).first()
-	if group == "dna":
+	if 'sig_dana' in group:
 		objects = FinFiles.objects.filter(inv=inv, is_dna=True).all()
-	elif group == "dnof":
+	elif 'sigp_dnof' in group:
 		objects = FinFiles.objects.filter(inv=inv, is_dnof=True).all()
 	context = {
 		'group': group, 'inv': inv, 'objects': objects, 'track': track,
@@ -25,10 +24,9 @@ def FinFileList(request, hashid):
 	}
 	return render(request, 'finance_files/list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_admin'])
 def FinFilesAdd(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	inv = get_object_or_404(Invoice, hashed=hashid)
 	cont = inv.cont
 	proj = cont.project
@@ -42,8 +40,8 @@ def FinFilesAdd(request, hashid):
 			instance.proj = proj
 			instance.cont = cont
 			instance.inv = inv
-			if group == "dna": instance.is_dna = True
-			elif group == "dnof": instance.is_dnof = True
+			if 'sigp_dna' in group: instance.is_dna = True
+			elif 'sigp_dnof' in group: instance.is_dnof = True
 			instance.datetime = datetime.datetime.now()
 			instance.user = request.user
 			instance.save()
@@ -56,10 +54,9 @@ def FinFilesAdd(request, hashid):
 	}
 	return render(request, 'finance_files/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_admin'])
 def FinFilesEdit(request, hashid, pk):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	inv = get_object_or_404(Invoice, hashed=hashid)
 	obj = get_object_or_404(FinFiles, pk=pk)
 	amend = Amendment.objects.filter(contract=inv.cont).first()
@@ -79,16 +76,14 @@ def FinFilesEdit(request, hashid, pk):
 	}
 	return render(request, 'finance_files/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_admin'])
 def FinFilesRem(request, hashid, pk):
 	obj = get_object_or_404(FinFiles, pk=pk)
 	obj.delete()
 	messages.success(request, f'Hapaga ona.')
 	return redirect('fin-file-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_admin'])
 def FinFilesLock(request, hashid, pk):
 	obj = get_object_or_404(FinFiles, pk=pk)
 	obj.is_lock = True
@@ -96,8 +91,7 @@ def FinFilesLock(request, hashid, pk):
 	messages.success(request, f'Xavi ona.')
 	return redirect('fin-file-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_admin'])
 def FinFilesUnlock(request, hashid, pk):
 	obj = get_object_or_404(FinFiles, pk=pk)
 	obj.is_lock = False
@@ -105,8 +99,7 @@ def FinFilesUnlock(request, hashid, pk):
 	messages.success(request, f'Loke fali ona.')
 	return redirect('fin-file-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof','dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_admin'])
 def FinFilesReady(request, hashid, pk):
 	obj = get_object_or_404(FinFiles, pk=pk)
 	obj.is_ready = True

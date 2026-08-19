@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import FileResponse, Http404
 from ver.models import Ver, VerSecEng
 
-@login_required
+
 def VerPDF(request, pk):
 	obj = get_object_or_404(Ver, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -13,7 +13,7 @@ def VerPDF(request, pk):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def VerSecPDF(request, pk):
 	obj = get_object_or_404(VerSecEng, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -22,7 +22,6 @@ def VerSecPDF(request, pk):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
 def VerSecPDF2(request, pk):
 	obj = get_object_or_404(VerSecEng, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file2.url)
@@ -31,7 +30,7 @@ def VerSecPDF2(request, pk):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def VerSecPDF3(request, pk):
 	obj = get_object_or_404(VerSecEng, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file3.url)

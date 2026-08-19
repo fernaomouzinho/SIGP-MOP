@@ -11,7 +11,7 @@ from custom.models import PCategory, Capital, Sector, PCat
 from conf.utils import f_monthname_tet
 from report.utils_pay import f_pay_cat, f_pay_sec, f_pay_cap, f_pay_mopcat
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayDash(request):
 	group = get_roles(request)
@@ -45,7 +45,7 @@ def rPayDash(request):
 	}
 	return render(request, 'report_pay/pay_dash.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayYear(request, year):
 	group = get_roles(request)
@@ -83,7 +83,7 @@ def rPayYear(request, year):
 	}
 	return render(request, 'report_pay/pay_dash_year.html', context)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayDateList(request, year, month, date, page):
 	group = get_roles(request)
@@ -111,7 +111,7 @@ def rPayDateList(request, year, month, date, page):
 	}
 	return render(request, 'report_pay/pay_all_detail.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayMonthList(request, year, month, page):
 	group = get_roles(request)
@@ -134,7 +134,7 @@ def rPayMonthList(request, year, month, page):
 	}
 	return render(request, 'report_pay/pay_all_detail.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPayYearList(request, year, page):
 	group = get_roles(request)

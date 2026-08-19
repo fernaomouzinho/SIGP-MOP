@@ -1,6 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
-from conf.decorators import allowed_users
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response

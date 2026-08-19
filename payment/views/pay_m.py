@@ -2,7 +2,6 @@ import datetime
 import numpy as np
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from conf.decorators import allowed_users
 from django.contrib import messages
 from project.models import Project
 from contract.models import Contract, Amendment, AmendmentAmount, ContractYear
@@ -14,7 +13,7 @@ from conf.utils import getnewid
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s'])
 def dnaPayAdd(request, hashid):
     inv = get_object_or_404(Invoice, hashed=hashid)
@@ -59,7 +58,7 @@ def dnaPayAdd(request, hashid):
     }
     return render(request, 'payment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s'])
 def dnaPayEdit(request, hashid, hashid2):
     inv = get_object_or_404(Invoice, hashed=hashid)
@@ -84,7 +83,7 @@ def dnaPayEdit(request, hashid, hashid2):
     }
     return render(request, 'payment/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s'])
 def dnaPayRem(request, hashid, pk):
     objects = get_object_or_404(Payment, pk=pk)
@@ -92,7 +91,7 @@ def dnaPayRem(request, hashid, pk):
     messages.success(request, f'Hapaga ona!')
     return redirect('dna-pay-inv-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s'])
 def dnaPayLock(request, hashid, pk):
     objects = get_object_or_404(Payment, pk=pk)
@@ -101,7 +100,7 @@ def dnaPayLock(request, hashid, pk):
     messages.success(request, f'Xavi.')
     return redirect('dna-pay-inv-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s'])
 def dnaPayUnLock(request, hashid, pk):
     objects = get_object_or_404(Payment, pk=pk)
@@ -110,7 +109,7 @@ def dnaPayUnLock(request, hashid, pk):
     messages.success(request, f'Loke.')
     return redirect('dna-pay-inv-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s'])
 def dnaPayReady(request, hashid, pk):
     inv = get_object_or_404(Invoice, hashed=hashid)
@@ -122,7 +121,7 @@ def dnaPayReady(request, hashid, pk):
     messages.success(request, f'Pronto.')
     return redirect('dna-pay-inv-det', hashid=hashid)
 #
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s'])
 def dnaPayRefresh(request, hashid):
     inv = get_object_or_404(Invoice, hashed=hashid)

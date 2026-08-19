@@ -8,7 +8,7 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### DNA
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_uivp','sigp_admin'])
 def dnaProcList(request):
     group = get_roles(request)
@@ -19,7 +19,7 @@ def dnaProcList(request):
     }
     return render(request, 'proc_dna/list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcDet(request, hashid):
     group = get_roles(request)
@@ -36,7 +36,7 @@ def dnaProcDet(request, hashid):
     }
     return render(request, 'proc_dna/detail.html', context)
 # req
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcReqList(request):
     group = get_roles(request)
@@ -47,7 +47,7 @@ def dnaProcReqList(request):
     }
     return render(request, 'proc_dna/req_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcReqDet(request, hashid):
     group = get_roles(request)
@@ -61,7 +61,7 @@ def dnaProcReqDet(request, hashid):
     }
     return render(request, 'proc_dna/req_det.html', context)
 # res
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcResList(request):
     group = get_roles(request)
@@ -72,7 +72,7 @@ def dnaProcResList(request):
     }
     return render(request, 'proc_dna/res_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaProcResDet(request, hashid):
     group = get_roles(request)
@@ -87,7 +87,7 @@ def dnaProcResDet(request, hashid):
     }
     return render(request, 'proc_dna/res_det.html', context)
 # div
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_admin'])
 def divProcList(request):
     group = get_roles(request)
@@ -99,7 +99,7 @@ def divProcList(request):
     }
     return render(request, 'proc_div/list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_admin'])
 def divProcDet(request, hashid):
     group = get_roles(request)

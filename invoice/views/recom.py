@@ -12,7 +12,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipRecomDet(request, hashid):
     group = get_roles(request)
@@ -25,7 +24,7 @@ def uvipRecomDet(request, hashid):
     }
     return render(request, 'inv_recom/detail.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipRecomAdd(request, hashid):
     inv = get_object_or_404(Invoice, hashed=hashid)
@@ -50,7 +49,7 @@ def uvipRecomAdd(request, hashid):
     }
     return render(request, 'inv_recom/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipRecomEdit(request, hashid):
     obj = get_object_or_404(PayRecom, hashed=hashid)
@@ -71,7 +70,6 @@ def uvipRecomEdit(request, hashid):
     }
     return render(request, 'inv_recom/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipRecomRem(request, pk):
     obj = get_object_or_404(PayRecom, pk=pk)
@@ -80,7 +78,7 @@ def uvipRecomRem(request, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('uvip-inv-det', hashid=inv.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipRecomLock(request, pk):
     obj = get_object_or_404(PayRecom, pk=pk)
@@ -90,7 +88,6 @@ def uvipRecomLock(request, pk):
     messages.success(request, f'Apaga ona.')
     return redirect('uvip-recom-det', hashid=obj.hashed)
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opRecomContList(request):
     group = request.user.groups.all()[0].name
@@ -101,7 +98,6 @@ def opRecomContList(request):
     }
     return render(request, 'inv_recom/op_cont_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opRecomList(request, hashid):
     group = get_roles(request)
@@ -114,7 +110,6 @@ def opRecomList(request, hashid):
     }
     return render(request, 'inv_recom/op_recom_list.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opRecomAdd(request, hashid):
     cont = get_object_or_404(Contract, hashed=hashid)
@@ -138,7 +133,6 @@ def opRecomAdd(request, hashid):
     }
     return render(request, 'inv_recom/op_form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opRecomEdit(request, hashid, pk):
     objects = get_object_or_404(PayRecom, pk=pk)
@@ -159,7 +153,6 @@ def opRecomEdit(request, hashid, pk):
     }
     return render(request, 'inv_recom/op_form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opRecomRem(request, hashid, pk):
     objects = get_object_or_404(PayRecom, pk=pk)
@@ -167,7 +160,6 @@ def opRecomRem(request, hashid, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('op-recom-list', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_op','sigp_admin'])
 def opRecomLock(request, hashid, pk):
     objects = get_object_or_404(PayRecom, pk=pk)

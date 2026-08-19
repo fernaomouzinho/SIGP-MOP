@@ -12,7 +12,7 @@ from reportdiv.utils_pay import f_pay_cat, f_pay_sec, f_pay_cap
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def rdivHome(request):
 	group = get_roles(request)
 	div = []
@@ -30,7 +30,7 @@ def rdivHome(request):
 	}
 	return render(request, 'reportdiv_t/dash_div.html', context)
 
-@login_required
+
 def rdivAnnHome(request):
 	group = get_roles(request)
 	div = []
@@ -43,7 +43,7 @@ def rdivAnnHome(request):
 	}
 	return render(request, 'reportdiv_t/dash_div.html', context)
 ###
-@login_required
+
 def rdivPayDash(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -74,7 +74,7 @@ def rdivPayDash(request, pk):
 	}
 	return render(request, 'reportdiv_pay/pay_dash.html', context)
 
-@login_required
+
 def rdivPayYear(request, pk, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -108,7 +108,7 @@ def rdivPayYear(request, pk, year):
 	}
 	return render(request, 'reportdiv_pay/pay_dash_year.html', context)
 ###
-@login_required
+
 def rdivPayDateList(request, pk, year, month, date, page):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -136,7 +136,7 @@ def rdivPayDateList(request, pk, year, month, date, page):
 	}
 	return render(request, 'reportdiv_pay/pay_all_detail.html', context)
 
-@login_required
+
 def rdivPayMonthList(request, pk, year, month, page):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -159,7 +159,7 @@ def rdivPayMonthList(request, pk, year, month, page):
 	}
 	return render(request, 'reportdiv_pay/pay_all_detail.html', context)
 
-@login_required
+
 def rdivPayYearList(request, pk, year, page):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)

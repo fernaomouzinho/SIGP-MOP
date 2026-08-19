@@ -9,7 +9,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### DGAF
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcList(request):
 	group = get_roles(request)
@@ -20,7 +19,6 @@ def dgafProcList(request):
 	}
 	return render(request, 'proc_dgaf/list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcDet(request, hashid):
 	group = get_roles(request)
@@ -37,7 +35,6 @@ def dgafProcDet(request, hashid):
 	}
 	return render(request, 'proc_dgaf/detail.html', context)
 # req
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcReqList(request):
 	group = get_roles(request)
@@ -48,7 +45,6 @@ def dgafProcReqList(request):
 	}
 	return render(request, 'proc_dgaf/req_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcReqDet(request, hashid):
 	group = get_roles(request)
@@ -64,7 +60,7 @@ def dgafProcReqDet(request, hashid):
 	}
 	return render(request, 'proc_dgaf/req_det.html', context)
 # res
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcResList(request):
 	group = get_roles(request)
@@ -75,7 +71,7 @@ def dgafProcResList(request):
 	}
 	return render(request, 'proc_dgaf/res_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafProcResDet(request, hashid):
 	group = get_roles(request)
@@ -92,7 +88,7 @@ def dgafProcResDet(request, hashid):
 	}
 	return render(request, 'proc_dgaf/res_det.html', context)
 ### GAB
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_min','sigp_admin'])
 def gabProcList(request):
 	group = get_roles(request)
@@ -103,7 +99,7 @@ def gabProcList(request):
 	}
 	return render(request, 'proc_gab/list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_min','sigp_admin'])
 def gabProcDet(request, hashid):
 	group = get_roles(request)
@@ -120,7 +116,7 @@ def gabProcDet(request, hashid):
 	}
 	return render(request, 'proc_gab/detail.html', context)
 # req
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_min','sigp_admin'])
 def gabProcReqList(request):
 	group = get_roles(request)
@@ -131,7 +127,6 @@ def gabProcReqList(request):
 	}
 	return render(request, 'proc_gab/req_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_min','sigp_admin'])
 def gabProcReqDet(request, hashid):
 	group = get_roles(request)
@@ -147,7 +142,7 @@ def gabProcReqDet(request, hashid):
 	}
 	return render(request, 'proc_gab/req_det.html', context)
 # res
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_min','sigp_admin'])
 def gabProcResList(request):
 	group = get_roles(request)
@@ -158,7 +153,7 @@ def gabProcResList(request):
 	}
 	return render(request, 'proc_gab/res_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_gabm','sigp_min','sigp_admin'])
 def gabProcResDet(request, hashid):
 	group = get_roles(request)

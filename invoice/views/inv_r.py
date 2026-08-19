@@ -9,7 +9,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 # all
-@login_required
 def allInvList(request):
 	group = get_roles(request)
 	objects = Invoice.objects.filter(is_end=False).all().order_by('-date')
@@ -19,7 +18,6 @@ def allInvList(request):
 	}
 	return render(request, 'invoice_r/all_list.html', context)
 
-@login_required
 def allInvDet(request, hashid):
 	group = get_roles(request)
 	inv = get_object_or_404(Invoice, hashed=hashid)
@@ -42,7 +40,6 @@ def allInvDet(request, hashid):
 	}
 	return render(request, 'invoice_r/all_det.html', context)
 # hist
-@login_required
 def histInvList(request):
 	group = get_roles(request)
 	objects = Invoice.objects.filter(is_end=True).all()
@@ -53,7 +50,6 @@ def histInvList(request):
 	}
 	return render(request, 'invoice_r/hist_list.html', context)
 
-@login_required
 def histInvYear(request, year):
 	group = get_roles(request)
 	objects = Invoice.objects.filter(is_end=True, date__year=year).all()
@@ -64,7 +60,6 @@ def histInvYear(request, year):
 	}
 	return render(request, 'invoice_r/inv_hist_list.html', context)
 
-@login_required
 def histInvDet(request, hashid):
 	group = get_roles(request)
 	inv = get_object_or_404(Invoice, hashed=hashid)

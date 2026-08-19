@@ -6,7 +6,7 @@ from contract.models import Contract, Amendment, AmendmentPeriod, AmendmentAmoun
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def AmendPerList(request):
     objects = Contract.objects.filter()\
             .prefetch_related('amendment','amendmentperiod').all().order_by("-start_date__year")
@@ -16,7 +16,7 @@ def AmendPerList(request):
     }
     return render(request, 'amendment/period_list.html', context)
 
-@login_required
+
 def AmendPerDet(request, hashid):
     cont = get_object_or_404(Contract, hashed=hashid)
     amend = Amendment.objects.filter(contract=cont).first()
@@ -29,7 +29,7 @@ def AmendPerDet(request, hashid):
     }
     return render(request, 'amendment/period_det.html', context)
 
-@login_required
+
 def AmendAmList(request):
     objects = Contract.objects.filter()\
             .prefetch_related('amendment','amendmentamount').all().order_by("-start_date__year")
@@ -39,7 +39,7 @@ def AmendAmList(request):
     }
     return render(request, 'amendment/amount_list.html', context)
 
-@login_required
+
 def AmendAmDet(request, hashid):
     cont = get_object_or_404(Contract, hashed=hashid)
     amend = Amendment.objects.filter(contract=cont).first()
@@ -60,7 +60,7 @@ def AmendAmDet(request, hashid):
     }
     return render(request, 'amendment/amount_det.html', context)
 
-@login_required
+
 def DeducList(request):
     objects = Contract.objects.filter()\
             .prefetch_related('amendment','deduction').all().order_by("-start_date__year")
@@ -70,7 +70,7 @@ def DeducList(request):
     }
     return render(request, 'amendment/deduc_list.html', context)
 
-@login_required
+
 def DeducDet(request, hashid):
     cont = get_object_or_404(Contract, hashed=hashid)
     amend = Amendment.objects.filter(contract=cont).first()

@@ -19,8 +19,6 @@ from conf.utils import getnewid
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dgaf'])
 def CPVReqJustAdd(request, hashid):
 	group = get_roles(request)
@@ -46,7 +44,7 @@ def CPVReqJustAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dgaf'])
 def CPVReqJustEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -68,7 +66,7 @@ def CPVReqJustEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dgaf'])
 def CPVReqJustRem(request, hashid, pk):
 	obj = get_object_or_404(CPVReqJustify, pk=pk)
@@ -76,7 +74,7 @@ def CPVReqJustRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('track-cpvreq-det', hashid=hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dgaf'])
 def CPVJustAdd(request, hashid):
 	group = get_roles(request)
@@ -108,7 +106,6 @@ def CPVJustAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dgaf'])
 def CPVJustEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -130,7 +127,7 @@ def CPVJustEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dgaf'])
 def CPVJustRem(request, hashid, pk):
 	group = get_roles(request)
@@ -139,7 +136,7 @@ def CPVJustRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('track-cpv-det', hashid=hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dgaf'])
 def POJustAdd(request, hashid):
 	group = get_roles(request)
@@ -165,7 +162,7 @@ def POJustAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dgaf'])
 def POJustEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -187,7 +184,7 @@ def POJustEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dgaf'])
 def POJustRem(request, hashid, pk):
 	obj = get_object_or_404(POJustify, pk=pk)
@@ -195,7 +192,7 @@ def POJustRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('track-po-det', hashid=hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_gabm'])
 def EvalJustAdd(request, hashid):
 	group = get_roles(request)
@@ -221,7 +218,7 @@ def EvalJustAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_gabm'])
 def EvalJustEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -243,7 +240,7 @@ def EvalJustEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_gabm'])
 def EvalJustRem(request, hashid, pk):
 	obj = get_object_or_404(EvalJustify, pk=pk)
@@ -251,7 +248,7 @@ def EvalJustRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('track-eval-det', hashid=hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dgaf','sigp_gabm'])
 def ProcJustAdd(request, hashid):
 	group = get_roles(request)
@@ -280,7 +277,7 @@ def ProcJustAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dgaf','sigp_gabm'])
 def ProcJustEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -302,7 +299,7 @@ def ProcJustEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dgaf','sigp_gabm'])
 def ProcJustRem(request, hashid, pk):
 	obj = get_object_or_404(ProcJustify, pk=pk)
@@ -310,7 +307,7 @@ def ProcJustRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('track-proc-det', hashid=hashid)
 ###
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dnof','sigp_dgaf','sigp_vice_s','sigp_min_s'])
 def InvJustifyAdd(request, hashid):
 	group = get_roles(request)
@@ -358,7 +355,7 @@ def InvJustifyAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna_s','sigp_dnof_s','sigp_dgaf_s','sigp_vice_s','sigp_min_s'])
 def InvJustifyEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -380,7 +377,7 @@ def InvJustifyEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dgaf'])
 def InvJustifyRem(request, hashid, pk):
 	group = get_roles(request)
@@ -469,7 +466,7 @@ def InvJustifyRem(request, hashid, pk):
 # 	return redirect('track-ver-det', hashid=hashid)
 ###
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_sec','sigp_eng'])
 def VerJustifyAdd(request, hashid):
 	group = get_roles(request)
@@ -505,7 +502,7 @@ def VerJustifyAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_sec','sigp_eng'])
 def VerJustifyEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -527,7 +524,7 @@ def VerJustifyEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_sec','sigp_eng'])
 def VerJustifyRem(request, hashid, pk):
 	obj = get_object_or_404(VerJustify2, pk=pk)
@@ -535,7 +532,7 @@ def VerJustifyRem(request, hashid, pk):
 	messages.success(request, f'Hamos ona.')
 	return redirect('track-ver-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_sec','sigp_eng'])
 def InspJustifyAdd(request, hashid):
 	group = get_roles(request)
@@ -571,7 +568,7 @@ def InspJustifyAdd(request, hashid):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_sec','sigp_eng'])
 def InspJustifyEdit(request, hashid, pk):
 	group = get_roles(request)
@@ -593,7 +590,7 @@ def InspJustifyEdit(request, hashid, pk):
 	}
 	return render(request, 'track/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_sec','sigp_eng'])
 def InspJustifyRem(request, hashid, pk):
 	obj = get_object_or_404(InspJustify2, pk=pk)

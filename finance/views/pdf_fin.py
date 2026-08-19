@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import FileResponse, Http404
 from finance.models import CPV, CPVReq, CPVLetter, PO, PRT, EV, FinFiles, POLetter
 
-@login_required
+
 def CPVReqPDF(request, hashid):
 	obj = get_object_or_404(CPVReq, hashed=hashid)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -13,7 +13,7 @@ def CPVReqPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def CPVPDF(request, hashid):
 	obj = get_object_or_404(CPV, hashed=hashid)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -22,7 +22,7 @@ def CPVPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def CPVLetPDF(request, hashid):
 	obj = get_object_or_404(CPVLetter, hashed=hashid)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -31,7 +31,7 @@ def CPVLetPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def POPDF(request, hashid):
 	obj = get_object_or_404(PO, hashed=hashid)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -40,7 +40,7 @@ def POPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def POLetPDF(request, hashid):
 	obj = get_object_or_404(POLetter, hashed=hashid)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -49,7 +49,7 @@ def POLetPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def PRTPDF(request, hashid):
 	obj = get_object_or_404(PRT, hashed=hashid)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -58,7 +58,7 @@ def PRTPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def EVPDF(request, hashid):
 	obj = get_object_or_404(EV, hashed=hashid)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -67,7 +67,7 @@ def EVPDF(request, hashid):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def FinFilePDF(request, pk):
 	obj = get_object_or_404(FinFiles, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file.url)

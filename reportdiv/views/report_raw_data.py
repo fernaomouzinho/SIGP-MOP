@@ -11,7 +11,7 @@ from finance.models import CPV, PRT, TPO
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 def rdivRawData(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -37,7 +37,7 @@ def rdivRawData(request, pk):
 	}
 	return render(request, 'reportdiv_raw_data/raw_data.html', context)
 
-@login_required
+
 def rdivRawDataCPV(request, pk, hashid):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -50,7 +50,7 @@ def rdivRawDataCPV(request, pk, hashid):
 	}
 	return render(request, 'reportdiv_raw_data/cpv_list.html', context)
 
-@login_required
+
 def rdivRawDataPRT(request, pk, hashid):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -66,7 +66,7 @@ def rdivRawDataPRT(request, pk, hashid):
 	}
 	return render(request, 'reportdiv_raw_data/prt_list.html', context)
 
-@login_required
+
 def rdivRawDataRecom(request, pk, hashid):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -82,7 +82,7 @@ def rdivRawDataRecom(request, pk, hashid):
 	}
 	return render(request, 'reportdiv_raw_data/recom_list.html', context)
 
-@login_required
+
 def rdivRawDataTPO(request, pk, hashid):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)

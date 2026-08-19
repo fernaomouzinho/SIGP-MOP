@@ -26,7 +26,7 @@ def divProjEstEdit(request, hashid, pk):
     }
     return render(request, 'project/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_op','sig_uivp','sigp_bd'])
 def opProjEstEdit(request, hashid, pk):
     objects = get_object_or_404(ProjectEst, pk=pk)
@@ -51,7 +51,7 @@ def opProjEstEdit(request, hashid, pk):
     }
     return render(request, 'project/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_div','sigp_dna','sigp_dnof','sigp_op'])
 def divProjEstRem(request, hashid, pk):
     objects = get_object_or_404(ProjectEst, pk=pk)
@@ -60,7 +60,7 @@ def divProjEstRem(request, hashid, pk):
     messages.success(request, f'Hamos ona.')
     return redirect('div-proj-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sig_uivp','sigp_div','sigp_dna','sigp_dnof','sigp_op','sigp_bd'])
 def divProjLocEdit(request, hashid, pk):
     group = get_roles(request)

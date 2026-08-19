@@ -78,7 +78,6 @@ from sigp.utils import get_roles
 #     return render(request, 'report_recap/dash.html', context)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gabm', 'sigp_dgaf', 'sigp_min', 'sigp_op'])
 def rRecapDash(request):
     group = get_roles(request)
@@ -127,7 +126,6 @@ def rRecapDash(request):
     }
     return render(request, 'report_recap/dash.html', context)
 
-@login_required   
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gab', 'sigp_dgaf', 'sigp_min', 'sigp_op'])   
 def rRecapVerProjList1(request, pcat, stage):
     objects = []
@@ -479,7 +477,7 @@ def rRecapVerProjList1(request, pcat, stage):
             context = {'title': 'LISTA KONTRATU','legend': 'LISTA KONTRATU','objects':objects,'pcat': pcat, 'stage': stage}
             return render(request, 'contract/cont_list.html', context)
           
-@login_required   
+  
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gabm', 'sigp_dgaf', 'sigp_min', 'sigp_op'])   
 def rRecapVerProjList2(request, pcat, stage):
     objects = []
@@ -614,7 +612,7 @@ def rRecapVerProjList2(request, pcat, stage):
             context = {'title': 'LISTA KONTRATU','legend': 'LISTA KONTRATU','objects':objects,'cap':pcat}
             return render(request, 'contract/cont_list.html', context)
 
-@login_required   
+
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gabm', 'sigp_dgaf', 'sigp_min', 'sigp_op'])   
 def rRecapVerProjList3(request, pcat, stage):
     objects = []
@@ -697,7 +695,7 @@ def rRecapVerProjList3(request, pcat, stage):
             context = {'title': 'LISTA KONTRATU','legend': 'LISTA KONTRATU','objects':objects,'cap':pcat}
             return render(request, 'contract/cont_list.html', context)
 
-@login_required   
+ 
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gab', 'sigp_dgaf', 'sigp_min', 'sigp_op'])   
 def rRecapInspProjList1(request, pcat, stage):
     objects = []
@@ -897,7 +895,7 @@ def rRecapInspProjList1(request, pcat, stage):
             context = {'title': 'Lista Sertifikasaun Pagamentu ADN','legend': 'Lista Sertifikasaun Pagamentu ADN','objects': objects, 'pcat': pcat, 'stage': stage, 'invtrack':invtrack}
             return render(request, 'report_recap/pay_recom_list.html', context)
  
-@login_required   
+
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gabm', 'sigp_dgaf', 'sigp_min', 'sigp_op'])   
 def rRecapInspProjList2(request, pcat, stage):
     objects = []
@@ -993,7 +991,7 @@ def rRecapInspProjList2(request, pcat, stage):
             context = {'title': 'Lista Sertifikasaun Pagamentu UIVP','legend': 'Lista Sertifikasaun Pagamentu UIVP','objects': objects, 'pcat': pcat, 'stage': stage}
             return render(request, 'report_recap/cert_pay_list.html', context)
         
-@login_required   
+  
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gabm', 'sigp_dgaf', 'sigp_min', 'sigp_op'])   
 def rRecapInspProjList3(request, pcat, stage):
     objects = []
@@ -1055,7 +1053,7 @@ def rRecapInspProjList3(request, pcat, stage):
             context = {'title': 'Lista Sertifikasaun Pagamentu UIVP','legend': 'Lista Sertifikasaun Pagamentu UIVP','objects': objects, 'pcat': pcat, 'stage': stage}
             return render(request, 'report_recap/cert_pay_list.html', context)
         
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gabm', 'sigp_dgaf', 'sigp_min', 'sigp_op'])
 def rRecapPayPortDet(request, pcat):
     # Get all programs (you can filter if needed)
@@ -1135,7 +1133,7 @@ def rRecapPayPortDet(request, pcat):
 
     return render(request, 'report_recap/proj_det.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_uivp', 'sigp_dnof', 'sigp_gabm', 'sigp_dgaf', 'sigp_min', 'sigp_op'])
 def rRecapPayProjOngDet(request, pcat, pro):
     prog = Program.objects.filter(code=pro).first()
@@ -1228,16 +1226,6 @@ def rRecapPayProjOngDet(request, pcat, pro):
 #     return render(request, 'report_comp/proj_sum.html', context)
 
                 
-            
-        
-        
-        
-        
-        
-        
-        
-        
-@login_required
 @allowed_users(allowed_roles=['admin','dna','uivp','dnof','gab','dgaf','min','op','uivp'])
 def rRecapCapAllDet(request):
     group = request.user.groups.all()[0].name
@@ -1360,7 +1348,6 @@ def rRecapCapAllDet(request):
     }
     return render(request, 'report_recap/cap_all_det.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['admin','dna','uivp','dnof','gab','dgaf','min','op','uivp'])
 def rRecapCapEachDet(request,pk):
     group = request.user.groups.all()[0].name
@@ -1488,7 +1475,6 @@ def rRecapCapEachDet(request,pk):
     }
     return render(request, 'report_recap/cap_each_det.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['admin','dna','uivp','dnof','gab','dgaf','min','op','uivp'])
 def rRecapYear(request, year):
     group = request.user.groups.all()[0].name

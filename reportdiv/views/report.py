@@ -6,7 +6,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
 def rdgDash(request):
 	group = get_roles(request)
 	dg = c_user_dg(request.user)
@@ -17,7 +16,7 @@ def rdgDash(request):
 	}
 	return render(request, 'reportdiv/dash_dg.html', context)
 ### PAY
-@login_required
+
 def rdgHome(request):
 	group = get_roles(request)
 	dg = c_user_dg(request.user)
@@ -28,7 +27,7 @@ def rdgHome(request):
 	}
 	return render(request, 'reportdiv/dash_dg.html', context)
 
-@login_required
+
 def rdgAnnHome(request):
 	group = get_roles(request)
 	dg = c_user_dg(request.user)

@@ -13,7 +13,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rCompProjSum(request):
     group = get_roles(request)
@@ -44,7 +43,6 @@ def rCompProjSum(request):
     }
     return render(request, 'report_comp/proj_sum.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rCompProjList(request, pk):
     group = get_roles(request)
@@ -65,7 +63,6 @@ def rCompProjList(request, pk):
     }
     return render(request, 'report_comp/proj_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rCompProjStatusList(request, pk, pk2):
     group = get_roles(request)
@@ -88,7 +85,7 @@ def rCompProjStatusList(request, pk, pk2):
     }
     return render(request, 'report_comp/proj_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rCompProjYearList(request, pk, year):
     group = get_roles(request)
@@ -110,7 +107,7 @@ def rCompProjYearList(request, pk, year):
     }
     return render(request, 'report_comp/proj_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rCompSearch(request):
     group = get_roles(request)
@@ -137,7 +134,6 @@ def rCompSearch(request):
     }
     return render(request, 'report_comp/search.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rContLimitList(request):
     group = get_roles(request)

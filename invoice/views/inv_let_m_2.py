@@ -13,8 +13,8 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### SUP
-@login_required
-@allowed_users(allowed_roles=['sigp_sup'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_sup'])
 def supInvLetAdd(request, hashid):
     group = get_roles(request)
     if 'sigp_div' in group: div = c_user_div(request.user)
@@ -71,11 +71,7 @@ def supInvLetAdd(request, hashid):
     return render(request, 'inv_let/form_let.html', context)
 
 
-
-
-
-@login_required
-@allowed_users(allowed_roles=['sigp_sup'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_sup'])
 def supInvLetEdit(request, hashid, pk):
     group = get_roles(request)
     inv = get_object_or_404(Invoice, hashed=hashid)
@@ -99,19 +95,15 @@ def supInvLetEdit(request, hashid, pk):
     return render(request, 'inv_let/form_let.html', context)
 
 
-
-
-
-@login_required
-@allowed_users(allowed_roles=['sigp_sup'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_sup'])
 def supInvLetRem(request, hashid, pk):
     obj = get_object_or_404(InvLet, pk=pk)
     obj.delete()
     messages.success(request, f'Hamos ona.')
     return redirect('sup-inv-det', hashid=hashid)
 ### LET
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp','sigp_gab','sigp_dgaf','sigp_dna','sigp_dnof'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp','sigp_gabm','sigp_dgaf','sigp_dna','sigp_dnof'])
 def InvLetAdd(request, hashid):
     group = get_roles(request)
     inv = get_object_or_404(Invoice, hashed=hashid)
@@ -161,8 +153,8 @@ def InvLetAdd(request, hashid):
     }
     return render(request, 'inv_let/form_let.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp','sigp_gab','sigp_dgaf','sigp_dna','sigp_dnof'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp','sigp_gabm','sigp_dgaf','sigp_dna','sigp_dnof'])
 def InvLetEdit(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)
@@ -188,8 +180,7 @@ def InvLetEdit(request, hashid):
     }
     return render(request, 'inv_let/form_let.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['sup','sigp_uivp','sigp_gab','sigp_dgaf','sigp_dna','sigp_dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_sup','sigp_uivp','sigp_gabm','sigp_dgaf','sigp_dna','sigp_dnof'])
 def InvLetRem(request, pk):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, pk=pk)
@@ -202,8 +193,8 @@ def InvLetRem(request, pk):
     elif 'sigp_dna' in group:  return redirect('dna-inv-det', hashid=inv.hashed)
     elif 'sigp_dnof' in group:  return redirect('dnof-inv-det', hashid=inv.hashed)
     
-@login_required
-@allowed_users(allowed_roles=['sigp_uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvLetADNBackDev(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)
@@ -242,8 +233,8 @@ def uvipInvLetADNBackDev(request, hashid):
     }
     return render(request, 'inv_let/form_let_adn.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['admin','sigp_uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvLetADNReturnDev(request, hashid):
     group = get_roles(request)
     obj = get_object_or_404(InvLet, hashed=hashid)

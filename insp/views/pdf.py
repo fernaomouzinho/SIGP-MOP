@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import FileResponse, Http404
 from insp.models import Insp, InspSecEng
 
-@login_required
+
 def InspPDF(request, pk):
 	obj = get_object_or_404(Insp, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -13,7 +13,7 @@ def InspPDF(request, pk):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def InspSecPDF(request, pk):
 	obj = get_object_or_404(InspSecEng, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file.url)
@@ -22,7 +22,7 @@ def InspSecPDF(request, pk):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def InspSecPDF2(request, pk):
 	obj = get_object_or_404(InspSecEng, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file2.url)
@@ -31,7 +31,7 @@ def InspSecPDF2(request, pk):
 		else: return FileResponse(open(file, 'rb'))
 	except FileNotFoundError: raise Http404('not found')
 
-@login_required
+
 def InspSecPDF3(request, pk):
 	obj = get_object_or_404(InspSecEng, pk=pk)
 	file = str(settings.BASE_DIR)+str(obj.file3.url)

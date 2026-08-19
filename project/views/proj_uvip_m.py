@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
+
 @allowed_users(allowed_roles=['sig_uivp','sigp_admin','sigp_op','sigp_bd'])
 def uvipProjAdd(request):
     group = get_roles(request)
@@ -64,7 +64,7 @@ def uvipProjAdd(request):
     }
     return render(request, 'project_uvip/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sig_uivp','sigp_admin','sigp_op','sigp_bd'])
 def uvipProjEdit(request, hashid):
     group = get_roles(request)
@@ -122,7 +122,7 @@ def uvipProjLock(request, hashid):
     messages.success(request, f'Xavi ona.')
     return redirect('uvip-proj-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sig_uivp','sigp_admin','sigp_op'])
 def uvipProjUnlock(request, hashid):
     objects = get_object_or_404(Project, hashed=hashid)
@@ -131,7 +131,7 @@ def uvipProjUnlock(request, hashid):
     messages.success(request, f'Loke ona.')
     return redirect('uvip-proj-det', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sig_uivp','sigp_admin','sigp_op'])
 def uvipProjReady(request, hashid):
     objects = get_object_or_404(Project, hashed=hashid)
@@ -140,7 +140,6 @@ def uvipProjReady(request, hashid):
     messages.success(request, f'Pronto ona.')
     return redirect('uvip-proj-det', hashid=hashid)
 ###
-@login_required
 @allowed_users(allowed_roles=['sig_uivp','sigp_admin','sigp_op'])
 def uvipProjEstEdit(request, hashid, pk):
     group = get_roles(request)

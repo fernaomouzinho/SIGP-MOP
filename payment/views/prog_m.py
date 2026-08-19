@@ -8,10 +8,6 @@ from django.contrib import messages
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-
-
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_uivp'])
 def PhysicalProgAdd(request, hashid):
     cont = get_object_or_404(Contract, hashed=hashid)
@@ -36,7 +32,6 @@ def PhysicalProgAdd(request, hashid):
     return render(request, 'progress/form.html', context)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin', 'sigp_dna', 'sigp_dna_s', 'sigp_uivp'])
 def PhysicalProgEdit(request, pk):
     instance = get_object_or_404(PhysicalProgress, pk=pk)

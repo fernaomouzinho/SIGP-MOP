@@ -8,7 +8,6 @@ from contract.models import Contract, Amendment
 from payment.models import Payment
 
 ### TYPE
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPTypeSum(request):
 	group = get_roles(request)
@@ -28,7 +27,7 @@ def rPTypeSum(request):
 	}
 	return render(request, 'report_t/r_ptype_sum.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPTypeList(request, pk):
 	group = get_roles(request)
@@ -48,7 +47,7 @@ def rPTypeList(request, pk):
 	}
 	return render(request, 'report_t/r_ptype_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_dna_s','sigp_dnof','sigp_dnof_s','sigp_dgaf','sigp_dgaf_s','sigp_dg','sigp_min','sigp_min_s','sigp_vice','sigp_vice_s','sigp_op','sigp_gabm','sigp_uivp'])
 def rPTypeYearList(request, pk, year):
 	group = get_roles(request)

@@ -1,17 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from project.models import Project, ProjectEst
 from contract.models import Contract, ContractComp
 from payment.models import Invoice
 from finance.models import PO, PRT, EV, TPO
 from conf.user_utils import c_user_dnof
 
-@login_required
-# @allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def TPOContList(request):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     dnof = c_user_dnof(request.user)
     objects = Contract.objects.filter().all().order_by("-id")
     context = {
@@ -20,10 +20,9 @@ def TPOContList(request):
     }
     return render(request, 'finance_tpo/tpo_cont_list.html', context)
 
-@login_required
-# @allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def TPOInvList(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     dnof = c_user_dnof(request.user)
     cont = get_object_or_404(Contract, hashed=hashid)
     proj = cont.project
@@ -35,10 +34,9 @@ def TPOInvList(request, hashid):
     }
     return render(request, 'finance_tpo/tpo_inv_list.html', context)
 
-@login_required
-# @allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dna'])
 def TPOList(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     dnof = c_user_dnof(request.user)
     inv = get_object_or_404(Invoice, hashed=hashid)
     cont = inv.cont

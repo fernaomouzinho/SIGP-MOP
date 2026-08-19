@@ -1,14 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from project.models import Project, ProjectEst
 from finance.models import CPVReq, CPVReqTrack
 
+
 #dnof
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofCPVReqList(request):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	objects = CPVReq.objects.filter().all().order_by('-date')
 	context = {
 		'group': group, 'objects': objects,
@@ -16,10 +17,9 @@ def dnofCPVReqList(request):
 	}
 	return render(request, 'finance_cpv/dnof_req_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofCPVReqDet(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	obj = get_object_or_404(CPVReq, hashed=hashid)
 	proj = obj.proj
 	projest = ProjectEst.objects.filter(project=proj).first()
@@ -32,10 +32,9 @@ def dnofCPVReqDet(request, hashid):
 	}
 	return render(request, 'finance_cpv/dnof_req_det.html', context)
 # dgaf
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafCPVReqList(request):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	objects = CPVReq.objects.filter().all().order_by('-date')
 	context = {
 		'group': group, 'objects': objects,
@@ -43,10 +42,9 @@ def dgafCPVReqList(request):
 	}
 	return render(request, 'finance_cpv/dgaf_req_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dgaf'])
 def dgafCPVReqDet(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	obj = get_object_or_404(CPVReq, hashed=hashid)
 	proj = obj.proj
 	projest = ProjectEst.objects.filter(project=proj).first()
@@ -57,10 +55,10 @@ def dgafCPVReqDet(request, hashid):
 	}
 	return render(request, 'finance_cpv/dgaf_req_det.html', context)
 # gab
-@login_required
-@allowed_users(allowed_roles=['gab','uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp','sigp_gabm'])
 def gabCPVReqList(request):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	objects = CPVReq.objects.filter().all().order_by('-date')
 	context = {
 		'group': group, 'objects': objects,
@@ -68,10 +66,10 @@ def gabCPVReqList(request):
 	}
 	return render(request, 'finance_cpv/gab_req_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['gab','uivp'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_uivp','sigp_gabm'])
 def gabCPVReqDet(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	obj = get_object_or_404(CPVReq, hashed=hashid)
 	proj = obj.proj
 	projest = ProjectEst.objects.filter(project=proj).first()

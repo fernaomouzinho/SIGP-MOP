@@ -9,7 +9,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_uivp','sigp_gab','sigp_min','sigp_dgaf'])
 def InspInvList(request):
     group = get_roles(request)
@@ -20,7 +19,6 @@ def InspInvList(request):
     }
     return render(request, 'insp/inv_list.html', context)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspList(request, hashid):
     group = get_roles(request)
@@ -35,7 +33,6 @@ def uvipInspList(request, hashid):
     }
     return render(request, 'insp/uvip_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspDet(request, hashid):
     group = get_roles(request)
@@ -55,7 +52,6 @@ def uvipInspDet(request, hashid):
     }
     return render(request, 'insp/uvip_det.html', context)
 # sec
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspList(request):
     group = get_roles(request)
@@ -71,7 +67,6 @@ def secInspList(request):
     }
     return render(request, 'insp/sec_list.html', context)
 
-@login_required
 def secInspYear(request, year):
     group = get_roles(request)
     sec = c_user_sec(request.user)
@@ -84,7 +79,6 @@ def secInspYear(request, year):
     }
     return render(request, 'insp/sec_list.html', context)
 
-@login_required
 def secInspDet(request, hashid):
     group = get_roles(request)
     sec = c_user_sec(request.user)
@@ -103,7 +97,6 @@ def secInspDet(request, hashid):
     }
     return render(request, 'insp/sec_det.html', context)
 # eng
-@login_required
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engInspList(request):
     group = get_roles(request)
@@ -119,7 +112,6 @@ def engInspList(request):
     }
     return render(request, 'insp/eng_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engInspYear(request, year):
     group = get_roles(request)
@@ -133,7 +125,6 @@ def engInspYear(request, year):
     }
     return render(request, 'insp/eng_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engInspDet(request, hashid):
     group = get_roles(request)
@@ -152,7 +143,7 @@ def engInspDet(request, hashid):
     }
     return render(request, 'insp/eng_det.html', context)
 # all
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_gabm','sigp_dna','sigp_dnof','sigp_min','sigp_dgaf','sigp_uivp'])
 def allInspList(request, hashid):
     group = get_roles(request)
@@ -167,7 +158,6 @@ def allInspList(request, hashid):
     }
     return render(request, 'insp/all_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin','sigp_gabm','sigp_dna','sigp_dnof','sigp_min','sigp_dgaf'])
 def allInspDet(request, hashid):
     group = get_roles(request)

@@ -2,7 +2,8 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from project.models import Project
 from payment.models import Invoice
 from finance.models import TPO
@@ -10,10 +11,10 @@ from finance.forms import TPOForm
 from conf.user_utils import c_user_dnof
 from conf.utils import getnewid
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofTPOAdd(request, hashid):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     dnof = c_user_dnof(request.user)
     inv = get_object_or_404(Invoice, hashed=hashid)
     print(inv)
@@ -40,10 +41,9 @@ def dnofTPOAdd(request, hashid):
     }
     return render(request, 'finance_tpo/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofTPOEdit(request, hashid, hashid2):
-    group = request.user.groups.all()[0].name
+    group = get_roles(request)
     inv = get_object_or_404(Invoice, hashed=hashid)
     objects = get_object_or_404(TPO, hashed=hashid2)
     if request.method == 'POST':
@@ -62,8 +62,7 @@ def dnofTPOEdit(request, hashid, hashid2):
     }
     return render(request, 'finance_tpo/form.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofTPORem(request, hashid, pk):
     inv = get_object_or_404(Invoice, hashed=hashid)
     tpo = get_object_or_404(TPO, pk=pk)
@@ -71,8 +70,7 @@ def dnofTPORem(request, hashid, pk):
     messages.success(request, f'Hapaga ona.')
     return redirect('tpo-list', hashid=hashid)
 
-@login_required
-@allowed_users(allowed_roles=['dnof'])
+@allowed_users(allowed_roles=['sigp_admin','sigp_dnof'])
 def dnofTPOReady(request, hashid, pk):
     inv = get_object_or_404(Invoice, hashed=hashid)
     tpo = get_object_or_404(TPO, pk=pk)

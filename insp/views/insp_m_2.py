@@ -12,7 +12,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### SEC
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspIn2(request, hashid):
     inspsec = get_object_or_404(InspSecEng, hashed=hashid)
@@ -30,7 +29,6 @@ def secInspIn2(request, hashid):
     messages.success(request, f'Husi {employee_names} mai {inspsec.sec.code}.')
     return redirect('sec-insp-det', hashid=insp.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspCommEdit(request, hashid):
     group = get_roles(request)
@@ -53,7 +51,6 @@ def secInspCommEdit(request, hashid):
     }
     return render(request, 'insp/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspEnd(request, pk):
     obj = get_object_or_404(InspSecEng, pk=pk)
@@ -62,7 +59,6 @@ def secInspEnd(request, pk):
     messages.success(request, f'Despaxu Seksaun Termina.')
     return redirect('sec-insp-det', hashid=obj.insp.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspBack(request, pk):
     obj = get_object_or_404(InspSecEng, pk=pk)
@@ -79,7 +75,6 @@ def secInspBack(request, pk):
     return redirect('sec-insp-det', hashid=insp.hashed)
 
 ### UIVP
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspIn(request, hashid):
     inspsec = get_object_or_404(InspSecEng, hashed=hashid)
@@ -95,7 +90,6 @@ def uvipInspIn(request, hashid):
     messages.success(request, f'Husi {inspsec.sec.code} mai UIVP.')
     return redirect('uvip-insp-det', hashid=insp.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspCommEdit(request, hashid):
     group = request.user.groups.all()[0].name
@@ -116,7 +110,6 @@ def uvipInspCommEdit(request, hashid):
     }
     return render(request, 'insp/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspEnd(request, hashid):
     insp = get_object_or_404(Insp, hashed=hashid)

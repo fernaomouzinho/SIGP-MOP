@@ -11,7 +11,6 @@ from conf.utils import getnewid, split_string
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sup','sigp_bd'])
 def supInvAdd(request, hashid):
     mun = c_user_sup(request.user)
@@ -40,7 +39,6 @@ def supInvAdd(request, hashid):
     }
     return render(request, 'invoice/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sup','sigp_bd'])
 def supInvEdit(request, hashid, hashid2):
     cont = get_object_or_404(Contract, hashed=hashid)
@@ -62,7 +60,6 @@ def supInvEdit(request, hashid, hashid2):
     }
     return render(request, 'invoice/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sup','sigp_bd'])
 def supInvRem(request, hashid, pk):
     cont = get_object_or_404(Contract, hashed=hashid)
@@ -71,7 +68,6 @@ def supInvRem(request, hashid, pk):
     messages.success(request, f'Hamos susesu.')
     return redirect('sup-inv-list', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sup','sigp_bd'])
 def supInvLock(request, hashid, pk):
     obj = get_object_or_404(Invoice, pk=pk)
@@ -80,7 +76,7 @@ def supInvLock(request, hashid, pk):
     messages.success(request, f'Xavi.')
     return redirect('sup-inv-list', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sup','sigp_bd'])
 def supInvUnLock(request, hashid, pk):
     obj = get_object_or_404(Invoice, pk=pk)
@@ -89,7 +85,6 @@ def supInvUnLock(request, hashid, pk):
     messages.success(request, f'Loke.')
     return redirect('sup-inv-list', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sup','sigp_bd'])
 def supInvReady(request, hashid, pk):
     obj = get_object_or_404(Invoice, pk=pk)
@@ -98,7 +93,6 @@ def supInvReady(request, hashid, pk):
     messages.success(request, f'Resibu prontu.')
     return redirect('sup-inv-list', hashid=hashid)
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_bd'])
 def uvipInvIsADNY(request, hashid):
     obj = get_object_or_404(Invoice, hashed=hashid)
@@ -107,7 +101,6 @@ def uvipInvIsADNY(request, hashid):
     messages.success(request, f'Altera susesu.')
     return redirect('uvip-inv-det', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp'])
 def uvipInvIsADNN(request, hashid):
     obj = get_object_or_404(Invoice, hashed=hashid)
@@ -116,7 +109,6 @@ def uvipInvIsADNN(request, hashid):
     messages.success(request, f'Altera susesu.')
     return redirect('uvip-inv-det', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp'])
 def uvipInvADN(request, pk, page):
     obj = get_object_or_404(Invoice, pk=pk)
@@ -133,7 +125,6 @@ def uvipInvADN(request, pk, page):
     messages.success(request, f'Altera ona.')
     return redirect('uvip-inv-det', hashid=obj.hashed)
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_gab'])
 def gabInvAppr(request, pk):
     obj = get_object_or_404(Invoice, pk=pk)

@@ -2,7 +2,6 @@ import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from conf.decorators import allowed_users
 from eval.models import Eval, EvalLet, EvalTrack, EvalFITrack,EvalLetCNABack
 from eval.forms import EvalLetForm2
 from conf.utils import getnewid
@@ -45,7 +44,6 @@ from sigp.utils import get_roles
 #     return redirect('gab-eval-det', hashid=eval.hashed)
 # #
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFINext(request, pk): #to GAB
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -64,7 +62,6 @@ def uvipEvalFINext(request, pk): #to GAB
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFIIn3(request, pk): #from ADN
     eval = get_object_or_404(Eval, pk=pk)
@@ -78,7 +75,6 @@ def uvipEvalFIIn3(request, pk): #from ADN
     messages.success(request, f'ADN fila mai UIVP.')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFINext1(request, pk): #to GAB
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -97,7 +93,6 @@ def uvipEvalFINext1(request, pk): #to GAB
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFIIn1(request, pk): #From UVIP
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -114,7 +109,6 @@ def gabEvalFIIn1(request, pk): #From UVIP
     return redirect('gab-eval-det', hashid=eval.hashed)
 #
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFINext1(request, pk): #to SGP-Kafi
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -133,7 +127,6 @@ def gabEvalFINext1(request, pk): #to SGP-Kafi
     return redirect('gab-eval-det', hashid=eval.hashed)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFIIn2(request, pk): #from Kafi
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -149,7 +142,6 @@ def gabEvalFIIn2(request, pk): #from Kafi
     messages.success(request, f'KAFI ba Gabinete Ministro.')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFINext2(request, pk): #to UIVP
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -167,8 +159,6 @@ def gabEvalFINext2(request, pk): #to UIVP
     messages.success(request, f'Gabinete ba UIVP.')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFIIn4(request, pk): #from Gab
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -185,7 +175,6 @@ def uvipEvalFIIn4(request, pk): #from Gab
     messages.success(request, f'GABINETE MINISTRO  ba UIVP.')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFINext2(request, pk): #to check
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -203,7 +192,6 @@ def uvipEvalFINext2(request, pk): #to check
     messages.success(request, f'UIVP Visto Dokumentu.')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFINext3(request, pk): #to Gab
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -221,8 +209,6 @@ def uvipEvalFINext3(request, pk): #to Gab
     messages.success(request, f'UIVP ba GABINETE MINISTRO .')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFIIn3(request, pk): #from UVIP
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -238,7 +224,6 @@ def gabEvalFIIn3(request, pk): #from UVIP
     messages.success(request, f'KAFI ba GABINETE MINISTRO.')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFINext3(request, pk): #to Approve
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -256,7 +241,6 @@ def gabEvalFINext3(request, pk): #to Approve
     messages.success(request, f'GABINETE MINISTRO Aprova dileberasaun.')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFINext4(request, pk): #to Approve
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -275,7 +259,6 @@ def gabEvalFINext4(request, pk): #to Approve
     return redirect('gab-eval-det', hashid=eval.hashed)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFIIn4(request, pk): #from UVIP
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -313,8 +296,6 @@ def gabEvalFIIn4(request, pk): #from UVIP
     messages.success(request, f'GABINETE MINISTRO ba CNA.')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFINext5(request, pk): #to UIVP
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -332,7 +313,6 @@ def gabEvalFINext5(request, pk): #to UIVP
     messages.success(request, f'GAB ba UIV.')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFIIn5(request, pk): #from Gab
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -349,7 +329,6 @@ def uvipEvalFIIn5(request, pk): #from Gab
     messages.success(request, f'GABINETE MINISTRO ba UIVP.')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFINext4(request, pk): #to Sign
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -367,7 +346,6 @@ def uvipEvalFINext4(request, pk): #to Sign
     messages.success(request, f'UIVP Asina.')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFINext5(request, pk): #to Gab
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -385,8 +363,6 @@ def uvipEvalFINext5(request, pk): #to Gab
     messages.success(request, f'UIVP ba GABINETE MINISTRO.')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFIIn5(request, pk): #from UVIP
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -402,7 +378,6 @@ def gabEvalFIIn5(request, pk): #from UVIP
     messages.success(request, f'GAB Simu husi UIVP.')
     return redirect('gab-eval-det', hashid=eval.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFINext6(request, pk): #to sign
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -421,7 +396,6 @@ def gabEvalFINext6(request, pk): #to sign
     return redirect('gab-eval-det', hashid=eval.hashed)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_gabm','sigp_admin'])
 def gabEvalFINext7(request, pk): #to UIVP
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -440,7 +414,6 @@ def gabEvalFINext7(request, pk): #to UIVP
     return redirect('gab-eval-det', hashid=eval.hashed)
 
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFIIn6(request, pk): #from Gab
     obj = get_object_or_404(EvalLet, pk=pk)
@@ -457,7 +430,7 @@ def uvipEvalFIIn6(request, pk): #from Gab
     messages.success(request, f'UIVP Simu husi GABINETE MINISTRO.')
     return redirect('uvip-eval-det', hashid=eval.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipEvalFINext6(request, pk): #to AND-CNA-SGP
     obj = get_object_or_404(EvalLet, pk=pk)

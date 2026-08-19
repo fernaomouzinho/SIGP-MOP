@@ -1,7 +1,6 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from conf.decorators import allowed_users
 from django.contrib import messages
 from django.db import IntegrityError
 from invoice.models import Invoice
@@ -12,7 +11,6 @@ from conf.utils import getnewid, write_roman
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspAdd(request, hashid):
     group = get_roles(request)
@@ -54,7 +52,6 @@ def uvipInspAdd(request, hashid):
     }
     return render(request, 'insp/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspEdit(request, hashid):
     group = get_roles(request)
@@ -85,7 +82,7 @@ def uvipInspEdit(request, hashid):
     }
     return render(request, 'insp/form.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspEdit2(request, hashid):
     group = get_roles(request)
@@ -104,7 +101,7 @@ def uvipInspEdit2(request, hashid):
     }
     return render(request, 'insp/form2.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspRem(request, pk):
     obj = get_object_or_404(Insp, pk=pk)
@@ -113,7 +110,7 @@ def uvipInspRem(request, pk):
     messages.success(request, f'Hamos ona.')
     return redirect('uvip-insp-list', hashid=inv.hashed)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_uivp','sigp_admin'])
 def uvipInspSend(request, hashid):
     insp = get_object_or_404(Insp, hashed=hashid)
@@ -132,7 +129,6 @@ def uvipInspSend(request, hashid):
     messages.success(request, f'UIVP ba {insp.sec.code}.')
     return redirect('uvip-insp-det', hashid=hashid)
 ###
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspBack1(request, hashid):
     group = get_roles(request)
@@ -163,7 +159,6 @@ def secInspBack1(request, hashid):
     }
     return render(request, 'insp/form4.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspIn1(request, hashid):
     insp = get_object_or_404(Insp, hashed=hashid)
@@ -178,7 +173,6 @@ def secInspIn1(request, hashid):
     messages.success(request, f'Husi UIVP mai {insp.sec.code}.')
     return redirect('sec-insp-det', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspAdd(request, hashid):
     group = get_roles(request)
@@ -209,7 +203,6 @@ def secInspAdd(request, hashid):
     }
     return render(request, 'insp/form2.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspEdit(request, hashid):
     group = get_roles(request)
@@ -237,7 +230,6 @@ def secInspEdit(request, hashid):
     }
     return render(request, 'insp/form2.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspRem(request, pk):
     obj = get_object_or_404(InspSecEng, pk=pk)
@@ -246,7 +238,6 @@ def secInspRem(request, pk):
     messages.success(request, f'Hamos ona.')
     return redirect('sec-insp-let-det', hashid=insp.hashed)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sec','sigp_admin'])
 def secInspSend(request, pk):
     sec = c_user_sec(request.user)
@@ -273,7 +264,6 @@ def secInspSend(request, pk):
     messages.success(request, f'Husi {sec.code} ba {employee_names}.')
     return redirect('sec-insp-det', hashid=insp.hashed)
 #
-@login_required
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engInspIn(request, hashid):
     inspsec = get_object_or_404(InspSecEng, hashed=hashid)
@@ -291,7 +281,6 @@ def engInspIn(request, hashid):
     messages.success(request, f'Husi {inspsec.sec.code} mai {employee_names}.')
     return redirect('eng-insp-det', hashid=hashid)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engInspEdit(request, hashid):
     group = request.user.groups.all()[0].name
@@ -313,7 +302,6 @@ def engInspEdit(request, hashid):
     }
     return render(request, 'insp/form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_eng','sigp_admin'])
 def engInspSend(request, hashid):
     eng = c_user_eng(request.user)

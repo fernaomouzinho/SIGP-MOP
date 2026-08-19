@@ -11,7 +11,7 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
+
 def rdivCompProjSum(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -41,7 +41,7 @@ def rdivCompProjSum(request, pk):
 	}
 	return render(request, 'reportdiv_comp/proj_sum.html', context)
 
-@login_required
+
 def rdivCompProjList(request, pk, pk2):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -62,7 +62,7 @@ def rdivCompProjList(request, pk, pk2):
 	}
 	return render(request, 'reportdiv_comp/proj_list.html', context)
 
-@login_required
+
 def rdivCompProjStatusList(request, pk, pk2, pk3):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -85,7 +85,7 @@ def rdivCompProjStatusList(request, pk, pk2, pk3):
 	}
 	return render(request, 'reportdiv_comp/proj_list.html', context)
 
-@login_required
+
 def rdivCompProjYearList(request, pk, pk2, year):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -107,7 +107,7 @@ def rdivCompProjYearList(request, pk, pk2, year):
 	}
 	return render(request, 'reportdiv_comp/proj_list.html', context)
 
-@login_required
+
 def rdivCompSearch(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)
@@ -135,7 +135,7 @@ def rdivCompSearch(request, pk):
 	}
 	return render(request, 'reportdiv_comp/search.html', context)
 #
-@login_required
+
 def rdivContLimitList(request, pk):
 	group = get_roles(request)
 	div = get_object_or_404(Division, pk=pk)

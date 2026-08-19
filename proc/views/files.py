@@ -1,17 +1,14 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from conf.decorators import allowed_users
 from proc.models import Proc, ProcFiles
 from proc.forms import ProcFilesForm
 from conf.user_utils import c_user_dna
+from django.contrib import messages
 from conf.utils import getnewid
 from users.decorators import allowed_users
 from sigp.utils import get_roles
 
-
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_admin'])
 def dnaProcFileList(request, hashid):
 	group = get_roles(request)
@@ -25,7 +22,6 @@ def dnaProcFileList(request, hashid):
 	}
 	return render(request, 'proc/file_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_admin'])
 def dnaProcFileAdd(request, hashid):
 	group = get_roles(request)
@@ -53,7 +49,6 @@ def dnaProcFileAdd(request, hashid):
 	}
 	return render(request, 'proc/file_form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_admin'])
 def dnaProcFileEdit(request, hashid, hashid2):
 	group = get_roles(request)
@@ -73,7 +68,6 @@ def dnaProcFileEdit(request, hashid, hashid2):
 	}
 	return render(request, 'proc/file_form.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_admin'])
 def dnaProcFileRem(request, hashid, pk):
 	group = get_roles(request)
@@ -82,7 +76,7 @@ def dnaProcFileRem(request, hashid, pk):
 	messages.success(request, f'Hapaga ona.')
 	return redirect('dna-proc-file-list', hashid=hashid)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_dna','sigp_dna_s','sigp_admin'])
 def dnaProcFileLock(request, hashid, pk):
 	group = get_roles(request)

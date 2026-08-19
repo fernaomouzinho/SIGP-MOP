@@ -1,16 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from conf.decorators import allowed_users
+from users.decorators import allowed_users
+from sigp.utils import get_roles
 from project.models import Project, ProjectEst
 from contract.models import Contract, ContractComp
 from finance.models import CPV, PO, POTrack, POLetter
 from conf.user_utils import c_user_dna, c_user_dgaf
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOProjList(request):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	objects = Project.objects.filter().all().order_by("-year","id")
 	context = {
 		'group': group, 'objects': objects,
@@ -18,10 +18,9 @@ def dnaPOProjList(request):
 	}
 	return render(request, 'finance_po/dna_proj_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOContList(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	proj = get_object_or_404(Project, hashed=hashid)
 	conts = Contract.objects.filter(project=proj).all().order_by("-id")
 	objects = []
@@ -34,10 +33,9 @@ def dnaPOContList(request, hashid):
 	}
 	return render(request, 'finance_po/dna_cont_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPOList(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	proj = cont.project
 	comps = ContractComp.objects.filter(contract=cont).all()
@@ -49,10 +47,9 @@ def dnaPOList(request, hashid):
 	}
 	return render(request, 'finance_po/dna_po_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dna'])
+@allowed_users(allowed_roles=['sigp_dna','sigp_admin'])
 def dnaPODet(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	po = get_object_or_404(PO, hashed=hashid)
 	cont = po.cont
 	proj = cont.project
@@ -65,10 +62,9 @@ def dnaPODet(request, hashid):
 	}
 	return render(request, 'finance_po/dna_po_det.html', context)
 # dgaf
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOProjList(request):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	objects = Project.objects.filter().all().order_by("-year","id")
 	context = {
 		'group': group, 'objects': objects,
@@ -76,10 +72,9 @@ def dgafPOProjList(request):
 	}
 	return render(request, 'finance_po/dgaf_proj_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOContList(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	proj = get_object_or_404(Project, hashed=hashid)
 	conts = Contract.objects.filter(project=proj).all().order_by("-id")
 	objects = []
@@ -92,10 +87,9 @@ def dgafPOContList(request, hashid):
 	}
 	return render(request, 'finance_po/dgaf_cont_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPOList(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	proj = cont.project
 	comps = ContractComp.objects.filter(contract=cont).all()
@@ -107,10 +101,9 @@ def dgafPOList(request, hashid):
 	}
 	return render(request, 'finance_po/dgaf_po_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['dgaf'])
+@allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafPODet(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	po = get_object_or_404(PO, hashed=hashid)
 	cont = po.cont
 	proj = cont.project
@@ -123,10 +116,9 @@ def dgafPODet(request, hashid):
 	}
 	return render(request, 'finance_po/dgaf_po_det.html', context)
 # gab
-@login_required
-@allowed_users(allowed_roles=['gab','upiv','dnof'])
+@allowed_users(allowed_roles=['sigp_gabm','sigp_uivp','sigp_dnof','sigp_admin'])
 def gabPOProjList(request):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	objects = Project.objects.filter().all().order_by("-year","id")
 	context = {
 		'group': group, 'objects': objects,
@@ -134,10 +126,9 @@ def gabPOProjList(request):
 	}
 	return render(request, 'finance_po/gab_proj_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['gab','upiv','dnof'])
+@allowed_users(allowed_roles=['sigp_gabm','sigp_uivp','sigp_dnof','sigp_admin'])
 def gabPOContList(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	proj = get_object_or_404(Project, hashed=hashid)
 	conts = Contract.objects.filter(project=proj).all().order_by("-id")
 	objects = []
@@ -150,10 +141,9 @@ def gabPOContList(request, hashid):
 	}
 	return render(request, 'finance_po/gab_cont_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['gab','upiv','dnof'])
+@allowed_users(allowed_roles=['sigp_gabm','sigp_uivp','sigp_dnof','sigp_admin'])
 def gabPOList(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	cont = get_object_or_404(Contract, hashed=hashid)
 	proj = cont.project
 	comps = ContractComp.objects.filter(contract=cont).all()
@@ -165,10 +155,9 @@ def gabPOList(request, hashid):
 	}
 	return render(request, 'finance_po/gab_po_list.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['gab','upiv','dnof'])
+@allowed_users(allowed_roles=['sigp_gabm','sigp_uivp','sigp_dnof','sigp_admin'])
 def gabPODet(request, hashid):
-	group = request.user.groups.all()[0].name
+	group = get_roles(request)
 	po = get_object_or_404(PO, hashed=hashid)
 	cont = po.cont
 	proj = cont.project

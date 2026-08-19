@@ -8,7 +8,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 
-@login_required
 def trackEvalList(request):
     group = get_roles(request)
     evals = Eval.objects.filter().all().order_by('-date','id')
@@ -39,7 +38,6 @@ def trackEvalList(request):
     }
     return render(request, 'track/eval_list.html', context)
 
-@login_required
 def trackdivEvalList(request):
     group = get_roles(request)
     
@@ -67,7 +65,6 @@ def trackdivEvalList(request):
     }
     return render(request, 'track/eval_list.html', context)
 
-@login_required
 def trackEvalDet(request, hashid):
     group = get_roles(request)
     eval = get_object_or_404(Eval, hashed=hashid)
@@ -131,7 +128,6 @@ def trackEvalDet(request, hashid):
     }
     return render(request, 'track/eval_det.html', context)
 #
-@login_required
 def trackEvalDet2(request, hashid):
     group = get_roles(request)
     eval = get_object_or_404(Eval, hashed=hashid)

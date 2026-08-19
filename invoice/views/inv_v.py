@@ -13,7 +13,6 @@ from users.decorators import allowed_users
 from sigp.utils import get_roles
 
 ### SUP
-@login_required
 @allowed_users(allowed_roles=['sigp_sup','sigp_admin'])
 def supInvContList(request):
     group = get_roles(request)
@@ -30,7 +29,7 @@ def supInvContList(request):
     }
     return render(request, 'invoice/sup_cont_list.html', context)
 
-@login_required
+
 @allowed_users(allowed_roles=['sigp_sup','sigp_admin'])
 def supInvList(request, hashid):
     group = get_roles(request)
@@ -44,7 +43,6 @@ def supInvList(request, hashid):
     }
     return render(request, 'invoice/sup_inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_sup','sigp_admin'])
 def supInvDet(request, hashid):
     group = get_roles(request)
@@ -60,7 +58,7 @@ def supInvDet(request, hashid):
     }
     return render(request, 'invoice/sup_inv_det.html', context)
 ### UIVP
-@login_required
+
 @allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvList(request):
     group = get_roles(request)
@@ -72,7 +70,6 @@ def uvipInvList(request):
     }
     return render(request, 'invoice/uvip_inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_uivp'])
 def uvipInvDet(request, hashid):
     group = get_roles(request)
@@ -99,7 +96,6 @@ def uvipInvDet(request, hashid):
     }
     return render(request, 'invoice/uvip_inv_det.html', context)
 ### GAB
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_gabm'])
 def gabInvList(request):
     group = get_roles(request)
@@ -111,7 +107,6 @@ def gabInvList(request):
     }
     return render(request, 'invoice/gab_inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_gabm'])
 def gabInvDet(request, hashid):
     group = get_roles(request)
@@ -134,7 +129,6 @@ def gabInvDet(request, hashid):
     }
     return render(request, 'invoice/gab_inv_det.html', context)
 ### DGAF
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafInvList(request):
     group = get_roles(request)
@@ -146,7 +140,6 @@ def dgafInvList(request):
     }
     return render(request, 'invoice/dgaf_inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dgaf','sigp_admin'])
 def dgafInvDet(request, hashid):
     group = get_roles(request)
@@ -169,7 +162,6 @@ def dgafInvDet(request, hashid):
     }
     return render(request, 'invoice/dgaf_inv_det.html', context)
 ### DNA
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_admin'])
 def dnaInvList(request):
     group = get_roles(request)
@@ -181,7 +173,6 @@ def dnaInvList(request):
     }
     return render(request, 'invoice/dna_inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_admin','sigp_dna','sigp_admin'])
 def dnaInvDet(request, hashid):
     group = get_roles(request)
@@ -204,7 +195,6 @@ def dnaInvDet(request, hashid):
     }
     return render(request, 'invoice/dna_inv_det.html', context)
 ### DNOF
-@login_required
 @allowed_users(allowed_roles=['sigp_dnof','sigp_dnof_bo','sigp_admin'])
 def dnofInvList(request):
     group = get_roles(request)
@@ -216,7 +206,6 @@ def dnofInvList(request):
     }
     return render(request, 'invoice/dnof_inv_list.html', context)
 
-@login_required
 @allowed_users(allowed_roles=['sigp_dnof','sigp_admin'])
 def dnofInvDet(request, hashid):
     group = get_roles(request)
